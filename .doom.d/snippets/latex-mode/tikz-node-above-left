@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: tikz-node-above-left
+# key: nodeal
+# --
+\node[main] ($1) [above left of=$2] {\$$1\$};$0

@@ -1,0 +1,1013 @@
+#+TITLE: Config
+#DESCRIPTION: My Doom Emacs config file.
+#+AUTHOR Iddodo
+#+PROPERTY: header-args :tangle config.el
+#+auto_tangle: t
+#+OPTIONS: toc
+#+OPTIONS: broken-links:t
+
+* TABLE OF CONTENTS :toc:
+- [[#path-workaround-in-osx][PATH workaround in OSX]]
+- [[#header][Header]]
+- [[#personal-information][Personal Information]]
+- [[#look-and-feel][Look and Feel]]
+  - [[#theme][Theme]]
+  - [[#font][Font]]
+  - [[#relative-line-numbering][Relative Line Numbering]]
+  - [[#keybindings][Keybindings]]
+- [[#evil][Evil]]
+  - [[#basic-settings][Basic settings]]
+  - [[#incrementing-numbers][Incrementing numbers]]
+  - [[#make-page-scrolls-centerized][Make page scrolls centerized]]
+  - [[#case-sensitive][Case sensitive]]
+- [[#org-mode][Org-Mode]]
+  - [[#appearance][Appearance]]
+  - [[#org-auto-tangle][org-auto-tangle]]
+  - [[#org-download][org-download]]
+  - [[#org-cdlatex-mode][org-cdlatex-mode]]
+  - [[#dvipng][dvipng]]
+  - [[#org-tag-alist][org-tag-alist]]
+  - [[#latex-preview][LaTeX preview]]
+- [[#latex-editing][LaTeX Editing]]
+  - [[#pdftools][PDFTools]]
+  - [[#auctex-cdlatex-and-preview][AucTeX, CDLateX and preview]]
+  - [[#display-hebrew-upside-down][Display Hebrew Upside Down]]
+  - [[#prettify-symbols][Prettify Symbols]]
+  - [[#cdlatex-integration-with-yasnippet][CDLaTeX integration with YaSnippet]]
+  - [[#lazytab--array-and-matrix-support][Lazytab / Array and Matrix support]]
+  - [[#pdf][PDF]]
+  - [[#hooks][Hooks]]
+- [[#yasnippet][Yasnippet]]
+  - [[#auto-expanding-yasnippets][Auto expanding YaSnippets]]
+- [[#vterm][Vterm]]
+- [[#debugger][Debugger]]
+- [[#custom-interactive-functions][Custom interactive functions]]
+- [[#dired][Dired]]
+  - [[#keybindings-1][Keybindings]]
+- [[#mu4e--e-mail-support-not-using-this-anymore][mu4e / E-mail support (NOT USING THIS ANYMORE)]]
+- [[#irc][IRC]]
+- [[#transparent-emacs][Transparent Emacs]]
+- [[#terminal-integration-kitty][Terminal integration (Kitty)]]
+- [[#code-editing][Code Editing]]
+  - [[#c][C++]]
+
+
+#+begin_src emacs-lisp
+(setq load-prefer-newer t)
+#+end_src
+
+* PATH workaround in OSX
+https://stackoverflow.com/questions/3517165/pdflatex-command-not-working-in-emacs-terminal-mode
+On OS X, environment variables for GUI programs are set in ~/.MacOSX/environment.plist. There are many Emacs specific work arounds like using
+=(setenv "PATH" (shell-command-to-string "echo -n $PATH"))= which you can find scattered across Stack Overflow and the internet in general.
+
+#+begin_src emacs-lisp
+(setenv "PATH" (shell-command-to-string "echo -n $PATH"))
+#+end_src
+
+
+* Header
+#+begin_src emacs-lisp
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+
+;; Place your private configuration here! Remember, you do not need to run 'doom
+;; sync' after modifying this file!
+
+
+#+end_src
+
+* Personal Information
+
+Set my name and email address.
+
+#+begin_src emacs-lisp
+;; Some functionality uses this to identify you, e.g. GPG configuration, email
+;; clients, file templates and snippets. It is optional.
+(setq user-full-name "Ido Merenstein"
+      user-mail-address "m.ido@campus.technion.ac.il")
+#+end_src
+
+
+* Look and Feel
+
+** Theme
+I used to use the plain =doom-one= theme, but now I think this one is way nicer:
+#+begin_src emacs-lisp
+(setq doom-theme 'doom-outrun-electric)
+#+end_src
+
+** Font
+ Doom exposes five (optional) variables for controlling fonts in Doom:
+
+ - `doom-font' -- the primary font to use
+ - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
+ - `doom-big-font' -- used for `doom-big-font-mode'; use this for
+   presentations or streaming.
+ - `doom-unicode-font' -- for unicode glyphs
+ - `doom-serif-font' -- for the `fixed-pitch-serif' face
+
+ See 'C-h v doom-font' for documentation and more examples of what they
+ accept. For example:
+
+** Relative Line Numbering
+This determines the style of line numbers in effect. If set to `nil', line
+ numbers are disabled. For relative line numbers, set this to `relative'.
+
+ #+begin_src emacs-lisp
+ ;; Relative lines
+(setq display-line-numbers-type 'relative)
+ #+end_src
+
+
+** Keybindings
+*** Toggle RTL/LTR Mdoes
+
+This is usually needed when editing files in Hebrew.
+Might have to revisit this as I'm not 100% content with how this works.
+
+Also sets the following keybinding:
+
+| Keybinding | Command         | Description                 |
+|------------+-----------------+-----------------------------|
+| SPC-l-r    | toggle-rtl-mode | Toggles between RTL and LTR |
+
+#+begin_src emacs-lisp
+(defun toggle-rtl-mode ()
+      (interactive
+       (if (eq bidi-paragraph-direction 'left-to-right)
+         (setq bidi-paragraph-direction 'right-to-left)
+         (setq bidi-paragraph-direction 'left-to-right))))
+
+(map! :leader
+      (:prefix "l"
+        :desc "Toggle LTR/RTL Mode." "r" #'toggle-rtl-mode))
+#+end_src
+
+*** Toggle prettify mode
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix "l"
+        :desc "Toggle prettify mode." "p" #'prettify-symbols-mode))
+#+end_src
+
+
+
+* Evil
+This option needs to be explored:
+#+begin_src emacs-lisp
+;; evil-collection for complete experience
+;; (evil-collection-init)
+#+end_src
+
+** Basic settings
+
+I prefer using a "fine undo" because it's more precise in my opinion.
+
+#+begin_src emacs-lisp
+(setq evil-want-fine-undo t)
+#+end_src
+
+#Switch evil-snipe (disabled in =packages.el=) with avy-char-goto-2.
+#+begin_src emacs-lisp
+(map!
+ :n "s" nil
+ :m "s" #'evil-avy-goto-char-2)
+#+end_src
+
+** Incrementing numbers
+
+There is no keybinding for this by default, add the following keybindings:
+
+| Keybinding | Command                | Description         |
+|------------+------------------------+---------------------|
+| SPC e +    | evil-numbers/inc-at-pt | Increment a number. |
+| SPC e -    | evil-numbers/dec-at-pt | Decrement a number. |
+
+
+#+begin_src emacs-lisp
+;; Allow incrementing numbers
+ (define-key evil-normal-state-map (kbd "SPC e +") 'evil-numbers/inc-at-pt)
+(define-key evil-normal-state-map (kbd "SPC e -") 'evil-numbers/dec-at-pt)
+#+end_src
+
+** Make page scrolls centerized
+#+begin_src emacs-lisp
+(advice-add #'evil-scroll-page-up :after (lambda ()
+    (evil-window-middle)))
+    (evil-scroll-line-to-center (line-number-at-pos))
+
+(advice-add #'evil-scroll-page- :after (lambda ()
+    (evil-window-middle)))
+    (evil-scroll-line-to-center (line-number-at-pos))
+#+end_src
+
+
+** Case sensitive
+#+begin_src emacs-lisp
+(defun set-noic()
+  "set case sensitive"
+  (interactive)
+  (setq evil-ex-search-case 'sensitive))
+(defun set-ic()
+  "set ignore case"
+  (interactive)
+  (setq evil-ex-search-case 'insensitive))
+#+end_src
+
+
+
+* Org-Mode
+
+Set the org directory.
+#+begin_src emacs-lisp
+(setq org-directory "~/org/")
+#+end_src
+
+Allow adding habits.
+
+#+begin_src emacs-lisp
+(add-to-list 'org-modules "org-habit")
+#+end_src
+
+Turn on CDLaTeX minor mode.
+
+#+begin_src emacs-lisp
+(add-hook
+'org-mode-hook #'turn-on-org-cdlatex)
+#+end_src
+
+Allow auto LaTeX previewing.
+*I have currently disabled this because it messes with LaTeX LazyTab*
+
+#+begin_src emacs-lisp
+;; (add-hook 'org-mode-hook #'org-fragtog-mode)
+#+end_src
+
+** Appearance
+
+Replace the default asteriks for bullets.
+
+#+begin_src emacs-lisp
+;;(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+(add-hook 'org-mode-hook #'org-fragtog-mode)
+#+end_src
+
+Make titles bigger.
+
+#+begin_src emacs-lisp
+(custom-set-faces
+  '(org-level-1 ((t (:inherit outline-1 :height 1.5))))
+  '(org-level-2 ((t (:inherit outline-2 :height 1.4))))
+  '(org-level-3 ((t (:inherit outline-3 :height 1.3))))
+  '(org-level-4 ((t (:inherit outline-4 :height 1.2))))
+  '(org-level-5 ((t (:inherit outline-5 :height 1.1))))
+)
+#+end_src
+
+** org-auto-tangle
+
+Use org-auto-tangle to automatically tangle files (a specific header needs to be added):
+
+#+begin_src emacs-lisp
+(use-package! org-auto-tangle
+        :defer t
+        :hook (org-mode . org-auto-tangle-mode)
+        :config
+        (setq org-auto-tangle-default t))
+
+;;(if (require 'toc-org nil t)
+    ;;(progn
+      ;;(add-hook 'org-mode-hook 'toc-org-mode)
+;;
+      ;;;; enable in markdown, too
+      ;;;;(add-hook 'markdown-mode-hook 'toc-org-mode)
+      ;;;;(define-key markdown-mode-map (kbd "\C-c\C-o") 'toc-org-markdown-follow-thing-at-point))
+  ;;(warn "toc-org not found")))
+
+(add-hook 'org-mode-hook 'toc-org-mode)
+#+end_src
+
+** org-download
+
+Handle easy pasting of images from clipboard and other locations
+
+#+begin_src lisp
+(require 'org-download)
+
+;; Drag-and-drop to `dired`
+(add-hook 'dired-mode-hook 'org-download-enable)
+#+end_src
+
+
+** org-cdlatex-mode
+Hook proper CDLaTex functionality to org-mode.
+#+begin_src emacs-lisp
+(add-hook 'org-mode-hook #'org-cdlatex-mode)
+#+end_src
+
+** dvipng
+#+begin_src emacs-lisp
+;;(setq org-preview-latex-default-process 'dvipng)
+;;(setq org-preview-latex-process-alist
+      ;;'(
+       ;;(dvipng
+        ;;:programs ("latex" "dvipng")
+        ;;:description "dvi > png"
+        ;;:message "you need to install the programs: latex and dvipng."
+        ;;:image-input-type "dvi"
+        ;;:image-output-type "png"
+        ;;:image-size-adjust (1.0 . 1.0)
+        ;;:latex-compiler ("latex -interaction nonstopmode -output-directory %o %f")
+        ;;:image-converter ("dvipng -D %D -T tight -o %O %f")
+        ;;)
+       ;;)
+      ;;)
+#+end_src
+
+** org-tag-alist
+#+begin_src emacs-lisp
+(setq org-tag-alist '(("complexity" . ?1)
+                      ("tag2" . ?2)))
+#+end_src
+
+
+** LaTeX preview
+*** Use org-auctex instead of org-preview
+This is a .el package made by karthinks, link can be found here: [[https://github.com/karthink/org-auctex]]
+
+Load the file:
+#+begin_src emacs-lisp
+;;(load-file "~/git/org-auctex.el")
+#+end_src
+
+Add the proper hook:
+#+begin_src emacs-lisp
+;;(add-hook 'org-mode-hook 'org-auctex-mode)
+#+end_src
+*** Corrent foreground
+#+begin_src emacs-lisp
+;;(with-eval-after-load 'org
+  ;;(dolist (pair '((:foreground . auto)
+                  ;;(:background . auto)))
+    ;;(setq org-format-latex-options
+          ;;(plist-put org-format-latex-options
+                     ;;(car pair) (cdr pair)))))
+#+end_src
+
+
+
+* LaTeX Editing
+
+Most of these settings have been directly yanked from [[https://karthinks.com/software/latex-input-for-impatient-scholars/][this blog post]] by karthinks.
+I have added several other lines to cater to my needs.
+This part of my config needs to be explored more.
+
+I am using the XeTeX engine to compile because of its Hebrew support.
+#+begin_src emacs-lisp
+;; Set default TeX engine to XeTeX
+(setq-default TeX-engine 'xetex)
+
+(setq TeX-PDF-mode t)
+#+end_src
+
+** PDFTools
+#+begin_src emacs-lisp
+(setq TeX-view-program-selection '((output-pdf "PDF Tools")))
+#+end_src
+
+
+** AucTeX, CDLateX and preview
+#+begin_src emacs-lisp
+;; AucTeX settings - almost no changes
+(use-package! latex
+  :ensure auctex
+  :hook ((LaTeX-mode . prettify-symbols-mode))
+  :bind (:map LaTeX-mode-map
+         ("C-S-e" . latex-math-from-calc))
+  :config
+  ;; Format math as a Latex string with Calc
+  (defun latex-math-from-calc ()
+    "Evaluate `calc' on the contents of line at point."
+    (interactive)
+    (cond ((region-active-p)
+           (let* ((beg (region-beginning))
+                  (end (region-end))
+                  (string (buffer-substring-no-properties beg end)))
+             (kill-region beg end)
+             (insert (calc-eval `(,string calc-language latex
+                                          calc-prefer-frac t
+                                          calc-angle-mode rad)))))
+          (t (let ((l (thing-at-point 'line)))
+               (end-of-line 1) (kill-line 0)
+               (insert (calc-eval `(,l
+                                    calc-language latex
+                                    calc-prefer-frac t
+                                    calc-angle-mode rad))))))))
+
+(use-package! preview
+  :after latex
+  :hook ((LaTeX-mode . preview-larger-previews))
+  :config
+  (defun preview-larger-previews ()
+    (setq preview-scale-function
+          (lambda () (* 1.25
+                   (funcall (preview-scale-from-face)))))))
+
+;; CDLatex settings
+(use-package! cdlatex
+  :ensure t
+  :hook (LaTeX-mode . turn-on-cdlatex)
+  :bind (:map cdlatex-mode-map
+              ("<tab>" . cdlatex-tab)))
+#+end_src
+
+** Display Hebrew Upside Down
+RTL reordering is a pain while taking notes, therefore I have decided to alter
+the 'bidi-display-reordering variable to make everything completely LTR
+while editing TeX files.
+
+#+begin_src emacs-lisp
+(defun flip-hebrew ()
+  (setq bidi-display-reordering nil))
+#+end_src
+
+** Prettify Symbols
+For added readability, I have added the following symbols:
+#+begin_src emacs-lisp
+(defun prettify-latex-symbols ()
+  (interactive)
+   "Prettify LaTex parenthesis"
+   (push '("\\left[ " .  "【") prettify-symbols-alist)
+   (push '(" \\right]" . "】" ) prettify-symbols-alist)
+   (push '("\\left( " .  "(") prettify-symbols-alist)
+   (push '(" \\right)" . ")" ) prettify-symbols-alist)
+   (push '("\\left| " .  "|") prettify-symbols-alist)
+   (push '(" \\right|" . "|" ) prettify-symbols-alist)
+
+   (push '("\\left[".  "[") prettify-symbols-alist)
+   (push '("\\right]" ."]" ) prettify-symbols-alist)
+   (push '("\\left(".  "(") prettify-symbols-alist)
+   (push '("\\right)" .")" ) prettify-symbols-alist)
+   (push '("\\left|".  "|") prettify-symbols-alist)
+   (push '("\\right|" ."|" ) prettify-symbols-alist)
+
+   (push '(" \\left\( ".  "(") prettify-symbols-alist)
+
+   (push '("\\left{ " .  "⎨") prettify-symbols-alist)
+   (push '(" \\right}" . "⎬" ) prettify-symbols-alist)
+
+   (push '("\\left{".  "⎨") prettify-symbols-alist)
+   (push '("\\right}" ."⎬" ) prettify-symbols-alist)
+
+   (push '("\\left\\{".  "⎨") prettify-symbols-alist)
+   (push '("\\right\\}" ."⎬" ) prettify-symbols-alist)
+
+   (push '("\\left< ".  "<") prettify-symbols-alist)
+   (push '(" \\right>" .">" ) prettify-symbols-alist)
+
+   (push '("\\frac{" ."{" ) prettify-symbols-alist)
+   (push '("$" ."ﾟ" ) prettify-symbols-alist)
+   (push '("\\Delta " ."Δ" ) prettify-symbols-alist)
+   (push '("\\mathrm{d}" ."d") prettify-symbols-alist)
+
+   (push '("\\coloneqq" ."≔") prettify-symbols-alist)
+
+   (push '("\\mathbb{C}" ."ℂ") prettify-symbols-alist)
+
+   (push '("\\divides" ."|") prettify-symbols-alist)
+
+   (push '("\\sqrt" ."√") prettify-symbols-alist)
+
+   (prettify-symbols-mode))
+#+end_src
+
+** CDLaTeX integration with YaSnippet
+This supposedly takes care of CDLaTeX integration with YaSnippet:
+
+#+begin_src emacs-lisp
+;; CDLatex integration with YaSnippet: Allow cdlatex tab to work inside Yas
+;; fields
+(use-package! cdlatex
+  :hook ((cdlatex-tab . yas-expand)
+         (cdlatex-tab . cdlatex-in-yas-field))
+
+  (use-package! yasnippet
+    :bind (:map yas-keymap
+           ("<tab>" . yas-next-field-or-cdlatex)
+           ("TAB" . yas-next-field-or-cdlatex))
+    :config
+    (defun cdlatex-in-yas-field ()
+      ;; Check if we're at the end of the Yas field
+      (when-let* ((_ (overlayp yas--active-field-overlay))
+                  (end (overlay-end yas--active-field-overlay)))
+        (if (>= (point) end)
+            ;; Call yas-next-field if cdlatex can't expand here
+            (let ((s (thing-at-point 'sexp)))
+              (unless (and s (assoc (substring-no-properties s)
+                                    cdlatex-command-alist-comb))
+                (yas-next-field-or-maybe-expand)
+                t))
+          ;; otherwise expand and jump to the correct location
+          (let (cdlatex-tab-hook minp)
+            (setq minp
+                  (min (save-excursion (cdlatex-tab)
+                                       (point))
+                       (overlay-end yas--active-field-overlay)))
+            (goto-char minp) t))))
+
+    (defun yas-next-field-or-cdlatex nil
+      (interactive)
+      "Jump to the next Yas field correctly with cdlatex active."
+      (if
+          (or (bound-and-true-p cdlatex-mode)
+              (bound-and-true-p org-cdlatex-mode))
+          (cdlatex-tab)
+        (yas-next-field-or-maybe-expand)))))
+#+end_src
+
+** Lazytab / Array and Matrix support
+This snippet makes editing arrays and matrices easier using Lazytab and org-table.
+
+#+begin_src emacs-lisp
+;; Array/tabular input with org-tables and cdlatex
+(use-package! org-table
+  :after cdlatex
+  :bind (:map orgtbl-mode-map
+              ("<tab>" . lazytab-org-table-next-field-maybe)
+              ("TAB" . lazytab-org-table-next-field-maybe))
+  :init
+  (add-hook 'cdlatex-tab-hook 'lazytab-cdlatex-or-orgtbl-next-field 90)
+  ;; Tabular environments using cdlatex
+  (add-to-list 'cdlatex-command-alist '("smat" "Insert smallmatrix env"
+                                       "\\left( \\begin{smallmatrix} ? \\end{smallmatrix} \\right)"
+                                       lazytab-position-cursor-and-edit
+                                       nil nil t))
+  (add-to-list 'cdlatex-command-alist '("bmat" "Insert bmatrix env"
+                                       "\\begin{bmatrix} ? \\end{bmatrix}"
+                                       lazytab-position-cursor-and-edit
+                                       nil nil t))
+  (add-to-list 'cdlatex-command-alist '("pmat" "Insert pmatrix env"
+                                       "\\begin{pmatrix} ? \\end{pmatrix}"
+                                       lazytab-position-cursor-and-edit
+                                       nil nil t))
+  (add-to-list 'cdlatex-command-alist '("tbl" "Insert table"
+                                        "\\begin{table}\n\\centering ? \\caption{}\n\\end{table}\n"
+                                       lazytab-position-cursor-and-edit
+                                       nil t nil))
+  :config
+  ;; Tab handling in org tables
+  (defun lazytab-position-cursor-and-edit ()
+    ;; (if (search-backward "\?" (- (point) 100) t)
+    ;;     (delete-char 1))
+    (cdlatex-position-cursor)
+    (lazytab-orgtbl-edit))
+
+  (defun lazytab-orgtbl-edit ()
+    (advice-add 'orgtbl-ctrl-c-ctrl-c :after #'lazytab-orgtbl-replace)
+    (orgtbl-mode 1)
+    (open-line 1)
+    (insert "\n|"))
+
+  (defun lazytab-orgtbl-replace (_)
+    (interactive "P")
+    (unless (org-at-table-p) (user-error "Not at a table"))
+    (let* ((table (org-table-to-lisp))
+           params
+           (replacement-table
+            (if (texmathp)
+                (lazytab-orgtbl-to-amsmath table params)
+              (orgtbl-to-latex table params))))
+      (kill-region (org-table-begin) (org-table-end))
+      (open-line 1)
+      (push-mark)
+      (insert replacement-table)
+      (align-regexp (region-beginning) (region-end) "\\([:space:]*\\)& ")
+      (orgtbl-mode -1)
+      (advice-remove 'orgtbl-ctrl-c-ctrl-c #'lazytab-orgtbl-replace)))
+
+  (defun lazytab-orgtbl-to-amsmath (table params)
+    (orgtbl-to-generic
+     table
+     (org-combine-plists
+      '(:splice t
+                :lstart ""
+                :lend " \\\\"
+                :sep " & "
+                :hline nil
+                :llend "")
+      params)))
+
+  (defun lazytab-cdlatex-or-orgtbl-next-field ()
+    (when (and (bound-and-true-p orgtbl-mode)
+               (org-table-p)
+               (looking-at "[[:space:]]*\\(?:|\\|$\\)")
+               (let ((s (thing-at-point 'sexp)))
+                 (not (and s (assoc s cdlatex-command-alist-comb)))))
+      (call-interactively #'org-table-next-field)
+      t))
+
+  (defun lazytab-org-table-next-field-maybe ()
+    (interactive)
+    (if (bound-and-true-p cdlatex-mode)
+        (cdlatex-tab)
+      (org-table-next-field))))
+#+end_src
+
+** PDF
+Open PDF files using pdf-tools.
+#+begin_src emacs-lisp
+(setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+      TeX-source-correlate-start-server t)
+#+end_src
+
+Update PDF buffers after a TeX file successfully compiles.
+#+begin_src emacs-lisp
+;; Update PDF buffers after successful LaTeX runs
+(add-hook 'TeX-after-compilation-finished-functions
+           #'TeX-revert-document-buffer)
+#+end_src
+
+** Hooks
+
+Enable evil-tex-mode for more text objects and support (explore this):
+
+#+begin_src emacs-lisp
+(add-hook 'LaTeX-mode-hook #'evil-tex-mode)
+#+end_src
+
+Turn on prettify symbols mode.
+#+begin_src emacs-lisp
+;; Turn on prettify-symbols for nicer LaTeX editting
+(add-hook 'LaTeX-mode-hook 'prettify-symbols-mode)
+#+end_src
+
+Hook my custom functions (custom prettify symbols and LTR text):
+#+begin_src emacs-lisp
+(defun my-tex-hook ()
+  (flip-hebrew)
+  (prettify-latex-symbols))
+
+(add-hook 'LaTeX-mode-hook 'my-tex-hook)
+
+(add-hook 'plain-TeX-mode-hook 'my-tex-hook)
+
+(add-hook 'AmS-TeX-mode-hook 'my-tex-hook)
+
+(add-hook 'ConTeXt-mode-hook 'my-tex-hook)
+
+(add-hook 'Texinfo-mode-hook 'my-tex-hook)
+
+(add-hook 'docTeX-mode-hook 'my-tex-hook)
+
+#+end_src
+
+
+
+
+
+* Yasnippet
+
+Set YaSnippet directory.
+
+#+begin_src emacs-lisp
+(setq yas-snippet-dirs '("~/.doom.d/yasnippets"))
+#+end_src
+
+General 'use-package!' settings.
+
+#+begin_src emacs-lisp
+;; Yasnippet settings
+;; Yasnippet settings
+(use-package! yasnippet
+  :ensure t
+  :hook ((LaTeX-mode . yas-minor-mode)
+         (post-self-insert . my/yas-try-expanding-auto-snippets))
+  :config
+  (use-package! warnings
+    :config
+    (cl-pushnew '(yasnippet backquote-change)
+                warning-suppress-types
+                :test 'equal))
+
+  (setq yas-triggers-in-field t)
+
+  ;; Function that tries to autoexpand YaSnippets
+  ;; The double quoting is NOT a typo!
+  (defun my/yas-try-expanding-auto-snippets ()
+    (when (and (boundp 'yas-minor-mode) yas-minor-mode)
+      (let ((yas-buffer-local-condition ''(require-snippet-condition . auto)))
+        (yas-expand)))))
+#+end_src
+
+** Auto expanding YaSnippets
+
+This snippet of code sets up YaSnippet autoexpanding.
+#+begin_src emacs-lisp
+;; Try after every insertion
+(add-hook 'post-self-insert-hook #'my/yas-try-expanding-auto-snippets)
+#+end_src
+
+
+Not 100% sure what this does (revisit said blog post):
+#+begin_src emacs-lisp
+;; YaSnippet complains if we use a snippet to edit the buffer directly,
+;; as we do with the above examples of wrapping symbols in \hat{}, etc. This is probably bad practice, but I haven’t had an issue yet. I suppress these warnings with
+
+(with-eval-after-load 'warnings
+  (cl-pushnew '(yasnippet backquote-change) warning-suppress-types
+              :test 'equal))
+#+end_src
+
+
+
+
+
+
+
+
+* Vterm
+
+Use C-k keybinding to clear the vterm buffer, including the scrollback.
+Similar to what's available on Kitty, VSCode, etc.
+
+#+begin_src emacs-lisp
+;; Clear on scrollback in vterm
+;; Bind C-k to clear on vterm
+(map! :map vterm-mode-map
+      "C-k" (lambda ()
+              (interactive)
+              (vterm-clear)
+              (vterm-clear-scrollback)))
+#+end_src
+
+
+* Debugger
+This codes will one day config the debugger.
+It currently doesn't work (lol), but it will one day.
+
+#+begin_src emacs-lisp
+;; Config debugger
+
+(use-package! lsp-mode
+  :hook ((c++-mode) . lsp-deferred)
+  :commands lsp)
+
+
+(use-package! lsp-ui
+  :commands lsp-ui-mode
+  :config
+  (setq lsp-ui-doc-enable nil)
+  (setq lsp-ui-doc-header t)
+  (setq lsp-ui-doc-include-signature t)
+  (setq lsp-ui-doc-border (face-foreground 'default))
+  (setq lsp-ui-sideline-show-code-actions t)
+  (setq lsp-ui-sideline-delay 0.05))
+
+
+  (require 'dap-lldb)
+  (require 'dap-cpptools)
+
+  ;;; set the debugger executable (c++)
+  (setq dap-lldb-debug-program '("/Users/ido/.vscode/extensions/lanza.lldb-vscode-0.2.3/bin/darwin/bin/lldb-vscode"))
+
+  ;;; default debug template for (c++)
+  (dap-register-debug-template
+   "C++ LLDB dap"
+   (list :type "lldb-vscode"
+         :cwd nil
+         :args nil
+         :request "launch"
+         :program nil))
+
+#+end_src
+
+
+* Custom interactive functions
+Get information about infi (not sure why I even need this)
+
+#+begin_src emacs-lisp
+(defun get-infi ()
+  (interactive)
+  (kill-new
+   (string-trim-right
+       (shell-command-to-string (concat "yq '" (read-string "Enter parameter: ") "' ~/Technion/info/infi2m.yaml"))
+       )))
+#+end_src
+
+
+
+
+
+* Dired
+
+Show file icons.
+
+#+begin_src emacs-lisp
+;; Dired file icons
+(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+#+end_src
+
+
+** Keybindings
+
+Basic keybindings, most of these are already default.
+
+M-RET allows for basic file previewing by opening a window to the right.
+
+#+begin_src emacs-lisp
+(evil-define-key 'normal dired-mode-map
+  (kbd "M-RET") 'dired-display-file
+  (kbd "h") 'dired-up-directory
+  (kbd "l") 'dired-find-file
+  (kbd "m") 'dired-mark
+  (kbd "t") 'dired-toggle-marks
+  (kbd "u") 'dired-unmark
+  (kbd "C") 'dired-do-copy
+  (kbd "D") 'dired-do-delete
+  (kbd "J") 'dired-goto-file
+  (kbd "M") 'dired-do-chmod
+  (kbd "O") 'dired-do-chown
+  (kbd "P") 'dired-do-print
+  (kbd "R") 'dired-do-rename
+  (kbd "T") 'dired-do-touch
+  ;;(kbd "Y") 'dired-copy-filenamecopy
+  (kbd "Z") 'dired-do-compress
+  (kbd "+") 'dired-create-directory
+  (kbd "-") 'dired-up-directory
+  )
+#+end_src
+
+
+Also add leader shortcuts for the following:
+
+| Keybinding | Command    | Description                                   |
+|------------+------------+-----------------------------------------------|
+| SPC d j    | dired-jump | Dired jump to current directory               |
+| SPC d p    | peep-dired | Turn on peep-dired mode for previewing files. |
+
+While using peep-dired mode, the hjkl keys can be used to navigate between file previews.
+
+#+begin_src emacs-lisp
+
+
+(map! :leader
+      (:prefix ("d" . "dired")
+               :desc "Open dired" "d" #'dired
+               :desc "Dired jump to current" "j" #'dired-jump)
+      (:after dired
+              (:map dired-mode-map
+                    :desc "Peep-dired image-previews" "d p" #'peep-dired
+                    :desc "Dired view file" "d v" #'dired-view-file)))
+
+(evil-define-key 'normal peep-dired-mode-map (kbd "<SPC>") 'peep-dired-scroll-page-down
+                                             (kbd "C-<SPC>") 'peep-dired-scroll-page-up
+                                             (kbd "<backspace>") 'peep-dired-scroll-page-up
+                                             (kbd "j") 'peep-dired-next-file
+                                             (kbd "k") 'peep-dired-prev-file)
+(add-hook 'peep-dired-hook 'evil-normalize-keymaps)
+#+end_src
+
+
+* mu4e / E-mail support (NOT USING THIS ANYMORE)
+#+begin_comment
+
+The config is as follows:
+
+#+begin_src emacs-lisp
+(after! mu4e
+  (setq! mu4e-maildir (expand-file-name "~/.mail") ; the rest of the mu4e folders are RELATIVE to this one
+         mu4e-get-mail-command "mbsync -a"
+         mu4e-index-update-in-background t
+         mu4e-compose-signature-auto-include t
+         mu4e-use-fancy-chars t
+         mu4e-view-show-addresses t
+         mu4e-view-show-images t
+         mu4e-compose-format-flowed t
+         ;mu4e-compose-in-new-frame t
+         mu4e-change-filenames-when-moving t ;; http://pragmaticemacs.com/emacs/fixing-duplicate-uid-errors-when-using-mbsync-and-mu4e/
+         mu4e-maildir-shortcuts
+         '( ("/Inbox" . ?i)
+            ("/Archive" . ?a)
+            ("/Drafts" . ?d)
+            ("/Deleted Items" . ?t)
+            ("/Sent Items" . ?s))
+
+         ;; Message Formatting and sending
+         message-send-mail-function 'smtpmail-send-it
+         ;;message-signature-file "~/Documents/dotfiles/Emacs/.doom.d/.mailsignature"
+         message-citation-line-format "On %a %d %b %Y at %R, %f wrote:\n"
+         message-citation-line-function 'message-insert-formatted-citation-line
+         message-kill-buffer-on-exit t
+
+         ;; Org mu4e
+         org-mu4e-convert-to-html t
+         ))
+
+(setq mu4e-compose--org-msg-toggle-next nil)
+#+end_src
+
+There is also a bug where the mu4e binaries cannot be found on macOS.
+Add the following snippet to prevent this:
+
+#+begin_src emacs-lisp
+(add-to-list 'load-path "/opt/homebrew/Cellar/mu/1.8.11/share/emacs/site-lisp/mu/mu4e/")
+#+end_src
+
+
+
+#+begin_src emacs-lisp
+(defun full-screen ()
+  (interactive)
+  (setq ns-auto-hide-menu-bar t)
+(set-frame-position nil 0 -24)
+(tool-bar-mode 0)
+(set-frame-size nil 142 46)     ;; Pick values matching your screen.
+)
+#+end_src
+
+#+end_comment
+
+* IRC
+#+begin_src emacs-lisp
+(setq rcirc-default-nick "SugoiWa"
+      rcirc-default-user-name "SugoiWa"
+      rcirc-default-full-name ""
+      rcirc-server-alist '(("galaxy-direct.usbx.me"
+               :port 14001
+               :encryption tls
+               :nick "sugoiwa"
+               :password "sugoiwa:iamhere!"
+               ;;:channels ("#GazelleGames"
+                          ;;"#idlerpg"
+                          ;;"#TheVoid"
+                          ;;"#linux")
+               :user-name "sugoiwa")))
+#+end_src
+
+
+#+begin_src emacs-lisp
+(after! circe
+  (set-irc-server! "galaxy-direct.usbx.me"
+    `(:tls t
+      :port 14001
+      :nick "SugoiWa"
+      :sasl-username "sugoiwa"
+      :sasl-password "sugoiwa:iamhere!"
+      :channels ("#GazelleGames")
+      )))
+
+
+(defun circe/trout ()
+  (interactive)
+  (circe-command-ME (concat "slaps " (read-string "Slapee:") " around a bit with a large trout" )))
+
+(map! :map circe-chat-mode-map
+      :leader
+            (:prefix "m"
+               :desc "Slap trouts." "t" #'circe/trout))
+#+end_src
+
+
+
+* Transparent Emacs
+#+begin_src emacs-lisp
+(menu-bar-mode t)
+#+end_src
+
+#+begin_src emacs-lisp
+(set-frame-parameter (selected-frame) 'alpha '(85 85))
+(add-to-list 'default-frame-alist '(alpha 85 85))
+#+end_src
+
+#+begin_src emacs-lisp
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . dark))
+#+end_src
+
+Try to remove titlebar with:
+=brew tap d12frosted/emacs-plus && brew install emacs-plus@28 --with-no-titlebar=
+
+
+* Terminal integration (Kitty)
+Kitty integration ()
+Open new Kitty terminal in CWD:
+
+#+begin_src emacs-lisp
+
+(defun macos/open-in-new-kitty-window ()
+  (interactive)
+  (dired-smart-shell-command "open -a kitty $PWD" nil nil))
+#+end_src
+
+Make =SPC+o+k= a proper keybinding for this action:
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix "o"
+        :desc "Open in new Kitty window" "k" #'macos/open-in-new-kitty-window))
+#+end_src
+
+
+
+* Code Editing
+** C++

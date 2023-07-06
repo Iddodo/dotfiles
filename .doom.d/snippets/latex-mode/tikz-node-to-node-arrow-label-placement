@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: tikz-node-to-node-label-placement
+# key: n--lp
+# --
+\draw ($1) -- node[midway,$4] {\$$0\$} ($2);

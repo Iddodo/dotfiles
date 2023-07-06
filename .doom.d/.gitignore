@@ -1,0 +1,4 @@
+# Ignore sensitive information
+personal-information.el
+*.png
+*.bk

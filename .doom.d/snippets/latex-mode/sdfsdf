@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: tikz-node-right
+# key: noder
+# --
+\node[main] ($1) [right of=$2] {\$$1\$};$0

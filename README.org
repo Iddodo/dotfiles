@@ -1,0 +1,70 @@
+#+title: Dotfiles
+
+* Dotfiles
+[[goku.jpg]]
+
+* Table of Contents :toc:
+- [[#dotfiles][Dotfiles]]
+- [[#info][Info]]
+- [[#emacs][Emacs]]
+  - [[#emacs-fork][Emacs Fork]]
+  - [[#doom-emacs][Doom Emacs]]
+  - [[#latex][LaTeX]]
+- [[#installation-instructions][Installation Instructions]]
+- [[#brew][brew]]
+- [[#neovim][neovim]]
+
+* Info
+This repository contains my personal macOS dotfiles for programs including, but not limited to:
+- Kitty
+- Doom Emacs
+- tmux
+- zsh
+- skhd
+- yabai
+
+  ... and more.
+
+These files were designed for use on my system, which is a 2020 M1 MacBook Air running MacOS Ventura. They may not work for your system.
+
+
+* Emacs
+** Emacs Fork
+The Emacs fork that I use is a fork called emacs-plus, which was designed for use with MacOS.
+
+I use the following command to install it.
+#+begin_src shell
+brew install emacs-plus@28 --with-no-titlebar --with-no-frame-refocus --with-native-comp
+#+end_src
+Breakdown of flags:
+- A cleaner experience with =--with-no-titlebar=.
+- Prevent annoying macOS frame refocus behavior with =--with-no-frame-refocus=.
+- Use =--with-native-comp= for overall better performance.
+
+** Doom Emacs
+[[https://github.com/doomemacs/doomemacs][Doom Emacs]] is an Emacs distribution, which provides a plethora of useful feature, but is mainly famous for its extensive support for more Vim-like behaviors and keybindings,
+which is why I use it.
+
+I am in the process of working on a vanilla configuration, in an attempt to make my
+workflow more predictable,
+but if you come from a Vim background and would like a soft landing into Emacs, I would definitely recommend you give it a shot.
+
+** TODO LaTeX
+The comfortability I have achieved using Karthink's [[http://karthinks.com/software/latex-input-for-impatient-scholars/][LaTeX Input for Impatient Scholars]]  is pretty amazing.
+
+It currently somewhat break my config, however, so I'm going to want
+to make some fixes to it eventually.
+
+
+* TODO Installation Instructions
+
+* TODO brew
+Since I'm on macOS, I use =brew=.
+
+Brewfile is a WIP.
+
+* TODO neovim
+My neovim config is a mess since I barely use it anymore, with apparent breaking,
+it generally works pretty well however.
+
+I'll probably want to get it fixed, eventually.
