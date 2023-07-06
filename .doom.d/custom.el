@@ -3,6 +3,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(osx-plist tablist sicp fireplace el-fetch cypher-mode corfu consult))
  '(safe-local-variable-values
    '((cider-offer-to-open-cljs-app-in-browser)
      (cider-shadow-watched-builds ":app")

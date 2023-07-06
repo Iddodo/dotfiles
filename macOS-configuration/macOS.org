@@ -1,0 +1,27 @@
+#+title: macOS configuration
+#+begin_src sh :tangle yes
+#!/usr/bin/env sh
+#+end_src
+
+* Window Management
+** Mission Control
+Basically, have the default window behavior disabled.
+
+#+DOWNLOADED: screenshot @ 2023-07-07 02:03:49
+[[file:Window_Management/2023-07-07_02-03-49_screenshot.png]]
+
+
+** Disable "workspaces-auto-swoosh"
+A very annoying behavior where closing/opening a new window
+for a specific application, causes macOS to switch workspaces.
+Fortunately, this can be easily disabled:
+
+#+begin_src sh :tangle yes
+defaults write com.apple.dock workspaces-auto-swoosh -bool NO
+#+end_src
+
+
+For an immediate effect, you can do:
+#+begin_src sh :tangle no
+killall Dock
+#+end_src
