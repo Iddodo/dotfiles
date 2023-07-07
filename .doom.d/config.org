@@ -73,10 +73,18 @@
   - [[#new-tikz-figure-in-latex][New TiKZ figure in LaTeX]]
   - [[#paste-image-from-clipboard-to-latex][Paste image from clipboard to LaTeX]]
 - [[#tramp][TRAMP]]
+  - [[#some-stuff-thats-supposed-to-make-tramp-not-freeze][Some stuff that's supposed to make TRAMP not freeze]]
+  - [[#register-lsp-client-in-tramp][Register LSP client in Tramp]]
 - [[#experminetal-latex-insert-boxes][Experminetal LaTeX insert boxes]]
 - [[#verilog][Verilog]]
 - [[#github][GitHub]]
   - [[#consult-gh][consult-gh]]
+
+* EXAMS
+#+begin_src emacs-lisp :tangle yes
+(map! :leader (:prefix "o"
+                       :desc "EXAMS" "x" (lambda() (interactive) (find-file "~/org/exams.org") )))
+#+end_src
 
 * Variables and Functions
 ** Global variable definitions
