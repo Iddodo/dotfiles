@@ -1,8 +1,0 @@
-# General stuff
-.DS_Store
-.idea
-*.log
-tmp/
-/.doom.d/ignore/
-/.doom.d/config.el
-/interesting_ignores/
