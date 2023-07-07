@@ -1,6 +1,6 @@
-#+TITLE: Config
+#+TITLE: My Doom Emacs Configuration
 #+DESCRIPTION: My Doom Emacs config file.
-#+AUTHOR Iddodo
+#+AUTHOR: Iddodo
 #+PROPERTY: header-args :tangle config.el
 #+auto_tangle: t
 #+OPTIONS: toc
