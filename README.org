@@ -53,6 +53,8 @@ I am in the process of working on a vanilla configuration, in an attempt to make
 workflow more predictable,
 but if you come from a Vim background and would like a soft landing into Emacs, I would definitely recommend you give it a shot.
 
+You can view my current configuration [[file:.doom.d/config.org][here]].
+
 ** TODO LaTeX
 The comfortability I have achieved using Karthink's [[http://karthinks.com/software/latex-input-for-impatient-scholars/][LaTeX Input for Impatient Scholars]]  is pretty amazing.
 
