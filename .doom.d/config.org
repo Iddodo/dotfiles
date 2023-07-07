@@ -1,14 +1,13 @@
 #+TITLE: Config
-#DESCRIPTION: My Doom Emacs config file.
+#+DESCRIPTION: My Doom Emacs config file.
 #+AUTHOR Iddodo
 #+PROPERTY: header-args :tangle config.el
 #+auto_tangle: t
 #+OPTIONS: toc
-
 #+OPTIONS: broken-links:t
 
 
-#+begin_src emacs-lisp  :exports: none
+#+begin_src emacs-lisp  :exports none
 ;;; config.el -*- lexical-binding: t; -*-
 
 #+end_src
