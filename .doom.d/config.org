@@ -8,6 +8,7 @@
 #+OPTIONS: broken-links:t
 
 * TABLE OF CONTENTS :toc:
+- [[#exams][EXAMS]]
 - [[#variables-and-functions][Variables and Functions]]
   - [[#global-variable-definitions][Global variable definitions]]
   - [[#config-helper-functions][Config Helper Functions]]
