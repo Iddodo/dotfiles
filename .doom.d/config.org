@@ -603,6 +603,14 @@ I am using the XeTeX engine to compile because of its Hebrew support.
   (pdf-view-mode . pdf-view-themed-minor-mode))
 #+end_src
 
+Add a keybinding for toggling =pdf-view-themed-minor-mode=
+#+begin_src emacs-lisp
+(map! :map pdf-view-mode-map
+      :leader
+      :prefix ("t" . "Toggle")
+      :desc "Toggle pdf-view-themed-minor-mode" "p" #'pdf-view-themed-minor-mode)
+#+end_src
+
 *** Force rebuild
 #+begin_src emacs-lisp
 (defun pdf-tools-force-reinstall ()
