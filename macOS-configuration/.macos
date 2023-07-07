@@ -1,0 +1,67 @@
+#!/usr/bin/env sh
+# Close any open System Preferences panes, to prevent them from overriding
+# settings we’re about to change
+
+# Ask for the administrator password upfront
+osascript -e 'tell application "System Preferences" to quit'
+sudo -v
+
+# Keep-alive: update existing `sudo` time stamp until `.macos` has finished
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+defaults write com.apple.dock mru-spaces -bool false
+
+defaults write com.apple.dock "orientation" -string "left"
+
+defaults write com.apple.dock show-process-indicators -bool true
+
+defaults write com.apple.dock autohide -bool true
+
+defaults write com.apple.dock autohide-time-modifier -float 0.3
+
+osascript -e 'set desktopImage to POSIX file "/Users/ido/git/dotfiles/macOS-configuration/wallpaper.png"
+tell application "Finder"
+    set desktop picture to desktopImage
+end tell'
+
+defaults write -g NSAlertMetricsGatheringEnabled -bool false
+
+defaults write com.apple.finder QuitMenuItem -bool true
+
+defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+
+defaults write com.apple.finder NewWindowTarget -string "PfLo"
+defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}"
+
+defaults write com.apple.finder _FXSortFoldersFirst -bool true
+
+defaults write com.apple.finder ShowPathbar -bool false
+
+chflags nohidden ~/Library
+
+defaults write com.apple.finder ShowStatusBar -bool true
+
+ defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
+
+defaults write -g ApplePressAndHoldEnabled -bool false
+
+defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
+defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
+
+sudo launchctl unload -w /System/Library/LaunchDaemons/ssh.plist
+
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
+
+defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+
+defaults write com.apple.appstore ShowDebugMenu -bool false
+
+defaults write com.apple.Safari UniversalSearchEnabled -bool false
+defaults write com.apple.Safari SuppressSearchSuggestions -bool true
+
+launchctl load -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist
+
+# Kill all affected applications
+for app in Safari Finder Dock Mail SystemUIServer; do killall "$app" >/dev/null 2>&1; done

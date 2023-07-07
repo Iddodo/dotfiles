@@ -1,27 +1,226 @@
 #+title: macOS configuration
-#+begin_src sh :tangle yes
-#!/usr/bin/env sh
+#+PROPERTY: header-args:sh :padline yes :comments no :shebang #!/usr/bin/env sh
+#+TAGS: { disable(d) enable(e) }
+#+NAME: startup
+#+BEGIN_SRC emacs-lisp :exports none :results none
+(message "Hi!")
+#+END_SRC
+
+
+#+begin_src sh :tangle .macos :exports none
+# Close any open System Preferences panes, to prevent them from overriding
+# settings we’re about to change
+
+# Ask for the administrator password upfront
+osascript -e 'tell application "System Preferences" to quit'
+sudo -v
+
+# Keep-alive: update existing `sudo` time stamp until `.macos` has finished
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+
 #+end_src
 
+
 * Window Management
-** Mission Control
-Basically, have the default window behavior disabled.
-
-#+DOWNLOADED: screenshot @ 2023-07-07 02:03:49
-[[file:Window_Management/2023-07-07_02-03-49_screenshot.png]]
-
-
-** Disable "workspaces-auto-swoosh"
+** workspaces-auto-swoosh :disable:
 A very annoying behavior where closing/opening a new window
 for a specific application, causes macOS to switch workspaces.
 Fortunately, this can be easily disabled:
 
-#+begin_src sh :tangle yes
+#+begin_src sh (if (member "disable" (org-get-tags (point))) ".macos" "no")
 defaults write com.apple.dock workspaces-auto-swoosh -bool NO
 #+end_src
 
+As well as re-enabled:
 
-For an immediate effect, you can do:
-#+begin_src sh :tangle no
-killall Dock
+#+begin_src sh :tangle (if (member "enable" (org-get-tags (point))) ".macos" "no")
+defaults write com.apple.dock workspaces-auto-swoosh -bool YES
 #+end_src
+
+** Disable auto-rearrange of spaces
+Don’t automatically rearrange Spaces based on most recent use
+(very frustrating when using yabai)
+
+#+begin_src sh :tangle .macos
+defaults write com.apple.dock mru-spaces -bool false
+#+end_src
+
+
+* Dock
+** Orient Dock to the left of the screen
+#+begin_src sh :tangle .macos
+defaults write com.apple.dock "orientation" -string "left"
+#+end_src
+** Show indicator lights for open applciations in the dock
+#+begin_src sh :tangle .macos
+defaults write com.apple.dock show-process-indicators -bool true
+#+end_src
+** Automatically hide and show the Dock
+#+begin_src sh :tangle .macos
+defaults write com.apple.dock autohide -bool true
+#+end_src
+
+** Faster autohide animation.
+I very much prefer the animation being there,
+but there's no harm in making it a little bit faster.
+#+begin_src sh :tangle .macos
+defaults write com.apple.dock autohide-time-modifier -float 0.3
+#+end_src
+
+* Personal Preferences
+** Wallpaper
+Set a custom wallpaper.
+#+begin_src sh :tangle .macos
+osascript -e 'set desktopImage to POSIX file "/Users/ido/git/dotfiles/macOS-configuration/wallpaper.png"
+tell application "Finder"
+    set desktop picture to desktopImage
+end tell'
+#+end_src
+
+** Change macOS Alert Dialog Box
+I like this style better, which is why I've changed it.
+You can find an OSXDaily article about this [[https://osxdaily.com/2022/05/12/how-to-get-the-older-style-macos-alert-dialog-back/][here]].
+#+begin_src sh :tangle .macos
+defaults write -g NSAlertMetricsGatheringEnabled -bool false
+#+end_src
+
+
+* Finder
+** Make Finder killable by cmd+q
+This is pretty nice, I would say.
+#+begin_src sh :tangle .macos
+defaults write com.apple.finder QuitMenuItem -bool true
+#+end_src
+
+** Show Full Path in Finder Title
+#+begin_src sh :tangle .macos
+defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+#+end_src
+
+** Set Current Folder as Default Search Scope
+#+begin_src sh :tangle .macos
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+#+end_src
+
+** Set Default Finder Location to Home Folder
+#+begin_src sh :tangle .macos
+defaults write com.apple.finder NewWindowTarget -string "PfLo"
+defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}"
+#+end_src
+
+** Keep folders on top when sorting by name
+#+begin_src sh :tangle .macos
+defaults write com.apple.finder _FXSortFoldersFirst -bool true
+#+end_src
+** Disable Path Bar
+#+begin_src sh :tangle .macos
+defaults write com.apple.finder ShowPathbar -bool false
+#+end_src
+
+** Reveal Library folder in Finder
+Not idea how important this is, but sure, why not.
+#+begin_src sh :tangle .macos
+chflags nohidden ~/Library
+#+end_src
+
+** Enable Status Bar
+#+begin_src sh :tangle .macos
+defaults write com.apple.finder ShowStatusBar -bool true
+#+end_src
+
+
+* Keyboard related
+** Full Keyboard Access
+Enable Tab in modal dialogs.
+#+begin_src sh :tangle .macos
+ defaults write NSGlobalDomain AppleKeyboardUIMode -int 3
+#+end_src
+
+** Key Repeat
+Disable the "press and hold" behavior.
+#+begin_src sh :tangle .macos
+defaults write -g ApplePressAndHoldEnabled -bool false
+#+end_src
+
+Change key repeat speeds.
+#+begin_src sh :tangle .macos
+defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
+defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
+#+end_src
+
+
+* Security & Privacy
+** SSH: Remote Login :disable:
+=load= or =unload= to either enable or diable.
+
+#+begin_src sh :tangle (if (member "enable" (org-get-tags (point))) ".macos" "no")
+sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
+#+end_src
+
+#+begin_src sh :tangle (if (member "disable" (org-get-tags (point))) ".macos" "no")
+sudo launchctl unload -w /System/Library/LaunchDaemons/ssh.plist
+#+end_src
+
+** Firewall Service :enable:
+=on= to enable, =off= to enable, =getglobalstate= to print current state.
+
+#+begin_src sh :tangle (if (member "enable" (org-get-tags (point))) ".macos" "no")
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
+#+end_src
+
+#+begin_src sh :tangle (if (member "disable" (org-get-tags (point))) ".macos" "no")
+sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate off
+#+end_src
+
+** Save to Disk (not iCloud)
+Save to disk (not to iCloud) by default.
+#+begin_src sh :tangle .macos
+defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+#+end_src
+
+
+** Debug Menu :disable:
+#+begin_src sh :tangle (if (member "enable" (org-get-tags (point))) ".macos" "no")
+defaults write com.apple.appstore ShowDebugMenu -bool true
+#+end_src
+
+#+begin_src sh :tangle (if (member "disable" (org-get-tags (point))) ".macos" "no")
+defaults write com.apple.appstore ShowDebugMenu -bool false
+#+end_src
+
+** Avoid sending search queries to Apple
+#+begin_src sh :tangle .macos
+defaults write com.apple.Safari UniversalSearchEnabled -bool false
+defaults write com.apple.Safari SuppressSearchSuggestions -bool true
+#+end_src
+
+* UI Components
+** Notification Center :enable:
+
+Enable with:
+#+begin_src sh :tangle (if (member "enable" (org-get-tags (point))) ".macos" "no")
+launchctl load -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist
+#+end_src
+
+Disable with:
+#+begin_src sh :tangle (if (member "disable" (org-get-tags (point))) ".macos" "no")
+launchctl unload -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist && \
+killall -9 NotificationCenter
+#+end_src
+
+
+* Bibliography
+I "took inspiration" from the following sources:
+- https://git.herrbischoff.com/awesome-macos-command-line/about/#switch-to-legacy-horizontal-layout
+- https://github.com/mathiasbynens/dotfiles/blob/main/.macos
+
+
+#+begin_src sh :tangle .macos :exports none
+# Kill all affected applications
+for app in Safari Finder Dock Mail SystemUIServer; do killall "$app" >/dev/null 2>&1; done
+#+end_src
+
+# Local Variables:
+# eval: (progn (org-babel-goto-named-src-block "startup") (org-babel-execute-src-block) (outline-hide-sublevels 1))
+# End:

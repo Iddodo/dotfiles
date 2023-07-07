@@ -6,6 +6,7 @@
 * Table of Contents :toc:
 - [[#dotfiles][Dotfiles]]
 - [[#info][Info]]
+- [[#macos][macOS]]
 - [[#emacs][Emacs]]
   - [[#emacs-fork][Emacs Fork]]
   - [[#doom-emacs][Doom Emacs]]
@@ -13,7 +14,6 @@
 - [[#installation-instructions][Installation Instructions]]
 - [[#brew][brew]]
 - [[#neovim][neovim]]
-- [[#macos][macOS]]
 
 * Info
 This repository contains my personal macOS dotfiles for programs including, but not limited to:
@@ -27,6 +27,10 @@ This repository contains my personal macOS dotfiles for programs including, but 
   ... and more.
 
 These files were designed for use on my system, which is a 2020 M1 MacBook Air running MacOS Ventura. They may not work for your system.
+
+
+* macOS
+You can find my macOS configuration [[file:macOS-configuration/macOS.org][here.]]
 
 * Emacs
 ** Emacs Fork
@@ -68,7 +72,3 @@ My neovim config is a mess since I barely use it anymore, with apparent breaking
 it generally works pretty well however.
 
 I'll probably want to get it fixed, eventually.
-
-* TODO macOS
-I am starting to work on documenting my macOS configuration.
-The configuration will reside [[file:macOS-configuration/macOS.org][here.]]
