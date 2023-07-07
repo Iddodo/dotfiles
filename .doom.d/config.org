@@ -383,40 +383,22 @@ I prefer using a "fine undo" because it's more precise in my opinion.
  :m "s" #'evil-avy-goto-char-2)
 #+end_src
 
+*** Keybinding to comment code
 #+begin_src emacs-lisp
 (map!
  :leader
     (:prefix "s"
-        :desc "Comment line" "/" #'comment-line))
+        :desc "Comment Code" "/" #'comment-line))
 #+end_src
 
-** Incrementing numbers
 
-There is no keybinding for this by default, add the following keybindings:
-
-| Keybinding | Command                | Description         |
-|------------+------------------------+---------------------|
-| SPC e +    | evil-numbers/inc-at-pt | Increment a number. |
-| SPC e -    | evil-numbers/dec-at-pt | Decrement a number. |
-
-
+** Specific Language Behaviors
+*** Emacs LISP
+Treat =-= and =_= as part of the word.
 #+begin_src emacs-lisp
-;; Allow incrementing numbers
- (define-key evil-normal-state-map (kbd "SPC e +") 'evil-numbers/inc-at-pt)
-(define-key evil-normal-state-map (kbd "SPC e -") 'evil-numbers/dec-at-pt)
+(modify-syntax-entry ?- "w")
+(modify-syntax-entry ?_ "w")
 #+end_src
-
-** Make page scrolls centerized
-#+begin_src emacs-lisp
-(advice-add #'evil-scroll-page-up :after (lambda ()
-    (evil-window-middle)))
-    (evil-scroll-line-to-center (line-number-at-pos))
-
-(advice-add #'evil-scroll-page- :after (lambda ()
-    (evil-window-middle)))
-    (evil-scroll-line-to-center (line-number-at-pos))
-#+end_src
-
 
 ** Case sensitive
 #+begin_src emacs-lisp
