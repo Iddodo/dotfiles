@@ -170,3 +170,7 @@ points() { ls -l $1 | awk '{print $11}' }
 in() { cd $1 && ls }
 
 dotfiles() { cd "${HOME}/git/dotfiles"}
+
+
+# Generate secure passwords and copy to clipboard
+alias genpass="LC_ALL=C tr -dc \"[:alnum:]\" < /dev/urandom | head -c 20 | pbcopy"
