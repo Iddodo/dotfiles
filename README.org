@@ -2,18 +2,7 @@
 
 [[goku.jpg]]
 
-* Table of Contents :toc:
-- [[#info][Info]]
-- [[#macos][macOS]]
-- [[#emacs][Emacs]]
-  - [[#emacs-fork][Emacs Fork]]
-  - [[#doom-emacs][Doom Emacs]]
-  - [[#latex][LaTeX]]
-- [[#installation-instructions][Installation Instructions]]
-- [[#brew][brew]]
-- [[#neovim][neovim]]
-
-* Info
+* So yeah, this is a dotfiles repo.
 This repository contains my personal macOS dotfiles for programs including
 Kitty, Doom Emacs,  tmux,  zsh,  skhd and yabai.
 
@@ -22,10 +11,10 @@ My intention is mainly to use this repo as a backup and a knowledge system of so
 These files were designed for use on my system, which is a 2020 M1 MacBook Air running MacOS Ventura. They may not work for your system.
 
 
-* macOS
+* macOS configuration
 You can find my macOS configuration [[file:macOS-configuration/macOS.org][here.]]
 
-* Emacs
+* Doom Emacs workflow
 ** Emacs Fork
 The Emacs fork that I use is a fork called emacs-plus, which was designed for use with MacOS.
 
@@ -56,13 +45,14 @@ to make some fixes to it eventually.
 
 
 * TODO Installation Instructions
+Not yet.
 
-* TODO brew
+* TODO brew setup
 Since I'm on macOS, I use =brew=.
 
 Brewfile is a WIP.
 
-* TODO neovim
+* TODO neovim configuration
 My neovim config is a mess since I barely use it anymore, with apparent breaking,
 it generally works pretty well however.
 
