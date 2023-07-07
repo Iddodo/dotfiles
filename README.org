@@ -15,7 +15,7 @@ These files were designed for use on my system, which is a 2020 M1 MacBook Air r
 You can find my macOS configuration [[file:macOS-configuration/macOS.org][here.]]
 
 * Doom Emacs workflow
-** Emacs Fork
+** Emacs Installation
 The Emacs fork that I use is a fork called emacs-plus, which was designed for use with MacOS.
 
 I use the following command to install it.
@@ -28,7 +28,7 @@ Breakdown of flags:
 - Use =--with-native-comp= for overall better performance.
 
 ** Doom Emacs
-[[https://github.com/doomemacs/doomemacs][Doom Emacs]] is an Emacs distribution, which provides a plethora of useful feature, but is mainly famous for its extensive support for more Vim-like behaviors and keybindings,
+[[https://github.com/doomemacs/doomemacs][Doom Emacs]] is an Emacs distribution, which provides a plethora of useful features, but is mainly famous for its extensive support for more Vim-like behaviors and keybindings,
 which is why I use it.
 
 I am in the process of working on a vanilla configuration, in an attempt to make my
