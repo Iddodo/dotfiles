@@ -1,10 +1,8 @@
 #+title: Dotfiles
 
-* Dotfiles
 [[goku.jpg]]
 
 * Table of Contents :toc:
-- [[#dotfiles][Dotfiles]]
 - [[#info][Info]]
 - [[#macos][macOS]]
 - [[#emacs][Emacs]]
@@ -16,15 +14,10 @@
 - [[#neovim][neovim]]
 
 * Info
-This repository contains my personal macOS dotfiles for programs including, but not limited to:
-- Kitty
-- Doom Emacs
-- tmux
-- zsh
-- skhd
-- yabai
+This repository contains my personal macOS dotfiles for programs including
+Kitty, Doom Emacs,  tmux,  zsh,  skhd and yabai.
 
-  ... and more.
+My intention is mainly to use this repo as a backup and a knowledge system of sorts with regards to my configuration.
 
 These files were designed for use on my system, which is a 2020 M1 MacBook Air running MacOS Ventura. They may not work for your system.
 
