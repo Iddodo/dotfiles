@@ -7,6 +7,12 @@
 
 #+OPTIONS: broken-links:t
 
+
+#+begin_src emacs-lisp  :exports: none
+;;; config.el -*- lexical-binding: t; -*-
+
+#+end_src
+
 * TABLE OF CONTENTS :toc:
 - [[#exams][EXAMS]]
 - [[#variables-and-functions][Variables and Functions]]
@@ -17,37 +23,29 @@
 - [[#personal-information][Personal Information]]
 - [[#path-workaround-in-osx][PATH workaround in OSX]]
 - [[#other-macos-comfortness-fixes][Other macOS comfortness fixes]]
-- [[#header][Header]]
 - [[#look-and-feel][Look and Feel]]
+  - [[#relative-line-numbering][Relative Line Numbering]]
   - [[#theme][Theme]]
   - [[#font][Font]]
-  - [[#relative-line-numbering][Relative Line Numbering]]
-  - [[#keybindings][Keybindings]]
+  - [[#info-buffer-popup-rule][*info* buffer popup-rule]]
   - [[#recentf][Recentf]]
-  - [[#info-buffer][Info buffer]]
-- [[#eshell][Eshell]]
-  - [[#evil-mode-on-default][Evil mode on default]]
-  - [[#rewrites-to-defaults][Rewrites to defaults]]
-  - [[#create-a-new-dir-and-cd-into-it][Create a new dir and cd into it]]
-  - [[#aliases][Aliases]]
 - [[#evil][Evil]]
   - [[#basic-settings][Basic settings]]
-  - [[#incrementing-numbers][Incrementing numbers]]
-  - [[#make-page-scrolls-centerized][Make page scrolls centerized]]
+  - [[#specific-language-behaviors][Specific Language Behaviors]]
   - [[#case-sensitive][Case sensitive]]
-  - [[#lsp][LSP]]
 - [[#org-mode][Org-Mode]]
   - [[#appearance][Appearance]]
   - [[#basic-settings-1][Basic settings]]
-  - [[#org-id][org-id]]
   - [[#org-auto-tangle][org-auto-tangle]]
   - [[#org-download][org-download]]
   - [[#org-cdlatex-mode][org-cdlatex-mode]]
-  - [[#dvipng][dvipng]]
-  - [[#org-tag-alist][org-tag-alist]]
-  - [[#latex-preview][LaTeX preview]]
+- [[#eshell][Eshell]]
+  - [[#evil-mode-by-default][Evil mode by default]]
+  - [[#create-a-new-directory-and-cd-into-it][Create a new directory and CD into it]]
+  - [[#aliases][Aliases]]
 - [[#latex-editing][LaTeX Editing]]
   - [[#pdf-tools][pdf-tools]]
+  - [[#custom-eybindings][Custom eybindings]]
   - [[#auctex-cdlatex-and-preview][AucTeX, CDLateX and preview]]
   - [[#display-hebrew-upside-down][Display Hebrew Upside Down]]
   - [[#prettify-symbols][Prettify Symbols]]
@@ -58,11 +56,8 @@
 - [[#yasnippet][Yasnippet]]
   - [[#auto-expanding-yasnippets][Auto expanding YaSnippets]]
 - [[#github-copilot][GitHub Copilot]]
-- [[#vterm][Vterm]]
-- [[#debugger][Debugger]]
-- [[#custom-interactive-functions][Custom interactive functions]]
 - [[#dired][Dired]]
-  - [[#keybindings-1][Keybindings]]
+  - [[#keybindings][Keybindings]]
   - [[#dired-touch-file][Dired touch file]]
   - [[#dired-clipboard-file-paste][Dired clipboard file paste]]
   - [[#zip][ZIP]]
@@ -212,17 +207,16 @@ This is evil
 #+end_src
 
 
-* Header
-#+begin_src emacs-lisp
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
-
-
-#+end_src
 
 * Look and Feel
+** Relative Line Numbering
+This determines the style of line numbers in effect. If set to `nil', line
+ numbers are disabled. For relative line numbers, set this to `relative'.
+
+ #+begin_src emacs-lisp
+ ;; Relative lines
+(setq display-line-numbers-type 'relative)
+ #+end_src
 
 ** Theme
 *** Current theme
@@ -258,52 +252,10 @@ I used to use the plain =doom-one= theme, but now I think this one is way nicer:
 (setq doom-font (font-spec :family "Menlo" :size 12.0))
  #+end_src
 
-** Relative Line Numbering
-This determines the style of line numbers in effect. If set to `nil', line
- numbers are disabled. For relative line numbers, set this to `relative'.
-
- #+begin_src emacs-lisp
- ;; Relative lines
-(setq display-line-numbers-type 'relative)
- #+end_src
-
-
-** Keybindings
-*** Toggle RTL/LTR Mdoes
-
-This is usually needed when editing files in Hebrew.
-Might have to revisit this as I'm not 100% content with how this works.
-
-Also sets the following keybinding:
-
-| Keybinding | Command         | Description                 |
-|------------+-----------------+-----------------------------|
-| SPC-l-r    | toggle-rtl-mode | Toggles between RTL and LTR |
-
+** *info* buffer popup-rule
+Make sure it's not a popup!
 #+begin_src emacs-lisp
-(defun toggle-rtl-mode ()
-      (interactive
-       (if (eq bidi-paragraph-direction 'left-to-right)
-         (setq bidi-paragraph-direction 'right-to-left)
-         (setq bidi-paragraph-direction 'left-to-right))))
-
-(map! :leader
-      (:prefix "l"
-        :desc "Toggle LTR/RTL Mode." "r" #'toggle-rtl-mode))
-#+end_src
-
-*** Toggle prettify mode
-#+begin_src emacs-lisp
-(map! :leader
-      (:prefix "l"
-        :desc "Toggle prettify mode." "p" #'prettify-symbols-mode))
-#+end_src
-
-*** Lookup dictionary definitions
-#+begin_src emacs-lisp
-(map! :leader
-      (:prefix "l"
-        :desc "Dictionary lookup definition." "d" #'dictionary-lookup-definition))
+(set-popup-rule! "^\\*info\\*$" :ignore t)
 #+end_src
 
 ** Recentf
@@ -312,70 +264,29 @@ Also sets the following keybinding:
 (setq recentf-max-saved-items 25)
 #+end_src
 
-** Info buffer
-Make sure it's not a popup!
-#+begin_src emacs-lisp
-(set-popup-rule! "^\\*info\\*$" :ignore t)
-#+end_src
 
-* Eshell
-** Evil mode on default
-#+begin_src emacs-lisp
-(add-to-list 'evil-insert-state-modes 'bm-show-mode)
-#+end_src
-
-
-** Rewrites to defaults
-#+begin_src emacs-lisp
-;; Clear command
-(defun eshell/clear ()
-   (let ((eshell-buffer-maximum-lines 0)) (eshell-truncate-buffer)))
-#+end_src
-
-
-** Create a new dir and cd into it
-#+begin_src emacs-lisp
-(defun eshell/cdnew (dirname)
-  (unless (f-directory? dirname)
-    (eshell/mkdir dirname)
-    (eshell/cd dirname)))
-#+end_src
-
-** Aliases
-#+begin_src emacs-lisp
-(add-hook 'eshell-mode-hook (lambda ()
-    (eshell/alias "e" "find-file $1")
-    (eshell/alias "ff" "find-file $1")
-    (eshell/alias "emacs" "find-file $1")
-    (eshell/alias "ee" "find-file-other-window $1")
-
-    (eshell/alias "gd" "magit-diff-unstaged")
-    (eshell/alias "gds" "magit-diff-staged")
-    (eshell/alias "d" "dired $1")
-
-    ;; The 'ls' executable requires the Gnu version on the Mac
-    ;; (let ((ls (if (file-exists-p "/usr/local/bin/gls")
-    ;;               "/usr/local/bin/gls"
-    ;;             "/bin/ls")))
-    ;;   (eshell/alias "ll" (concat ls " -AlohG --color=always")))
-    ))
-#+end_src
 * Evil
-This option needs to be explored:
-#+begin_src emacs-lisp
-;; evil-collection for complete experience
-;; (evil-collection-init)
-#+end_src
-
 ** Basic settings
 
+*** Fine Undo
 I prefer using a "fine undo" because it's more precise in my opinion.
 
 #+begin_src emacs-lisp
-(setq evil-want-fine-undo t)
-(setq evil-want-minibuffer nil)
+(use-package! evil
+  :config
+  (setq evil-want-fine-undo t))
 #+end_src
 
+
+*** No Evil in minibuffer
+Not worth it!
+#+begin_src emacs-lisp
+(use-package! evil
+  :config
+  (setq evil-want-minibuffer nil))
+#+end_src
+
+*** avy-char-goto-2
 #Switch evil-snipe (disabled in =packages.el=) with avy-char-goto-2.
 #+begin_src emacs-lisp
 (map!
@@ -412,13 +323,6 @@ Treat =-= and =_= as part of the word.
   (setq evil-ex-search-case 'insensitive))
 #+end_src
 
-
-** LSP
-
-#+begin_src emacs-lisp
-(evil-define-key 'normal lsp-mode-map
-  "gr" #'lsp-find-references)
-#+end_src
 
 * Org-Mode
 ** Appearance
@@ -474,12 +378,8 @@ Set actual image width.
 #+begin_src emacs-lisp
 (setq org-image-actual-width 400)
 #+end_src
-** org-id
-#+begin_src emacs-lisp
-(setq org-id-link-to-org-use-id t)
-#+end_src
-** org-auto-tangle
 
+** org-auto-tangle
 Use org-auto-tangle to automatically tangle files (a specific header needs to be added):
 
 #+begin_src emacs-lisp
@@ -489,15 +389,6 @@ Use org-auto-tangle to automatically tangle files (a specific header needs to be
         :config
         (setq org-auto-tangle-default t))
 
-;;(if (require 'toc-org nil t)
-    ;;(progn
-      ;;(add-hook 'org-mode-hook 'toc-org-mode)
-;;
-      ;;;; enable in markdown, too
-      ;;;;(add-hook 'markdown-mode-hook 'toc-org-mode)
-      ;;;;(define-key markdown-mode-map (kbd "\C-c\C-o") 'toc-org-markdown-follow-thing-at-point))
-  ;;(warn "toc-org not found")))
-
 (add-hook 'org-mode-hook 'toc-org-mode)
 #+end_src
 
@@ -506,10 +397,10 @@ Use org-auto-tangle to automatically tangle files (a specific header needs to be
 Handle easy pasting of images from clipboard and other locations
 
 #+begin_src lisp
-(require 'org-download)
-
 ;; Drag-and-drop to `dired`
-(add-hook 'dired-mode-hook 'org-download-enable)
+(use-package! org-download
+  :hook (dired-mode . org-download-enable))
+
 #+end_src
 
 ** org-cdlatex-mode
@@ -518,52 +409,32 @@ Hook proper CDLaTex functionality to org-mode.
 (add-hook 'org-mode-hook #'org-cdlatex-mode)
 #+end_src
 
-** dvipng
+
+* Eshell
+** Evil mode by default
 #+begin_src emacs-lisp
-;;(setq org-preview-latex-default-process 'dvipng)
-;;(setq org-preview-latex-process-alist
-      ;;'(
-       ;;(dvipng
-        ;;:programs ("latex" "dvipng")
-        ;;:description "dvi > png"
-        ;;:message "you need to install the programs: latex and dvipng."
-        ;;:image-input-type "dvi"
-        ;;:image-output-type "png"
-        ;;:image-size-adjust (1.0 . 1.0)
-        ;;:latex-compiler ("latex -interaction nonstopmode -output-directory %o %f")
-        ;;:image-converter ("dvipng -D %D -T tight -o %O %f")
-        ;;)
-       ;;)
-      ;;)
+(add-to-list 'evil-insert-state-modes 'bm-show-mode)
 #+end_src
 
-** org-tag-alist
+** Create a new directory and CD into it
 #+begin_src emacs-lisp
-(setq org-tag-alist '(("complexity" . ?1)
-                      ("tag2" . ?2)))
+(defun eshell/newdir (dirname)
+  (unless (f-directory? dirname)
+    (eshell/mkdir dirname)
+    (eshell/cd dirname)))
 #+end_src
 
-** LaTeX preview
-*** Use org-auctex instead of org-preview
-This is a .el package made by karthinks, link can be found here: [[https://github.com/karthink/org-auctex]]
+** Aliases
+#+begin_src emacs-lisp
+(add-hook 'eshell-mode-hook (lambda ()
+    (eshell/alias "e" "find-file $1")
+    (eshell/alias "ff" "find-file $1")
+    (eshell/alias "emacs" "find-file $1")
+    (eshell/alias "ee" "find-file-other-window $1")
 
-Load the file:
-#+begin_src emacs-lisp
-;;(load-file "~/git/org-auctex.el")
-#+end_src
-
-Add the proper hook:
-#+begin_src emacs-lisp
-;;(add-hook 'org-mode-hook 'org-auctex-mode)
-#+end_src
-*** Corrent foreground
-#+begin_src emacs-lisp
-;;(with-eval-after-load 'org
-  ;;(dolist (pair '((:foreground . auto)
-                  ;;(:background . auto)))
-    ;;(setq org-format-latex-options
-          ;;(plist-put org-format-latex-options
-                     ;;(car pair) (cdr pair)))))
+    (eshell/alias "gd" "magit-diff-unstaged")
+    (eshell/alias "gds" "magit-diff-staged")
+    (eshell/alias "d" "dired $1")))
 #+end_src
 
 
@@ -655,6 +526,43 @@ See `pdf-view-mode' and `pdf-tools-enabled-modes'."
       (message "PDF Tools not activated"))))
 #+end_src
 
+** Custom eybindings
+*** Toggle RTL/LTR Mdoes
+
+This is usually needed when editing files in Hebrew.
+Might have to revisit this as I'm not 100% content with how this works.
+
+Also sets the following keybinding:
+
+| Keybinding | Command         | Description                 |
+|------------+-----------------+-----------------------------|
+| SPC-l-r    | toggle-rtl-mode | Toggles between RTL and LTR |
+
+#+begin_src emacs-lisp
+(defun toggle-rtl-mode ()
+      (interactive
+       (if (eq bidi-paragraph-direction 'left-to-right)
+         (setq bidi-paragraph-direction 'right-to-left)
+         (setq bidi-paragraph-direction 'left-to-right))))
+
+(map! :leader
+      (:prefix "l"
+        :desc "Toggle LTR/RTL Mode." "r" #'toggle-rtl-mode))
+#+end_src
+
+*** Toggle prettify mode
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix "l"
+        :desc "Toggle prettify mode." "p" #'prettify-symbols-mode))
+#+end_src
+
+*** Lookup dictionary definitions
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix "l"
+        :desc "Dictionary lookup definition." "d" #'dictionary-lookup-definition))
+#+end_src
 
 ** AucTeX, CDLateX and preview
 #+begin_src emacs-lisp
@@ -942,9 +850,6 @@ Hook my custom functions (custom prettify symbols and LTR text):
 #+end_src
 
 
-
-
-
 * Yasnippet
 
 Set YaSnippet directory.
@@ -1014,85 +919,6 @@ Not 100% sure what this does (revisit said blog post):
               ("C-TAB" . 'copilot-accept-completion-by-word)
               ("C-<tab>" . 'copilot-accept-completion-by-word)))
 #+end_src
-
-
-* Vterm
-
-Use C-k keybinding to clear the vterm buffer, including the scrollback.
-Similar to what's available on Kitty, VSCode, etc.
-
-#+begin_src emacs-lisp
-;; Clear on scrollback in vterm
-;; Bind C-k to clear on vterm
-(map! :map vterm-mode-map
-      "C-k" (lambda ()
-              (interactive)
-              (vterm-clear)
-              (vterm-clear-scrollback)))
-
-;(map! :leader
-      ;:after evil
-      ;(:prefix ("o")
-               ;:desc "Open vterm in current dir" "T" #'vterm-toggle-cd)
-
-#+end_src
-
-
-* Debugger
-This codes will one day config the debugger.
-It currently doesn't work (lol), but it will one day.
-
-#+begin_src emacs-lisp
-;; Config debugger
-
-(use-package! lsp-mode
-  :hook ((c++-mode) . lsp-deferred)
-  :commands lsp
-  :)
-
-
-(use-package! lsp-ui
-  :commands lsp-ui-mode
-  :config
-  (setq lsp-ui-doc-enable nil)
-  (setq lsp-ui-doc-header t)
-  (setq lsp-ui-doc-include-signature t)
-  (setq lsp-ui-doc-border (face-foreground 'default))
-  (setq lsp-ui-sideline-show-code-actions t)
-  (setq lsp-ui-sideline-delay 0.05))
-
-
-  (require 'dap-lldb)
-  (require 'dap-cpptools)
-
-  ;;; set the debugger executable (c++)
-  (setq dap-lldb-debug-program '("/Users/ido/.vscode/extensions/lanza.lldb-vscode-0.2.3/bin/darwin/bin/lldb-vscode"))
-
-  ;;; default debug template for (c++)
-  (dap-register-debug-template
-   "C++ LLDB dap"
-   (list :type "lldb-vscode"
-         :cwd nil
-         :args nil
-         :request "launch"
-         :program nil))
-
-#+end_src
-
-
-* Custom interactive functions
-Get information about infi (not sure why I even need this)
-
-#+begin_src emacs-lisp
-(defun get-infi ()
-  (interactive)
-  (kill-new
-   (string-trim-right
-       (shell-command-to-string (concat "yq '" (read-string "Enter parameter: ") "' ~/Technion/info/infi2m.yaml"))
-       )))
-#+end_src
-
-
 
 
 
@@ -1388,17 +1214,14 @@ Make =SPC+o+k= a proper keybinding for this action:
 
 
 * TRAMP
-#+begin_src emacs-lisp
-(setq remote-file-name-inhibit-cache nil)
-(setq vc-ignore-dir-regexp
-      (format "%s\\|%s"
-                    vc-ignore-dir-regexp
-                    tramp-file-name-regexp))
-(setq tramp-verbose 1)
-#+end_src
+** Some stuff that's supposed to make TRAMP not freeze
+Not sure what any of this means as of yet.
+
+Will have to look into this.
 
 #+begin_src emacs-lisp
-(after! tramp
+(use-package! tramp
+  :config
   (setq tramp-inline-compress-start-size 1000)
   (setq tramp-copy-size-limit 10000)
   (setq vc-handled-backends '(Git))
@@ -1406,16 +1229,26 @@ Make =SPC+o+k= a proper keybinding for this action:
   (setq tramp-default-method "scp")
   (setq tramp-use-ssh-controlmaster-options nil)
   (setq projectile--mode-line "Projectile")
+  (setq tramp-verbose 1)
+
+  (setq remote-file-name-inhibit-cache nil)
+  (setq vc-ignore-dir-regexp
+        (format "%s\\|%s"
+                vc-ignore-dir-regexp
+                tramp-file-name-regexp))
   (setq tramp-verbose 1))
 #+end_src
 
 
+** TODO Register LSP client in Tramp
 #+begin_src emacs-lisp
-(lsp-register-client
+(use-package! tramp
+  :init
+  (lsp-register-client
    (make-lsp-client :new-connection (lsp-tramp-connection "clangd-10")
                     :major-modes '(c-mode c++-mode)
                     :remote? t
-                    :server-id 'clangd-remote))
+                    :server-id 'clangd-remote)))
 #+end_src
 
 
