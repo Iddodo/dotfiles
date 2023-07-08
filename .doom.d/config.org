@@ -308,10 +308,10 @@ At first, I wanted to treat =-= and =_= as part of the word.
 Now, I realized that this behavior is already well defined inside =evil-mode=,
 where there exists a specific text object for this purpose: (=evil-inner-symbol=)
 
-Therefore, I now treat these characters as if they were whitespace.
+Therefore, I now treat these characters as if they were symbol constituents.
 #+begin_src emacs-lisp
-(modify-syntax-entry ?- " ")
-(modify-syntax-entry ?_ " ")
+(modify-syntax-entry ?- "_")
+(modify-syntax-entry ?_ "_")
 #+end_src
 
 ** Case sensitive
