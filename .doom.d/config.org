@@ -1300,25 +1300,24 @@ Will have to look into this.
     ;;(message latex-src-split?)
     (switch-to-buffer latex-src-buffer)
     (insert latex-input))))
-
 #+end_src
 
 
 * Verilog
 #+begin_src emacs-lisp
-(use-package verilog-mode
-  :defer t
-  :config
-  (require 'lsp)
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection '("svls"))
-   :major-modes '(verilog-mode)
-   :priority -1
-   ))
-  :hook (verilog-mode . (lambda()
-      (lsp)
-      (flycheck-mode t)
-      (add-to-list 'lsp-language-id-configuration '(verilog-mode . "verilog")))))
+;; (use-package verilog-mode
+;;   :defer t
+;;   :config
+;;   (require 'lsp)
+;;   (lsp-register-client
+;;    (make-lsp-client :new-connection (lsp-stdio-connection '("svls"))
+;;    :major-modes '(verilog-mode)
+;;    :priority -1
+;;    ))
+;;   :hook (verilog-mode . (lambda()
+;;       (lsp)
+;;       (flycheck-mode t)
+;;       (add-to-list 'lsp-language-id-configuration '(verilog-mode . "verilog")))))
 #+end_src
 
 * GitHub
