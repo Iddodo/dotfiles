@@ -46,7 +46,6 @@ Don’t automatically rearrange Spaces based on most recent use
 defaults write com.apple.dock mru-spaces -bool false
 #+end_src
 
-
 * Dock
 ** Orient Dock to the left of the screen
 #+begin_src sh :tangle .macos
