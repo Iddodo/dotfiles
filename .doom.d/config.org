@@ -1245,13 +1245,13 @@ Will have to look into this.
 
 ** TODO Register LSP client in Tramp
 #+begin_src emacs-lisp
-(use-package! tramp
-  :init
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-tramp-connection "clangd-10")
-                    :major-modes '(c-mode c++-mode)
-                    :remote? t
-                    :server-id 'clangd-remote)))
+;; (use-package! tramp
+;;   :init
+;;   (lsp-register-client
+;;    (make-lsp-client :new-connection (lsp-tramp-connection "clangd-10")
+;;                     :major-modes '(c-mode c++-mode)
+;;                     :remote? t
+;;                     :server-id 'clangd-remote)))
 #+end_src
 
 
@@ -1326,15 +1326,62 @@ Will have to look into this.
 Add proper GitHub support to Emacs.
 
 #+begin_src emacs-lisp
-(use-package consult-gh
-  ;;:straight (consult-gh :type git :host github :repo "armindarvish/consult-gh")
+;; (use-package consult-gh
+;;   ;;:straight (consult-gh :type git :host github :repo "armindarvish/consult-gh")
+;;   :config
+;;   ;;add your main GitHub account (replace "armindarvish" with your user or org)
+;;   (add-to-list 'consult-gh-default-orgs-list "armindarvish")
+
+;;   ;;use "gh org list" to get a list of all your organizations and adds them to default list
+;;   (setq consult-gh-default-orgs-list (append consult-gh-default-orgs-list (remove "" (split-string (consult-gh--command-to-string "org" "list") "\n"))))
+
+;;   ;; set the default folder for cloning repositories, By default Consult-GH will confirm this before cloning
+;;   (setq consult-gh-default-clone-directory "~/git/"))
+
+#+end_src
+
+
+* AirDrop
+#+begin_src emacs-lisp
+(defun airdrop-cli-prompt-run ()
+  (interactive)
+  (let* ((buffer-fname (buffer-file-name))
+         (buffer-fname-stripped (file-name-nondirectory buffer-fname))
+         (buffer-dir (file-name-directory buffer-fname))
+         (target-fname
+          (read-file-name (concat  "File (default: '" buffer-fname-stripped "')") buffer-dir buffer-fname-stripped)))
+
+    (unless (file-exists-p target-fname)
+      (error "File does not exist."))
+    (call-process "airdrop"  nil nil nil  target-fname)))
+
+(defun airdrop-cli-killall ()
+  (interactive)
+  "Kill the AirDrop-CLI process (it's bugged)."
+  (shell-command "killall airdrop"))
+
+
+(defvar airdrop-minor-mode-map
+  (let ((amap (make-sparse-keymap)))
+    (define-key amap (kbd "C-c a r") #'airdrop-cli-prompt-run)
+    (define-key amap (kbd "C-c a k") #'airdrop-cli-killall)
+    (define-key amap (kbd "C-c a m")#'dired-do-airdrop-marked-files)
+    (define-key amap (kbd "C-c a d") #'airdrop-cli-share-directory-contents)
+    amap))
+
+(define-minor-mode airdrop-minor-mode
+  "A set of configurations and keybinding for
+   using AirDrop inside the terminal."
+  :lighter "AirDrop"
+  :keymap airdrop-minor-mode-map)
+
+
+#+end_src
+
+
+* Magit
+#+begin_src emacs-lisp
+(use-package! magit
   :config
-  ;;add your main GitHub account (replace "armindarvish" with your user or org)
-  (add-to-list 'consult-gh-default-orgs-list "armindarvish")
-
-  ;;use "gh org list" to get a list of all your organizations and adds them to default list
-  (setq consult-gh-default-orgs-list (append consult-gh-default-orgs-list (remove "" (split-string (consult-gh--command-to-string "org" "list") "\n"))))
-
-  ;; set the default folder for cloning repositories, By default Consult-GH will confirm this before cloning
-  (setq consult-gh-default-clone-directory "~/git/"))
+  (setq magit-clone-default-directory "/Users/ido/git/"))
 #+end_src
