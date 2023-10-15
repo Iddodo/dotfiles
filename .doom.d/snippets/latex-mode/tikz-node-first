@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: tikz-node-first
-# key: nodef
-# --
-\node[main] ($1) {\$$1\$};$0

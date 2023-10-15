@@ -1,6 +1,0 @@
-# key: ddots
-# name: ddots
-# expand-env: ((argument 't))
-# condition: (and (texmathp) 'auto)
-# --
-\ddots $0

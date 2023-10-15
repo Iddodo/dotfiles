@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: tikz-node-left
-# key: nodel
-# --
-\node[main] ($1) [left of=$2] {\$$1\$};$0

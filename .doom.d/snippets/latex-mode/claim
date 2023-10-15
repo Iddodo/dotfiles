@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: claim
-# key: clm
-# --
-\begin{claim}
-    $0
-\end{claim}

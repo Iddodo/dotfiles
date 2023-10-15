@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: overbrace
-# key: ovbr
-# group: math
-# --
-\overbrace{$1}^{\text{$2}}$0

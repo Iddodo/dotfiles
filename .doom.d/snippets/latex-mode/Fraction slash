@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: Fraction slash
-# key: /
-# expand-env: ((numerator 't))
-# condition: (texmathp)
-# group: math
-# --
-\frac{$0}{}

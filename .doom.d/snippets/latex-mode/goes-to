@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: goes-to
-# key: goesto
-# --
-\underset{$1{n \to \infty}}{\longrightarrow} {$2} $0

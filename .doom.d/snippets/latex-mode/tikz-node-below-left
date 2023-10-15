@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: tikz-node-below-left
-# key: nodebl
-# --
-\node[main] ($1) [below left of=$2] {\$$1\$};$0

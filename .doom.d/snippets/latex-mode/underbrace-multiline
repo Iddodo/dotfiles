@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: underbrace-multiline
-# key: udbrs
-# group: math
-# --
-
-\underbrace{$0}_{\substack{}}

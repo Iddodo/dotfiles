@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: pmatrix-vector
-# key: pvec
-# --
-\begin{pmatrix} $0  \end{pmatrix}

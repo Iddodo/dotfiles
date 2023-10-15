@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: mathbb-q
-# key: bbq
-# group: math
-# --
-\mathbb{Q}$0

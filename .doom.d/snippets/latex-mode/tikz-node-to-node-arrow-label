@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: tikz-node-to-node-arrow-label
-# key: n->l
-# --
-\draw[->] ($1) -- node[midway] {\$$0\$} ($2);

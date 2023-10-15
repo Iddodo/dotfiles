@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: dx
-# key: dx
-# condition: (and (texmathp) 'auto)
-# group: math
-# --
-{\mathrm{d} x}

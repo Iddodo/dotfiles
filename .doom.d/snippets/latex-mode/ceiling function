@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: ceiling function
-# key: ceil
-# condition: (and (texmathp) 'auto)
-# group: math
-# --
-\\left\\lceil $0 \\right\\rceil

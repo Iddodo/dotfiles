@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: mathbb
-# key: bb
-# group: math
-# --
-\mathbb{$1}$0

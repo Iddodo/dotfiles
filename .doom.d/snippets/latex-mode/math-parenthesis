@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: math-parenthesis
-# key: '(
-# --
-
-\\left( $1 \\right) $0

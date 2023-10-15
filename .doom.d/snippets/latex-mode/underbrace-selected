@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: underbrace
-# key: udbr
-# group: math
-# --
-\underbrace{$0}_{}

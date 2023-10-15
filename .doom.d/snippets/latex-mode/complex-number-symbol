@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: complex-number-symbol
-# key: bbc
-# --
-\mathbb{C}

@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: R-to-R
-# key:  rtor
-# condition: (and (texmathp) (quote auto))
-# --
-\mathbb{R} \to \mathbb{R}$0

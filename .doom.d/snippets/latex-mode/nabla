@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: nabla
-# key: nabl
-# group: math
-# condition: (and (texmathp) 'auto)
-# --
-\\nabla

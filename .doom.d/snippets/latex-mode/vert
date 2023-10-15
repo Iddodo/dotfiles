@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: divides
-# key: divs
-# group: math
-# condition: (and (texmathp) 'auto)
-# --
-\\vert
