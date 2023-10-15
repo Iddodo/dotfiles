@@ -196,7 +196,6 @@ defaults write com.apple.Safari SuppressSearchSuggestions -bool true
 
 * UI Components
 ** Notification Center :enable:
-
 Enable with:
 #+begin_src sh :tangle (if (member "enable" (org-get-tags (point))) ".macos" "no")
 launchctl load -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist

@@ -63,5 +63,12 @@ defaults write com.apple.Safari SuppressSearchSuggestions -bool true
 
 launchctl load -w /System/Library/LaunchAgents/com.apple.notificationcenterui.plist
 
+
+# Disable App Nap for Anki
+defaults write net.ankiweb.dtop NSAppSleepDisabled -bool true
+defaults write net.ichi2.anki NSAppSleepDisabled -bool true
+defaults write org.qt-project.Qt.QtWebEngineCore NSAppSleepDisabled -bool true
+
 # Kill all affected applications
 for app in Safari Finder Dock Mail SystemUIServer; do killall "$app" >/dev/null 2>&1; done
+
