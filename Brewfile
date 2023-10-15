@@ -1,130 +1,228 @@
-# Tap homebrew
-tap 'homebrew/cask'
-tap 'homebrew/cask-drivers'
-tap 'homebrew/cask-fonts'
-tap 'homebrew/cask-versions'
-tap 'homebrew/core'
-tap 'homebrew/boneyard'
-tap 'homebrew/dev-tools'
-tap 'homebrew/bundle'
-tap 'homebrew/services'
+# TODO: Sort out Python installation
+# https://docs.brew.sh/Homebrew-and-Python
 
 
-# -------------------
-# -------------------
-# SOFTWARE
+tap "bionus/imgbrd-grabber"
+tap "borkdude/brew"
+tap "candid82/brew"
+tap "clojure/tools"
+tap "coursier/formulas"
+tap "d12frosted/emacs-plus"
+tap "arthurk/virt-manager"
+tap "bell-sw/liberica"
 
-# -------------------
-# Web browsers
+# font-sf-mono-nerd-font
+tap "epk/epk"
 
-cask 'firefox'
-cask 'chromium'
+tap "felixkratz/formulae"
+tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/cask-fonts"
+tap "homebrew/core"
+tap "homebrew/services"
+tap "koekeishiya/formulae"
+tap "minacle/chntpw"
+tap "railwaycat/emacsmacport"
+tap "sidneys/homebrew"
+tap "skyjake/lagrange"
+tap "vldmrkl/formulae"
 
-# -------------------
-# Instant messaging
-
-cask 'discord'
-cask 'slack'
-
-# -------------------
-# Terminal
-
-# I mostly use this terminal
-cask 'kitty'
-# Useful sometimes
-cask 'tmux'
-# Copy and paste on tmux
-brew 'reattach-to-user-namespace'
-
-# -------------------
-# Text editors
-
-# I mostly use Emacs.
-brew "d12frosted/emacs-plus/emacs-plus@28", args: ["with-native-comp", "with-no-titlebar", "with-no-frame-refocus"]
-
-# Sometimes I use neovim.
+brew "pyenv"
+brew "glib"
+brew "pkg-config"
+brew "cairo"
+brew "gdk-pixbuf"
+brew "harfbuzz"
+brew "librsvg"
+brew "adwaita-icon-theme"
+brew "ant"
+brew "jpeg-xl"
+brew "aom"
+brew "aria2"
+brew "bash"
+brew "bat"
+brew "grpc"
+brew "bear"
+brew "cabextract"
+brew "coreutils"
+brew "libidn2"
+brew "unbound"
+brew "gnutls"
+brew "emacs", restart_service: true, link: false
+brew "cask"
+brew "cdrtools"
+brew "clang-format"
+brew "clisp"
+brew "cmake"
+brew "cmatrix"
+brew "cowsay"
+brew "dbus"
+brew "diffr"
+brew "python@3.11"
+brew "docutils", link: false
+brew "fd"
+brew "libogg"
+brew "lame"
+brew "libass"
+brew "libbluray"
+brew "libvorbis"
+brew "libvpx"
+brew "tesseract"
+brew "theora"
+brew "ffmpeg"
+brew "ffmpeg@4"
+brew "ghostscript"
+brew "netpbm"
+brew "fish"
+brew "fortune"
+brew "freetds"
+brew "fzf"
+brew "gh"
+brew "ghc"
+brew "git"
+brew "gsettings-desktop-schemas"
+brew "glib-networking"
+brew "gnupg"
+brew "gpgme"
+brew "gmime"
+brew "gnu-sed"
+brew "go"
+brew "gobject-introspection"
+brew "graphviz"
+brew "grip"
+brew "gtk+3"
+brew "gtk4"
+brew "libpsl"
+brew "pygobject3"
+brew "gstreamer"
+brew "gtk+"
+brew "gtk-mac-integration"
+brew "htop"
+brew "node"
+brew "http-server"
+brew "httrack"
+brew "hub"
+brew "icarus-verilog"
+brew "libffi"
+brew "libheif"
+brew "libraw"
+brew "inetutils"
+brew "irssi"
+brew "isync"
+brew "jq"
+brew "leiningen"
+brew "lf"
+brew "libslirp"
+brew "libssh"
+brew "libsvg"
+brew "libvirt"
+brew "libxpm"
+brew "libxft"
+brew "libxml2"
+brew "llvm"
+brew "lolcat"
+brew "make"
+brew "maven"
+brew "mercurial"
+brew "vapoursynth"
+brew "mpv"
+brew "mu"
+brew "neofetch"
 brew "neovim"
-
-# Sometimes needed unfortunately.
-cask "visual-studio-code"
-
-
-# -------------------
-# Misc.
-
-# Cool thingy where you can see your keypresses on screen
-cask "keycastr"
-
-
-# -------------------
-# -------------------
-# GENERAL PACKAGES
-
-
-
-# GNU
-brew 'texinfo'
-brew 'coreutils'
-brew 'binutils'
-brew 'diffutils'
-brew 'ed'
-brew 'findutils'
-brew 'gawk'
-brew 'gnu-indent'
-brew 'gnu-sed'
-brew 'gnu-tar'
-brew 'gnu-which'
-brew 'gnutls'
-brew 'gzip'
-brew 'watch'
-brew 'wdiff'
-brew 'gdb'
-brew 'gpatch'
-brew 'm4'
-brew 'make'
-brew 'gpg'
-
-brew 'unzip'
-brew 'libzip'
-
-brew 'ripgrep'
-brew 'grep'
-
-# Terminal tools
-
-cask 'curl', link: true
-brew 'wget'
-brew 'git'
-brew 'git-lfs'
-brew 'httrack'
-brew 'fzf'
-brew 'tldr'
-brew 'howdoi'
-
-# PCRE: Perl-compatible regular expressions, for better searching.
-brew 'pcre'
-brew 'pcre++'
-
-
-# LaTeX
-
-brew 'mactex' # LaTeX
-
-# Security and password management
-
-brew 'pass'
-
-# -------------------
-# General development packages
-
-brew 'pkg-config'
-brew 'cmake'
-brew 'glib'
-brew 'sqlite'
-
-
-# Java and Clojure
-tap 'clojure/tools'
-cask 'liberica-jdk15-full'
-brew 'ant'
-cask 'temurin'
+brew "newsboat"
+brew "nghttp2"
+brew "nvm"
+brew "openh264"
+brew "pandoc"
+brew "tree"
+brew "pass"
+brew "php"
+brew "pillow", link: false
+brew "pngpaste"
+brew "poppler"
+brew "postgresql@14"
+brew "qemu"
+brew "qt"
+brew "ranger"
+brew "rename"
+brew "ripgrep"
+brew "rlwrap"
+brew "rustup-init"
+brew "sbcl"
+brew "screenfetch"
+brew "sl"
+brew "sox"
+brew "sphinx-doc"
+brew "spice-gtk"
+brew "surfraw"
+brew "texlive"
+brew "tiger-vnc"
+brew "tldr"
+brew "tmux"
+brew "unoconv"
+brew "vte3"
+brew "wget"
+brew "wimlib"
+brew "xfig"
+brew "yasm"
+brew "yq"
+brew "zsh-syntax-highlighting"
+brew "zsh-vi-mode"
+brew "borkdude/brew/babashka"
+brew "clojure/tools/clojure"
+brew "coursier/formulas/coursier"
+brew "d12frosted/emacs-plus/emacs-plus@28", args: ["with-native-comp", "with-no-titlebar"]
+brew "koekeishiya/formulae/skhd"
+brew "koekeishiya/formulae/yabai"
+cask "font-3270-nerd-font"
+cask "font-agave-nerd-font"
+cask "font-anonymice-nerd-font"
+cask "font-arimo-nerd-font"
+cask "font-aurulent-sans-mono-nerd-font"
+cask "font-bigblue-terminal-nerd-font"
+cask "font-bitstream-vera-sans-mono-nerd-font"
+cask "font-blex-mono-nerd-font"
+cask "font-cousine-nerd-font"
+cask "font-daddy-time-mono-nerd-font"
+cask "font-dejavu-sans-mono-nerd-font"
+cask "font-droid-sans-mono-nerd-font"
+cask "font-fantasque-sans-mono-nerd-font"
+cask "font-fira-code-nerd-font"
+cask "font-fira-mono-nerd-font"
+cask "font-fontawesome"
+cask "font-go-mono-nerd-font"
+cask "font-gohufont-nerd-font"
+cask "font-hack-nerd-font"
+cask "font-hasklug-nerd-font"
+cask "font-heavy-data-nerd-font"
+cask "font-hurmit-nerd-font"
+cask "font-im-writing-nerd-font"
+cask "font-inconsolata-go-nerd-font"
+cask "font-inconsolata-lgc-nerd-font"
+cask "font-inconsolata-nerd-font"
+cask "font-iosevka-nerd-font"
+cask "font-lekton-nerd-font"
+cask "font-liberation-nerd-font"
+cask "font-meslo-lg-nerd-font"
+cask "font-monofur-nerd-font"
+cask "font-monoid-nerd-font"
+cask "font-mononoki-nerd-font"
+cask "font-mplus-nerd-font"
+cask "font-overpass-nerd-font"
+cask "font-profont-nerd-font"
+cask "font-proggy-clean-tt-nerd-font"
+cask "font-roboto-mono-nerd-font"
+cask "font-sauce-code-pro-nerd-font"
+cask "font-sf-mono-nerd-font"
+cask "font-shure-tech-mono-nerd-font"
+cask "font-space-mono-nerd-font"
+cask "font-terminess-ttf-nerd-font"
+cask "font-tinos-nerd-font"
+cask "font-ubuntu"
+cask "font-ubuntu-mono-nerd-font"
+cask "font-ubuntu-nerd-font"
+cask "font-victor-mono-nerd-font"
+cask "keyboardcleantool"
+cask "kitty"
+cask "lagrange"
+cask "firefox"
