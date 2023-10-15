@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: org-shell-toggle-enable
+# key: shte
+# --
+#+begin_src sh :tangle (if (member "enable" (org-get-tags (point))) "yes" "no")
+$0
+#+end_src

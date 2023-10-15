@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: org-shell-toggle-disable
+# key: shtd
+# --
+#+begin_src sh :tangle (if (member "disable" (org-get-tags (point))) "yes" "no")
+$0
+#+end_src

@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: Anki Biology List
+# key: רשימה
+# --
+** ${1:נושא}
+:PROPERTIES:
+:ANKI_DECK: ביולוגיה 1
+:ANKI_NOTE_TYPE: Biology/List
+:END:
+*** נושא
+$1
+*** תשובה
+$0`(org-hide-drawer-all)`

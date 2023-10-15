@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: org-src-shell-tangle
+# key: sht
+# --
+#+begin_src sh :tangle yes
+$0
+#+end_src

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: org-src-tangle
+# key: srct
+# --
+#+begin_src $1 :tangle yes
+$0
+#+end_src

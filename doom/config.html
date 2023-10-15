@@ -1,0 +1,1291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-09-25 Mon 14:44 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>My Doom Emacs Config</title>
+<meta name="author" content="Ido Merenstein" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">My Doom Emacs Config</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org0e6fe14">1. Global Settings</a>
+<ul>
+<li><a href="#orgbb38981">1.1. Unprettify symbols at points</a></li>
+</ul>
+</li>
+<li><a href="#org091c902">2. Evil Mode</a>
+<ul>
+<li><a href="#org02054a4">2.1. Finer Undo</a></li>
+</ul>
+</li>
+<li><a href="#orgf5f6dfc">3. Toggle RTL</a></li>
+<li><a href="#org289c0d0">4. Quickjump</a>
+<ul>
+<li><a href="#org9512d33">4.1. Setup</a></li>
+<li><a href="#org47e190d">4.2. Configuration</a></li>
+<li><a href="#org7b79fc6">4.3. Exam/School</a>
+<ul>
+<li><a href="#orge4624cc">4.3.1. Exam Portal Shortcut</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org80b7af6">5. org</a>
+<ul>
+<li><a href="#org8d8599e">5.1. Appearance</a></li>
+<li><a href="#org1cf0b98">5.2. Prettier source blocks</a>
+<ul>
+<li><a href="#orgad9ead0">5.2.1. Setup</a></li>
+</ul>
+</li>
+<li><a href="#orgc9e983d">5.3. org-auto-tangle</a></li>
+<li><a href="#orgd5058fc">5.4. org-babel</a></li>
+<li><a href="#org33b56e8">5.5. org-download</a></li>
+</ul>
+</li>
+<li><a href="#orgc05e6e4">6. Dired</a>
+<ul>
+<li><a href="#orgbbfb4a3">6.1. Keybindings</a></li>
+<li><a href="#org811641d">6.2. Dired touch file</a></li>
+<li><a href="#org36b6a26">6.3. Dired clipboard file paste</a></li>
+<li><a href="#org791706a">6.4. ZIP</a>
+<ul>
+<li><a href="#orgf111e58">6.4.1. Recognize ZIP file extension</a></li>
+<li><a href="#orgcd6d3ed">6.4.2. Bind <code>z</code> key to zip marked files</a></li>
+</ul>
+</li>
+<li><a href="#orgd78ce07">6.5. File icons</a></li>
+<li><a href="#orgdc3279b">6.6. Drag and Drop to Emacs</a></li>
+</ul>
+</li>
+<li><a href="#org9dcf81e">7. Org Roam</a></li>
+<li><a href="#org78a56ab">8. pdf</a></li>
+<li><a href="#org58ed729">9. LaTeX Input for Impatient Scholars</a>
+<ul>
+<li><a href="#org86e5151">9.1. Doom Emacs Specific</a></li>
+<li><a href="#org2610c99">9.2. CDLaTeX</a></li>
+<li><a href="#org3abd278">9.3. CDLaTeX Integration with YaSnippet</a></li>
+<li><a href="#org826c9c6">9.4. Always On Left to Right</a></li>
+<li><a href="#orgbd1f509">9.5. Compile to PDF using XeTeX</a></li>
+<li><a href="#org54eeb53">9.6. Pretty Symbols</a></li>
+<li><a href="#org4348d00">9.7. Auto-expansion with YaSnippet (Karthinks)</a></li>
+<li><a href="#orgf9f8ca9">9.8. org-table integration and LazyTab</a></li>
+</ul>
+</li>
+<li><a href="#org0174f9d">10. Load Org Generated Elisp Code</a>
+<ul>
+<li><a href="#orga2d96a7">10.1. AirDrop</a>
+<ul>
+<li><a href="#orga44d361">10.1.1. Minor Mode Definition</a></li>
+<li><a href="#org32709c5">10.1.2. Bind to target modes</a></li>
+</ul>
+</li>
+<li><a href="#org1ddd036">10.2. School</a></li>
+</ul>
+</li>
+<li><a href="#org7d4eb04">11. Magit</a></li>
+<li><a href="#org2ebcf9e">12. Calc</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0e6fe14" class="outline-2">
+<h2 id="org0e6fe14"><span class="section-number-2">1.</span> Global Settings</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Relative line numbers.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> <span style="color: #df85ff;">display-line-numbers-type</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">relative</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+
+<p>
+Set the org-directory.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> <span style="color: #df85ff;">org-directory</span> <span style="color: #7984D1;">"~/org/"</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+
+<p>
+Set theme.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> <span style="color: #df85ff;">doom-theme</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">doom-1337</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-orgbb38981" class="outline-3">
+<h3 id="orgbb38981"><span class="section-number-3">1.1.</span> Unprettify symbols at points</h3>
+<div class="outline-text-3" id="text-1-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> <span style="color: #df85ff;">prettify-symbols-unprettify-at-point</span> t<span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org091c902" class="outline-2">
+<h2 id="org091c902"><span class="section-number-2">2.</span> Evil Mode</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org02054a4" class="outline-3">
+<h3 id="org02054a4"><span class="section-number-3">2.1.</span> Finer Undo</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+A necessity!
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> evil
+  <span style="color: #1ea8fc;">:config</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> <span style="color: #df85ff;">evil-want-fine-undo</span> t<span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf5f6dfc" class="outline-2">
+<h2 id="orgf5f6dfc"><span class="section-number-2">3.</span> Toggle RTL</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">defun</span> <span style="color: #42c6ff;">toggle-rtl-mode</span> <span style="color: #ff2afc;">()</span>
+      <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">interactive</span>
+       <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">if</span> <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">eq</span> <span style="color: #df85ff;">bidi-paragraph-direction</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">left-to-right</span><span style="color: #df85ff;">)</span>
+         <span style="color: #df85ff;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> <span style="color: #df85ff;">bidi-paragraph-direction</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">right-to-left</span><span style="color: #df85ff;">)</span>
+         <span style="color: #df85ff;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> <span style="color: #df85ff;">bidi-paragraph-direction</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">left-to-right</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">map!</span> <span style="color: #1ea8fc;">:leader</span>
+      <span style="color: #ff2afc;">(</span><span style="color: #1ea8fc;">:prefix</span> <span style="color: #7984D1;">"l"</span>
+       <span style="color: #1ea8fc;">:desc</span> <span style="color: #7984D1;">"Toggle bidi-paragraph-direction"</span> <span style="color: #7984D1;">"r"</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">toggle-rtl-mode</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org289c0d0" class="outline-2">
+<h2 id="org289c0d0"><span class="section-number-2">4.</span> Quickjump</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org9512d33" class="outline-3">
+<h3 id="org9512d33"><span class="section-number-3">4.1.</span> Setup</h3>
+<div class="outline-text-3" id="text-4-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">defmacro</span> <span style="color: #42c6ff;">defquickjumps</span>
+    <span style="color: #ff2afc;">(</span><span style="color: #ffd400;">&amp;rest</span> jumps<span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">`</span><span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">defvar</span> <span style="color: #df85ff;">my/quickjump-alist</span> <span style="color: #ff2afc;">'</span>,jumps<span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">defmacro</span> <span style="color: #42c6ff;">defquickjump-shortcuts</span>
+    <span style="color: #ff2afc;">(</span>prefix <span style="color: #ffd400;">&amp;rest</span> jumps<span style="color: #ff2afc;">)</span>
+  <span style="color: #A875FF;">"Define a quickjump list."</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">let</span> <span style="color: #a7da1e;">(</span><span style="color: #df85ff;">(</span>target-jumps
+         <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">mapcar</span> <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">lambda</span> <span style="color: #a7da1e;">(</span>x<span style="color: #a7da1e;">)</span>
+                   <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">list</span> <span style="color: #1ea8fc;">:desc</span>
+                         <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">concat</span> <span style="color: #7984D1;">"Quickjump to: "</span> <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">alist-get</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">car</span> x<span style="color: #ff2afc;">)</span> <span style="color: #df85ff;">my/quickjump-alist</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span>
+                         <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">cdr</span> x<span style="color: #df85ff;">)</span>
+                         <span style="color: #ff2afc;">`</span><span style="color: #df85ff;">(</span><span style="color: #ff2afc; font-weight: bold;">lambda</span> <span style="color: #1ea8fc;">()</span> <span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">interactive</span><span style="color: #1ea8fc;">)</span> <span style="color: #1ea8fc;">(</span><span style="color: #42c6ff;">my/quickjump-to</span> <span style="color: #ff2afc;">'</span>,<span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">car</span> x<span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span> <span style="color: #ffd400;">jumps</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span>
+    <span style="color: #ff2afc;">`</span><span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">map!</span> <span style="color: #1ea8fc;">:leader</span> <span style="color: #df85ff;">(</span><span style="color: #1ea8fc;">:prefix</span> ,prefix ,@target-jumps<span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">defun</span> <span style="color: #42c6ff;">my/quickjump-add-alias</span> <span style="color: #ff2afc;">(</span>alias route<span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">add-to-list</span> <span style="color: #ff2afc;">'</span><span style="color: #df85ff;">my/quickjump-alist</span> <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">cons</span> alias route<span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+
+
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">defun</span> <span style="color: #42c6ff;">my/quickjump</span> <span style="color: #ff2afc;">(</span><span style="color: #ffd400;">&amp;optional</span> dired?<span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">interactive</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">let*</span> <span style="color: #a7da1e;">(</span><span style="color: #df85ff;">(</span>key <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">completing-read</span> <span style="color: #7984D1;">"Quickjump: "</span> <span style="color: #df85ff;">my/quickjump-alist</span> nil t<span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span>
+         <span style="color: #df85ff;">(</span>path <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">alist-get</span> key <span style="color: #df85ff;">my/quickjump-alist</span> nil nil <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">string=</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">unless</span> path
+      <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">error</span> <span style="color: #7984D1;">"No such quickjump: %s"</span> key<span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">if</span> dired?
+        <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">dired</span> path<span style="color: #df85ff;">)</span>
+      <span style="color: #df85ff;">(</span><span style="color: #42c6ff;">ido-find-file-in-dir</span> path<span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+
+
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">defun</span> <span style="color: #42c6ff;">my/quickjump-dired</span> <span style="color: #ff2afc;">()</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">interactive</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #42c6ff;">my/quickjump</span> t<span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">defun</span> <span style="color: #42c6ff;">my/quickjump-to</span> <span style="color: #ff2afc;">(</span>target<span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">find-file</span> <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">alist-get</span> target <span style="color: #df85ff;">my/quickjump-alist</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org47e190d" class="outline-3">
+<h3 id="org47e190d"><span class="section-number-3">4.2.</span> Configuration</h3>
+<div class="outline-text-3" id="text-4-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">defquickjumps</span>
+  <span style="color: #ff2afc;">(</span>algo . <span style="color: #7984D1;">"~/Notes/summer23-24/algorithms/"</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span>public . <span style="color: #7984D1;">"~/git/public-notes"</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span>db . <span style="color: #7984D1;">"~/Notes/summer23-24/databases/"</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span>atam . <span style="color: #7984D1;">"~/Notes/summer23-24/atam"</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span>notes . <span style="color: #7984D1;">"~/Notes/"</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span>code . <span style="color: #7984D1;">"~/Code"</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span>learn . <span style="color: #7984D1;">"~/learn"</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span>git . <span style="color: #7984D1;">"~/git"</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span>dotfiles . <span style="color: #7984D1;">"~/git/dotfiles"</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span>whats . <span style="color: #7984D1;">"~/Downloads/WhatsApp"</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span>downloads . <span style="color: #7984D1;">"~/Downloads"</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">defquickjump-shortcuts</span> <span style="color: #7984D1;">"j"</span>
+  <span style="color: #ff2afc;">(</span>notes . <span style="color: #7984D1;">"n"</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span>code . <span style="color: #7984D1;">"c"</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span>algo . <span style="color: #7984D1;">"a"</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span>db . <span style="color: #7984D1;">"d"</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span>downloads . <span style="color: #7984D1;">"D"</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">map!</span> <span style="color: #1ea8fc;">:leader</span>
+      <span style="color: #ff2afc;">(</span><span style="color: #1ea8fc;">:prefix</span> <span style="color: #7984D1;">"j"</span>
+       <span style="color: #1ea8fc;">:desc</span> <span style="color: #7984D1;">"Quickjump"</span> <span style="color: #7984D1;">"j"</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">my/quickjump-dired</span>
+       <span style="color: #1ea8fc;">:desc</span> <span style="color: #7984D1;">"Quickjump (ido-find-file)"</span> <span style="color: #7984D1;">"q"</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">my/quickjump</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7b79fc6" class="outline-3">
+<h3 id="org7b79fc6"><span class="section-number-3">4.3.</span> Exam/School</h3>
+<div class="outline-text-3" id="text-4-3">
+</div>
+<div id="outline-container-orge4624cc" class="outline-4">
+<h4 id="orge4624cc"><span class="section-number-4">4.3.1.</span> Exam Portal Shortcut</h4>
+<div class="outline-text-4" id="text-4-3-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">map!</span> <span style="color: #1ea8fc;">:leader</span> <span style="color: #ff2afc;">(</span><span style="color: #1ea8fc;">:prefix</span> <span style="color: #7984D1;">"o"</span>
+                       <span style="color: #1ea8fc;">:desc</span> <span style="color: #7984D1;">"exams"</span> <span style="color: #7984D1;">"x"</span> <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">lambda</span><span style="color: #df85ff;">()</span> <span style="color: #df85ff;">(</span><span style="color: #ff2afc; font-weight: bold;">interactive</span><span style="color: #df85ff;">)</span> <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">find-file</span> <span style="color: #7984D1;">"~/org/exams.org"</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">map!</span> <span style="color: #1ea8fc;">:leader</span> <span style="color: #ff2afc;">(</span><span style="color: #1ea8fc;">:prefix</span> <span style="color: #7984D1;">"o"</span>
+                       <span style="color: #1ea8fc;">:desc</span> <span style="color: #7984D1;">"Technion"</span> <span style="color: #7984D1;">"X"</span> <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">lambda</span><span style="color: #df85ff;">()</span> <span style="color: #df85ff;">(</span><span style="color: #ff2afc; font-weight: bold;">interactive</span><span style="color: #df85ff;">)</span> <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">find-file</span> <span style="color: #7984D1;">"~/org/courses.org"</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org80b7af6" class="outline-2">
+<h2 id="org80b7af6"><span class="section-number-2">5.</span> org</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org8d8599e" class="outline-3">
+<h3 id="org8d8599e"><span class="section-number-3">5.1.</span> Appearance</h3>
+<div class="outline-text-3" id="text-5-1">
+<ul class="org-ul">
+<li>Replace the default asteriks for bullets.</li>
+<li>Make RTL work with org-mode.</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> org
+  <span style="color: #1ea8fc;">:hook</span> <span style="color: #ff2afc;">(</span><span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">org-mode</span> . <span style="color: #df85ff;">(</span><span style="color: #ff2afc; font-weight: bold;">lambda</span><span style="color: #1ea8fc;">()</span> <span style="color: #1ea8fc;">(</span><span style="color: #df85ff;">org-bullets-mode</span> <span style="color: #ffd400; font-weight: bold;">1</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span>
+         <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">org-mode</span> . <span style="color: #df85ff;">(</span><span style="color: #ff2afc; font-weight: bold;">lambda</span> <span style="color: #1ea8fc;">()</span>
+                         <span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">setq-default</span> <span style="color: #df85ff;">bidi-display-reordering</span> t<span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+
+<p>
+Make titles bigger.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">custom-set-faces</span>
+  <span style="color: #ff2afc;">'</span><span style="color: #ff2afc;">(</span>org-level-1 <span style="color: #a7da1e;">(</span><span style="color: #df85ff;">(</span>t <span style="color: #1ea8fc;">(</span><span style="color: #1ea8fc;">:inherit</span> outline-1 <span style="color: #1ea8fc;">:height</span> <span style="color: #ffd400; font-weight: bold;">1.5</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">'</span><span style="color: #ff2afc;">(</span>org-level-2 <span style="color: #a7da1e;">(</span><span style="color: #df85ff;">(</span>t <span style="color: #1ea8fc;">(</span><span style="color: #1ea8fc;">:inherit</span> outline-2 <span style="color: #1ea8fc;">:height</span> <span style="color: #ffd400; font-weight: bold;">1.4</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">'</span><span style="color: #ff2afc;">(</span>org-level-3 <span style="color: #a7da1e;">(</span><span style="color: #df85ff;">(</span>t <span style="color: #1ea8fc;">(</span><span style="color: #1ea8fc;">:inherit</span> outline-3 <span style="color: #1ea8fc;">:height</span> <span style="color: #ffd400; font-weight: bold;">1.3</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">'</span><span style="color: #ff2afc;">(</span>org-level-4 <span style="color: #a7da1e;">(</span><span style="color: #df85ff;">(</span>t <span style="color: #1ea8fc;">(</span><span style="color: #1ea8fc;">:inherit</span> outline-4 <span style="color: #1ea8fc;">:height</span> <span style="color: #ffd400; font-weight: bold;">1.2</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">'</span><span style="color: #ff2afc;">(</span>org-level-5 <span style="color: #a7da1e;">(</span><span style="color: #df85ff;">(</span>t <span style="color: #1ea8fc;">(</span><span style="color: #1ea8fc;">:inherit</span> outline-5 <span style="color: #1ea8fc;">:height</span> <span style="color: #ffd400; font-weight: bold;">1.1</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+<span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1cf0b98" class="outline-3">
+<h3 id="org1cf0b98"><span class="section-number-3">5.2.</span> Prettier source blocks</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+Taken from here:
+<a href="https://gist.github.com/jchaffin/d48d6237a357361ceb04f177ca08ee21">https://gist.github.com/jchaffin/d48d6237a357361ceb04f177ca08ee21</a>
+</p>
+</div>
+
+<div id="outline-container-orgad9ead0" class="outline-4">
+<h4 id="orgad9ead0"><span class="section-number-4">5.2.1.</span> Setup</h4>
+<div class="outline-text-4" id="text-5-2-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">with-eval-after-load</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">org</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">defvar-local</span> <span style="color: #df85ff;">rasmus/org-at-src-begin</span> <span style="color: #ffd400; font-weight: bold;">-1</span>
+    <span style="color: #A875FF;">"Variable that holds whether last position was a "</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">defvar</span> <span style="color: #df85ff;">rasmus/ob-header-symbol</span> ?&#9776;
+    <span style="color: #A875FF;">"Symbol used for babel headers"</span><span style="color: #ff2afc;">)</span>
+
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">defun</span> <span style="color: #42c6ff;">rasmus/org-prettify-src--update</span> <span style="color: #a7da1e;">()</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">let</span> <span style="color: #df85ff;">(</span><span style="color: #1ea8fc;">(</span><span style="color: #df85ff;">case-fold-search</span> t<span style="color: #1ea8fc;">)</span>
+          <span style="color: #1ea8fc;">(</span>re <span style="color: #7984D1;">"^[ \t]*#\\+begin_src[ \t]+[</span><span style="color: #ff2afc; font-weight: bold;">^</span><span style="color: #7984D1;"> \f\t\n\r\v]+[ \t]*"</span><span style="color: #1ea8fc;">)</span>
+          found<span style="color: #df85ff;">)</span>
+      <span style="color: #df85ff;">(</span><span style="color: #ff2afc; font-weight: bold;">save-excursion</span>
+        <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">goto-char</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">point-min</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+        <span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">while</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">re-search-forward</span> re nil t<span style="color: #ff2afc;">)</span>
+          <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">goto-char</span> <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">match-end</span> <span style="color: #ffd400; font-weight: bold;">0</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+          <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">let</span> <span style="color: #a7da1e;">(</span><span style="color: #df85ff;">(</span>args <span style="color: #1ea8fc;">(</span><span style="color: #42c6ff;">org-trim</span>
+                       <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">buffer-substring-no-properties</span> <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">point</span><span style="color: #a7da1e;">)</span>
+                                                       <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">line-end-position</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span>
+            <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">when</span> <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">org-string-nw-p</span> args<span style="color: #df85ff;">)</span>
+              <span style="color: #df85ff;">(</span><span style="color: #ff2afc; font-weight: bold;">let</span> <span style="color: #1ea8fc;">(</span><span style="color: #ff2afc;">(</span>new-cell <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">cons</span> args <span style="color: #df85ff;">rasmus/ob-header-symbol</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+                <span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">cl-pushnew</span> new-cell <span style="color: #df85ff;">prettify-symbols-alist</span> <span style="color: #1ea8fc;">:test</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">equal</span><span style="color: #1ea8fc;">)</span>
+                <span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">cl-pushnew</span> new-cell found <span style="color: #1ea8fc;">:test</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">equal</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+        <span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> <span style="color: #df85ff;">prettify-symbols-alist</span>
+              <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">cl-set-difference</span> <span style="color: #df85ff;">prettify-symbols-alist</span>
+                                 <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">cl-set-difference</span>
+                                  <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">cl-remove-if-not</span>
+                                   <span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">lambda</span> <span style="color: #ff2afc;">(</span>elm<span style="color: #ff2afc;">)</span>
+                                     <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">eq</span> <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">cdr</span> elm<span style="color: #a7da1e;">)</span> <span style="color: #df85ff;">rasmus/ob-header-symbol</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+                                   <span style="color: #df85ff;">prettify-symbols-alist</span><span style="color: #df85ff;">)</span>
+                                  found <span style="color: #1ea8fc;">:test</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">equal</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+        <span style="color: #546A90;">;; </span><span style="color: #546A90;">Clean up old font-lock-keywords.</span>
+        <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">font-lock-remove-keywords</span> nil <span style="color: #df85ff;">prettify-symbols--keywords</span><span style="color: #1ea8fc;">)</span>
+        <span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> <span style="color: #df85ff;">prettify-symbols--keywords</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">prettify-symbols--make-keywords</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+        <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">font-lock-add-keywords</span> nil <span style="color: #df85ff;">prettify-symbols--keywords</span><span style="color: #1ea8fc;">)</span>
+        <span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">while</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">re-search-forward</span> re nil t<span style="color: #ff2afc;">)</span>
+          <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">font-lock-flush</span> <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">line-beginning-position</span><span style="color: #a7da1e;">)</span> <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">line-end-position</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">defun</span> <span style="color: #42c6ff;">rasmus/org-prettify-src</span> <span style="color: #a7da1e;">()</span>
+    <span style="color: #A875FF;">"Hide src options via `</span><span style="color: #df85ff; font-weight: bold;">prettify-symbols-mode</span><span style="color: #A875FF;">'.</span>
+<span style="color: #A875FF;">  `</span><span style="color: #df85ff; font-weight: bold;">prettify-symbols-mode</span><span style="color: #A875FF;">' is used because it has uncollpasing. It's</span>
+<span style="color: #A875FF;">  may not be efficient."</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">let*</span> <span style="color: #df85ff;">(</span><span style="color: #1ea8fc;">(</span><span style="color: #df85ff;">case-fold-search</span> t<span style="color: #1ea8fc;">)</span>
+           <span style="color: #1ea8fc;">(</span>at-src-block <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">save-excursion</span>
+                           <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">beginning-of-line</span><span style="color: #a7da1e;">)</span>
+                           <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">looking-at</span> <span style="color: #7984D1;">"^[ \t]*#\\+begin_src[ \t]+[</span><span style="color: #ff2afc; font-weight: bold;">^</span><span style="color: #7984D1;"> \f\t\n\r\v]+[ \t]*"</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span>
+      <span style="color: #546A90;">;; </span><span style="color: #546A90;">Test if we moved out of a block.</span>
+      <span style="color: #df85ff;">(</span><span style="color: #ff2afc; font-weight: bold;">when</span> <span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">or</span> <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">and</span> <span style="color: #df85ff;">rasmus/org-at-src-begin</span>
+                     <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">not</span> at-src-block<span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+                <span style="color: #546A90;">;; </span><span style="color: #546A90;">File was just opened.</span>
+                <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">eq</span> <span style="color: #df85ff;">rasmus/org-at-src-begin</span> <span style="color: #ffd400; font-weight: bold;">-1</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+        <span style="color: #1ea8fc;">(</span><span style="color: #42c6ff;">rasmus/org-prettify-src--update</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span>
+      <span style="color: #546A90;">;; </span><span style="color: #546A90;">Remove composition if at line; doesn't work properly.</span>
+      <span style="color: #546A90;">;; </span><span style="color: #546A90;">(when at-src-block</span>
+      <span style="color: #546A90;">;;   </span><span style="color: #546A90;">(with-silent-modifications</span>
+      <span style="color: #546A90;">;;     </span><span style="color: #546A90;">(remove-text-properties (match-end 0)</span>
+      <span style="color: #546A90;">;;                             </span><span style="color: #546A90;">(1+ (line-end-position))</span>
+      <span style="color: #546A90;">;;                             </span><span style="color: #546A90;">'(composition))))</span>
+      <span style="color: #df85ff;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> <span style="color: #df85ff;">rasmus/org-at-src-begin</span> at-src-block<span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">defun</span> <span style="color: #42c6ff;">rasmus/org-prettify-symbols</span> <span style="color: #a7da1e;">()</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">mapc</span> <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">apply-partially</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">add-to-list</span> <span style="color: #ff2afc;">'</span><span style="color: #df85ff;">prettify-symbols-alist</span><span style="color: #df85ff;">)</span>
+          <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">cl-reduce</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">append</span>
+                     <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">mapcar</span> <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">lambda</span> <span style="color: #a7da1e;">(</span>x<span style="color: #a7da1e;">)</span> <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">list</span> x <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">cons</span> <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">upcase</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">car</span> x<span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span> <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">cdr</span> x<span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+                             <span style="color: #ff2afc;">`</span><span style="color: #ff2afc;">(</span><span style="color: #a7da1e;">(</span><span style="color: #7984D1;">"#+begin_src"</span> . ?&#9998;<span style="color: #a7da1e;">)</span> <span style="color: #546A90;">;; </span><span style="color: #546A90;">&#10148; &#128413; &#10143; &#10148; &#9998;</span>
+                               <span style="color: #a7da1e;">(</span><span style="color: #7984D1;">"#+end_src"</span>   . ?&#8985;<span style="color: #a7da1e;">)</span> <span style="color: #546A90;">;; </span><span style="color: #546A90;">&#9209;</span>
+                               <span style="color: #a7da1e;">(</span><span style="color: #7984D1;">"#+header:"</span> . ,<span style="color: #df85ff;">rasmus/ob-header-symbol</span><span style="color: #a7da1e;">)</span>
+                               <span style="color: #a7da1e;">(</span><span style="color: #7984D1;">"#+begin_quote"</span> . ?&#187;<span style="color: #a7da1e;">)</span>
+                               <span style="color: #a7da1e;">(</span><span style="color: #7984D1;">"#+end_quote"</span> . ?&#171;<span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">turn-on-prettify-symbols-mode</span><span style="color: #a7da1e;">)</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">add-hook</span> <span style="color: #ff2afc;">'</span><span style="color: #df85ff;">post-command-hook</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">rasmus/org-prettify-src</span> t t<span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">add-hook</span> <span style="color: #ff2afc;">'</span><span style="color: #df85ff;">org-mode-hook</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">rasmus/org-prettify-symbols</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgc9e983d" class="outline-3">
+<h3 id="orgc9e983d"><span class="section-number-3">5.3.</span> org-auto-tangle</h3>
+<div class="outline-text-3" id="text-5-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> org-auto-tangle
+  <span style="color: #1ea8fc;">:hook</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">org-mode</span> . <span style="color: #df85ff;">org-auto-tangle-mode</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd5058fc" class="outline-3">
+<h3 id="orgd5058fc"><span class="section-number-3">5.4.</span> org-babel</h3>
+<div class="outline-text-3" id="text-5-4">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">org-babel-do-load-languages</span>
+ <span style="color: #ff2afc;">'</span><span style="color: #df85ff;">org-babel-load-languages</span>
+ <span style="color: #ff2afc;">'</span><span style="color: #ff2afc;">(</span><span style="color: #a7da1e;">(</span>emacs-lisp . t<span style="color: #a7da1e;">)</span>
+   <span style="color: #a7da1e;">(</span>julia . t<span style="color: #a7da1e;">)</span>
+   <span style="color: #a7da1e;">(</span>python . t<span style="color: #a7da1e;">)</span>
+   <span style="color: #a7da1e;">(</span>jupyter . t<span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org33b56e8" class="outline-3">
+<h3 id="org33b56e8"><span class="section-number-3">5.5.</span> org-download</h3>
+<div class="outline-text-3" id="text-5-5">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> org-download
+  <span style="color: #1ea8fc;">:init</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">require</span> <span style="color: #ff2afc;">'</span><span style="color: #df85ff; font-weight: bold;">org-download</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">map!</span> <span style="color: #1ea8fc;">:map</span> <span style="color: #df85ff;">org-mode-map</span>
+      <span style="color: #1ea8fc;">:leader</span>
+      <span style="color: #ff2afc;">(</span><span style="color: #1ea8fc;">:prefix</span> <span style="color: #7984D1;">"c"</span>
+       <span style="color: #1ea8fc;">:desc</span> <span style="color: #7984D1;">"org-download clipboard paste"</span> <span style="color: #7984D1;">"p"</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">org-download-clipboard</span>
+       <span style="color: #1ea8fc;">:desc</span> <span style="color: #7984D1;">"org-download screenshot"</span> <span style="color: #7984D1;">"S"</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">org-download-screenshot</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+
+      <span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">after!</span> org-download
+        <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">if</span> <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">eq</span> <span style="color: #df85ff;">system-type</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">darwin</span><span style="color: #a7da1e;">)</span>
+            <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> <span style="color: #df85ff;">org-download-screenshot-method</span> <span style="color: #7984D1;">"screencapture -i %s"</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+
+        <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> <span style="color: #df85ff;">org-download-method</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">directory</span><span style="color: #ff2afc;">)</span>
+        <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> <span style="color: #df85ff;">org-download-image-dir</span> <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">concat</span> <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">file-name-sans-extension</span> <span style="color: #1ea8fc;">(</span><span style="color: #df85ff;">buffer-file-name</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span> <span style="color: #7984D1;">"-img"</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+        <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> <span style="color: #df85ff;">org-download-image-org-width</span> <span style="color: #ffd400; font-weight: bold;">600</span><span style="color: #ff2afc;">)</span>
+        <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> <span style="color: #df85ff;">org-download-link-format</span> <span style="color: #7984D1;">"[[file:%s]]\n"</span>
+              <span style="color: #df85ff;">org-download-abbreviate-filename-function</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">file-relative-name</span><span style="color: #ff2afc;">)</span>
+        <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> <span style="color: #df85ff;">org-download-link-format-function</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">org-download-link-format-function-default</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc05e6e4" class="outline-2">
+<h2 id="orgc05e6e4"><span class="section-number-2">6.</span> Dired</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-orgbbfb4a3" class="outline-3">
+<h3 id="orgbbfb4a3"><span class="section-number-3">6.1.</span> Keybindings</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+Basic keybindings, most of these are already default.
+M-RET allows for basic file previewing by opening a window to the right.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">evil-define-key</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">normal</span> <span style="color: #df85ff;">dired-mode-map</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"M-RET"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">dired-display-file</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"f"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">find-file</span>
+  <span style="color: #546A90;">;; </span><span style="color: #546A90;">Ranger style keybindings</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"h"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">dired-up-directory</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"l"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">dired-find-file</span>
+  <span style="color: #546A90;">;; </span><span style="color: #546A90;">Marking files</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"m"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">dired-mark</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"t"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">dired-toggle-marks</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"u"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">dired-unmark</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"C"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">dired-do-copy</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"D"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">dired-do-delete</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"J"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">dired-goto-file</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"M"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">dired-do-chmod</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"O"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">dired-do-chown</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"P"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">dired-do-print</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"R"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">dired-do-rename</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"T"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">dired-create-empty-file</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"Y"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">dired-copy-filename-as-kill</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"Z"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">dired-do-compress</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"+"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">dired-create-directory</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"-"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">dired-up-directory</span>
+  <span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+
+
+<p>
+Also add leader shortcuts for the following:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Keybinding</th>
+<th scope="col" class="org-left">Command</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">SPC d j</td>
+<td class="org-left">dired-jump</td>
+<td class="org-left">Dired jump to current directory</td>
+</tr>
+
+<tr>
+<td class="org-left">SPC d p</td>
+<td class="org-left">peep-dired</td>
+<td class="org-left">Turn on peep-dired mode for previewing files.</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+While using peep-dired mode, the hjkl keys can be used to navigate between file previews.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">map!</span> <span style="color: #1ea8fc;">:leader</span>
+      <span style="color: #ff2afc;">(</span><span style="color: #1ea8fc;">:prefix</span> <span style="color: #a7da1e;">(</span><span style="color: #7984D1;">"d"</span> . <span style="color: #7984D1;">"dired"</span><span style="color: #a7da1e;">)</span>
+               <span style="color: #1ea8fc;">:desc</span> <span style="color: #7984D1;">"Open dired"</span> <span style="color: #7984D1;">"d"</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">dired</span>
+               <span style="color: #1ea8fc;">:desc</span> <span style="color: #7984D1;">"Dired jump to current"</span> <span style="color: #7984D1;">"j"</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">dired-jump</span>
+               <span style="color: #1ea8fc;">:desc</span> <span style="color: #7984D1;">"Dired go to file"</span> <span style="color: #7984D1;">"g"</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">dired-goto-file</span><span style="color: #ff2afc;">)</span>
+      <span style="color: #ff2afc;">(</span><span style="color: #1ea8fc;">:after</span> dired
+              <span style="color: #a7da1e;">(</span><span style="color: #1ea8fc;">:map</span> <span style="color: #df85ff;">dired-mode-map</span>
+                    <span style="color: #1ea8fc;">:desc</span> <span style="color: #7984D1;">"Peep-dired image-previews"</span> <span style="color: #7984D1;">"d p"</span> <span style="color: #ff2afc;">#'</span><span style="color: #df85ff;">peep-dired</span>
+                    <span style="color: #1ea8fc;">:desc</span> <span style="color: #7984D1;">"Dired view file"</span> <span style="color: #7984D1;">"d v"</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">dired-view-file</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">evil-define-key</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">normal</span> <span style="color: #df85ff;">peep-dired-mode-map</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"&lt;SPC&gt;"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">peep-dired-scroll-page-down</span>
+                                             <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"C-&lt;SPC&gt;"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">peep-dired-scroll-page-up</span>
+                                             <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"&lt;backspace&gt;"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">peep-dired-scroll-page-up</span>
+                                             <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"j"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">peep-dired-next-file</span>
+                                             <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"k"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">peep-dired-prev-file</span><span style="color: #1ea8fc;">)</span>
+<span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">add-hook</span> <span style="color: #ff2afc;">'</span><span style="color: #df85ff;">peep-dired-hook</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">evil-normalize-keymaps</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org811641d" class="outline-3">
+<h3 id="org811641d"><span class="section-number-3">6.2.</span> Dired touch file</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+I have encountered a need for a quick keybinding to touch new files.
+This is currently bound to <code>T</code> as mentioned in .
+I am using the existing <code>dired-create-empty-file</code> to bind it.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org36b6a26" class="outline-3">
+<h3 id="org36b6a26"><span class="section-number-3">6.3.</span> Dired clipboard file paste</h3>
+<div class="outline-text-3" id="text-6-3">
+<p>
+TODO
+</p>
+</div>
+</div>
+<div id="outline-container-org791706a" class="outline-3">
+<h3 id="org791706a"><span class="section-number-3">6.4.</span> ZIP</h3>
+<div class="outline-text-3" id="text-6-4">
+<p>
+Mostly stolen from here:
+<a href="https://stackoverflow.com/questions/1431351/how-do-i-uncompress-unzip-within-emacs">https://stackoverflow.com/questions/1431351/how-do-i-uncompress-unzip-within-emacs</a>
+</p>
+</div>
+
+<div id="outline-container-orgf111e58" class="outline-4">
+<h4 id="orgf111e58"><span class="section-number-4">6.4.1.</span> Recognize ZIP file extension</h4>
+<div class="outline-text-4" id="text-6-4-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">eval-after-load</span> <span style="color: #7984D1;">"dired-aux"</span>
+   <span style="color: #ff2afc;">'</span><span style="color: #ff2afc;">(</span>add-to-list <span style="color: #ff2afc;">'</span><span style="color: #df85ff;">dired-compress-file-suffixes</span>
+                 <span style="color: #ff2afc;">'</span><span style="color: #a7da1e;">(</span><span style="color: #7984D1;">"\\.zip\\'"</span> <span style="color: #7984D1;">".zip"</span> <span style="color: #7984D1;">"unzip"</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcd6d3ed" class="outline-4">
+<h4 id="orgcd6d3ed"><span class="section-number-4">6.4.2.</span> Bind <code>z</code> key to zip marked files</h4>
+<div class="outline-text-4" id="text-6-4-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span style="color: #546A90;">;; </span><span style="color: #546A90;">Non-evil</span>
+<span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">eval-after-load</span> <span style="color: #7984D1;">"dired"</span>
+  <span style="color: #ff2afc;">'</span><span style="color: #ff2afc;">(</span>define-key <span style="color: #df85ff;">dired-mode-map</span> <span style="color: #7984D1;">"z"</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">dired-zip-files</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+
+<span style="color: #546A90;">;; </span><span style="color: #546A90;">Evl</span>
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">evil-define-key</span> <span style="color: #ff2afc;">'</span><span style="color: #ff2afc;">(</span>normal visual<span style="color: #ff2afc;">)</span> <span style="color: #df85ff;">dired-mode-map</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"z"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">dired-zip-files</span><span style="color: #1ea8fc;">)</span>
+
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">defun</span> <span style="color: #42c6ff;">dired-zip-files</span> <span style="color: #ff2afc;">(</span>zip-file<span style="color: #ff2afc;">)</span>
+  <span style="color: #A875FF;">"Create an archive containing the marked files."</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">interactive</span> <span style="color: #7984D1;">"sEnter name of zip file: "</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #546A90;">;; </span><span style="color: #546A90;">create the zip file</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">let</span> <span style="color: #a7da1e;">(</span><span style="color: #df85ff;">(</span>zip-file <span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">if</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">string-match</span> <span style="color: #7984D1;">".zip$"</span> zip-file<span style="color: #ff2afc;">)</span> zip-file <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">concat</span> zip-file <span style="color: #7984D1;">".zip"</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">shell-command</span>
+     <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">concat</span> <span style="color: #7984D1;">"zip "</span>
+             zip-file
+             <span style="color: #7984D1;">" "</span>
+             <span style="color: #1ea8fc;">(</span><span style="color: #42c6ff;">concat-string-list</span>
+              <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">mapcar</span>
+               <span style="color: #ff2afc;">'</span><span style="color: #a7da1e;">(</span>lambda <span style="color: #df85ff;">(</span>filename<span style="color: #df85ff;">)</span>
+                  <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">file-name-nondirectory</span> filename<span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span>
+               <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">dired-get-marked-files</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">revert-buffer</span><span style="color: #ff2afc;">)</span>
+
+  <span style="color: #546A90;">;; </span><span style="color: #546A90;">remove the mark on all the files  "*" to " "</span>
+  <span style="color: #546A90;">;; </span><span style="color: #546A90;">(dired-change-marks 42 ?\040)</span>
+  <span style="color: #546A90;">;; </span><span style="color: #546A90;">mark zip file</span>
+  <span style="color: #546A90;">;; </span><span style="color: #546A90;">(dired-mark-files-regexp (filename-to-regexp zip-file))</span>
+  <span style="color: #1ea8fc;">)</span>
+
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">defun</span> <span style="color: #42c6ff;">concat-string-list</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">list</span><span style="color: #ff2afc;">)</span>
+   <span style="color: #A875FF;">"Return a string which is a concatenation of all elements of the list separated by spaces"</span>
+    <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">mapconcat</span> <span style="color: #ff2afc;">'</span><span style="color: #a7da1e;">(</span>lambda <span style="color: #df85ff;">(</span>obj<span style="color: #df85ff;">)</span> <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">format</span> <span style="color: #7984D1;">"%s"</span> obj<span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span> list <span style="color: #7984D1;">" "</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd78ce07" class="outline-3">
+<h3 id="orgd78ce07"><span class="section-number-3">6.5.</span> File icons</h3>
+<div class="outline-text-3" id="text-6-5">
+<p>
+Show file icons.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #546A90;">;; </span><span style="color: #546A90;">Dired file icons</span>
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> all-the-icons-dired
+  <span style="color: #1ea8fc;">:hook</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">dired-mode</span> . <span style="color: #df85ff;">all-the-icons-dired-mode</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdc3279b" class="outline-3">
+<h3 id="orgdc3279b"><span class="section-number-3">6.6.</span> Drag and Drop to Emacs</h3>
+<div class="outline-text-3" id="text-6-6">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> dired
+  <span style="color: #1ea8fc;">:hook</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">dired-mode</span> . org-download-enable<span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org9dcf81e" class="outline-2">
+<h2 id="org9dcf81e"><span class="section-number-2">7.</span> Org Roam</h2>
+<div class="outline-text-2" id="text-7">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">after!</span> org
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> <span style="color: #df85ff;">org-roam-directory</span> <span style="color: #7984D1;">"~/org/roam/"</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> org-roam-index-file <span style="color: #7984D1;">"~/org/roam/index.org"</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org78a56ab" class="outline-2">
+<h2 id="org78a56ab"><span class="section-number-2">8.</span> pdf</h2>
+<div class="outline-text-2" id="text-8">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> pdf-tools
+  <span style="color: #1ea8fc;">:mode</span> <span style="color: #ff2afc;">(</span><span style="color: #7984D1;">"\\.pdf\\'"</span> . pdf-view-mode<span style="color: #ff2afc;">)</span>
+  <span style="color: #1ea8fc;">:config</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> <span style="color: #df85ff;">TeX-view-program-selection</span> <span style="color: #ff2afc;">'</span><span style="color: #a7da1e;">(</span><span style="color: #df85ff;">(</span>output-pdf <span style="color: #7984D1;">"PDF Tools"</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> org-noter
+  <span style="color: #1ea8fc;">:config</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">require</span> <span style="color: #ff2afc;">'</span><span style="color: #df85ff; font-weight: bold;">org-noter-pdftools</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+
+ <span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> org-pdftools
+   <span style="color: #1ea8fc;">:hook</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">org-mode</span> . org-pdftools-setup-link<span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org58ed729" class="outline-2">
+<h2 id="org58ed729"><span class="section-number-2">9.</span> LaTeX Input for Impatient Scholars</h2>
+<div class="outline-text-2" id="text-9">
+</div>
+<div id="outline-container-org86e5151" class="outline-3">
+<h3 id="org86e5151"><span class="section-number-3">9.1.</span> Doom Emacs Specific</h3>
+<div class="outline-text-3" id="text-9-1">
+<ul class="org-ul">
+<li>Turn on the <code>:lang latex</code> option on the <code>init.el</code> file,
+with flags <code>+cdlatex</code> and <code>+lsp</code>.</li>
+
+<li><p>
+Set the <code>+latex-viewers</code> global variable to use pdf-tools.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> <span style="color: #df85ff;">+latex-viewers</span> <span style="color: #ff2afc;">'</span><span style="color: #ff2afc;">(</span>pdf-tools<span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2610c99" class="outline-3">
+<h3 id="org2610c99"><span class="section-number-3">9.2.</span> CDLaTeX</h3>
+<div class="outline-text-3" id="text-9-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #546A90;">;; </span><span style="color: #546A90;">CDLatex settings</span>
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> cdlatex
+  <span style="color: #1ea8fc;">:ensure</span> t
+  <span style="color: #1ea8fc;">:hook</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">LaTeX-mode</span> . turn-on-cdlatex<span style="color: #ff2afc;">)</span>
+  <span style="color: #1ea8fc;">:bind</span> <span style="color: #ff2afc;">(</span><span style="color: #1ea8fc;">:map</span> <span style="color: #df85ff;">cdlatex-mode-map</span>
+              <span style="color: #a7da1e;">(</span><span style="color: #7984D1;">"&lt;tab&gt;"</span> . cdlatex-tab<span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3abd278" class="outline-3">
+<h3 id="org3abd278"><span class="section-number-3">9.3.</span> CDLaTeX Integration with YaSnippet</h3>
+<div class="outline-text-3" id="text-9-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #546A90;">;; </span><span style="color: #546A90;">CDLatex integration with YaSnippet: Allow cdlatex tab to work inside Yas</span>
+<span style="color: #546A90;">;; </span><span style="color: #546A90;">fields</span>
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> cdlatex
+  <span style="color: #1ea8fc;">:hook</span> <span style="color: #ff2afc;">(</span><span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">cdlatex-tab</span> . yas-expand<span style="color: #a7da1e;">)</span>
+         <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">cdlatex-tab</span> . cdlatex-in-yas-field<span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #1ea8fc;">:config</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> yasnippet
+    <span style="color: #1ea8fc;">:bind</span> <span style="color: #a7da1e;">(</span><span style="color: #1ea8fc;">:map</span> <span style="color: #df85ff;">yas-keymap</span>
+           <span style="color: #df85ff;">(</span><span style="color: #7984D1;">"&lt;tab&gt;"</span> . yas-next-field-or-cdlatex<span style="color: #df85ff;">)</span>
+           <span style="color: #df85ff;">(</span><span style="color: #7984D1;">"TAB"</span> . yas-next-field-or-cdlatex<span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span>
+    <span style="color: #1ea8fc;">:config</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">defun</span> <span style="color: #42c6ff;">cdlatex-in-yas-field</span> <span style="color: #df85ff;">()</span>
+      <span style="color: #546A90;">;; </span><span style="color: #546A90;">Check if we're at the end of the Yas field</span>
+      <span style="color: #df85ff;">(</span><span style="color: #ff2afc; font-weight: bold;">when-let*</span> <span style="color: #1ea8fc;">(</span><span style="color: #ff2afc;">(</span>_ <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">overlayp</span> <span style="color: #df85ff;">yas--active-field-overlay</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+                  <span style="color: #ff2afc;">(</span>end <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">overlay-end</span> <span style="color: #df85ff;">yas--active-field-overlay</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+        <span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">if</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">&gt;=</span> <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">point</span><span style="color: #a7da1e;">)</span> end<span style="color: #ff2afc;">)</span>
+            <span style="color: #546A90;">;; </span><span style="color: #546A90;">Call yas-next-field if cdlatex can't expand here</span>
+            <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">let</span> <span style="color: #a7da1e;">(</span><span style="color: #df85ff;">(</span>s <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">thing-at-point</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">sexp</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span>
+              <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">unless</span> <span style="color: #df85ff;">(</span><span style="color: #ff2afc; font-weight: bold;">and</span> s <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">assoc</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">substring-no-properties</span> s<span style="color: #ff2afc;">)</span>
+                                    <span style="color: #df85ff;">cdlatex-command-alist-comb</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span>
+                <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">yas-next-field-or-maybe-expand</span><span style="color: #df85ff;">)</span>
+                t<span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+          <span style="color: #546A90;">;; </span><span style="color: #546A90;">otherwise expand and jump to the correct location</span>
+          <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">let</span> <span style="color: #a7da1e;">(</span><span style="color: #df85ff;">cdlatex-tab-hook</span> minp<span style="color: #a7da1e;">)</span>
+            <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> minp
+                  <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">min</span> <span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">save-excursion</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">cdlatex-tab</span><span style="color: #ff2afc;">)</span>
+                                       <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">point</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+                       <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">overlay-end</span> <span style="color: #df85ff;">yas--active-field-overlay</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span>
+            <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">goto-char</span> minp<span style="color: #a7da1e;">)</span> t<span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span>
+
+    <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">defun</span> <span style="color: #42c6ff;">yas-next-field-or-cdlatex</span> nil
+      <span style="color: #df85ff;">(</span><span style="color: #ff2afc; font-weight: bold;">interactive</span><span style="color: #df85ff;">)</span>
+      <span style="color: #7984D1;">"Jump to the next Yas field correctly with cdlatex active."</span>
+      <span style="color: #df85ff;">(</span><span style="color: #ff2afc; font-weight: bold;">if</span>
+          <span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">or</span> <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">bound-and-true-p</span> <span style="color: #df85ff;">cdlatex-mode</span><span style="color: #ff2afc;">)</span>
+              <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">bound-and-true-p</span> <span style="color: #df85ff;">org-cdlatex-mode</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+          <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">cdlatex-tab</span><span style="color: #1ea8fc;">)</span>
+        <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">yas-next-field-or-maybe-expand</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org826c9c6" class="outline-3">
+<h3 id="org826c9c6"><span class="section-number-3">9.4.</span> Always On Left to Right</h3>
+<div class="outline-text-3" id="text-9-4">
+<p>
+I am used to this because the cursor
+in a bidirectional setup is a huge pain in the&#x2026;
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> latex
+  <span style="color: #1ea8fc;">:hook</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">LaTeX-mode</span> . <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">lambda</span> <span style="color: #df85ff;">()</span>
+                         <span style="color: #df85ff;">(</span><span style="color: #ff2afc; font-weight: bold;">setq-default</span> <span style="color: #df85ff;">bidi-display-reordering</span> nil<span style="color: #df85ff;">)</span>
+                         <span style="color: #df85ff;">(</span><span style="color: #ff2afc; font-weight: bold;">setq-default</span> <span style="color: #df85ff;">bidi-paragraph-direction</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">left-to-right</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbd1f509" class="outline-3">
+<h3 id="orgbd1f509"><span class="section-number-3">9.5.</span> Compile to PDF using XeTeX</h3>
+<div class="outline-text-3" id="text-9-5">
+<p>
+We speak Hebrew, after all.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> latex
+  <span style="color: #1ea8fc;">:config</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">setq-default</span> <span style="color: #df85ff;">TeX-PDF-mode</span> t<span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">setq-default</span> <span style="color: #df85ff;">TeX-engine</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">xetex</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org54eeb53" class="outline-3">
+<h3 id="org54eeb53"><span class="section-number-3">9.6.</span> Pretty Symbols</h3>
+<div class="outline-text-3" id="text-9-6">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> latex
+  <span style="color: #1ea8fc;">:config</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">load</span> <span style="color: #7984D1;">"~/.config/doom/lisp/pretty-latex.el"</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #1ea8fc;">:hook</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">LaTeX-mode</span> . <span style="color: #df85ff;">prettify-symbols-mode</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> latex
+  <span style="color: #1ea8fc;">:hook</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">LaTeX-mode</span> . prettify-symbols-latex-symbols<span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4348d00" class="outline-3">
+<h3 id="org4348d00"><span class="section-number-3">9.7.</span> Auto-expansion with YaSnippet (Karthinks)</h3>
+<div class="outline-text-3" id="text-9-7">
+<p>
+Be careful with this one!
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span style="color: #546A90;">;; </span><span style="color: #546A90;">Function that tries to autoexpand YaSnippets</span>
+<span style="color: #546A90;">;; </span><span style="color: #546A90;">The double quoting is NOT a typo!</span>
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">defun</span> <span style="color: #42c6ff;">my/yas-try-expanding-auto-snippets</span> <span style="color: #ff2afc;">()</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">when</span> <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">bound-and-true-p</span> <span style="color: #df85ff;">yas-minor-mode</span><span style="color: #a7da1e;">)</span>
+      <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">let</span> <span style="color: #df85ff;">(</span><span style="color: #1ea8fc;">(</span><span style="color: #df85ff;">yas-buffer-local-condition</span> <span style="color: #ff2afc;">''</span><span style="color: #ff2afc;">(</span>require-snippet-condition . auto<span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span>
+        <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">yas-expand</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+
+<p>
+Add this function ONLY to LaTeX-mode.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">after!</span> latex
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">add-hook</span> <span style="color: #ff2afc;">'</span><span style="color: #df85ff;">post-self-insert-hook</span>
+            <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">my/yas-try-expanding-auto-snippets</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+
+<p>
+Suppress warnings for snippets that edit the buffer directly.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">with-eval-after-load</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">warnings</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">cl-pushnew</span> <span style="color: #ff2afc;">'</span><span style="color: #a7da1e;">(</span>yasnippet backquote-change<span style="color: #a7da1e;">)</span> <span style="color: #df85ff;">warning-suppress-types</span>
+              <span style="color: #1ea8fc;">:test</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">equal</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgf9f8ca9" class="outline-3">
+<h3 id="orgf9f8ca9"><span class="section-number-3">9.8.</span> org-table integration and LazyTab</h3>
+<div class="outline-text-3" id="text-9-8">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #546A90;">;; </span><span style="color: #546A90;">Array/tabular input with org-tables and cdlatex</span>
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> org-table
+  <span style="color: #1ea8fc;">:after</span> cdlatex
+  <span style="color: #1ea8fc;">:bind</span> <span style="color: #ff2afc;">(</span><span style="color: #1ea8fc;">:map</span> <span style="color: #df85ff;">orgtbl-mode-map</span>
+              <span style="color: #a7da1e;">(</span><span style="color: #7984D1;">"&lt;tab&gt;"</span> . lazytab-org-table-next-field-maybe<span style="color: #a7da1e;">)</span>
+              <span style="color: #a7da1e;">(</span><span style="color: #7984D1;">"TAB"</span> . lazytab-org-table-next-field-maybe<span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #1ea8fc;">:init</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">add-hook</span> <span style="color: #ff2afc;">'</span><span style="color: #df85ff;">cdlatex-tab-hook</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">lazytab-cdlatex-or-orgtbl-next-field</span> <span style="color: #ffd400; font-weight: bold;">90</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #546A90;">;; </span><span style="color: #546A90;">Tabular environments using cdlatex</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">add-to-list</span> <span style="color: #ff2afc;">'</span><span style="color: #df85ff;">cdlatex-command-alist</span> <span style="color: #ff2afc;">'</span><span style="color: #a7da1e;">(</span><span style="color: #7984D1;">"smat"</span> <span style="color: #7984D1;">"Insert smallmatrix env"</span>
+                                       <span style="color: #7984D1;">"\\left( \\begin{smallmatrix} ? \\end{smallmatrix} \\right)"</span>
+                                       lazytab-position-cursor-and-edit
+                                       nil nil t<span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">add-to-list</span> <span style="color: #ff2afc;">'</span><span style="color: #df85ff;">cdlatex-command-alist</span> <span style="color: #ff2afc;">'</span><span style="color: #a7da1e;">(</span><span style="color: #7984D1;">"bmat"</span> <span style="color: #7984D1;">"Insert bmatrix env"</span>
+                                       <span style="color: #7984D1;">"\\begin{bmatrix} ? \\end{bmatrix}"</span>
+                                       lazytab-position-cursor-and-edit
+                                       nil nil t<span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">add-to-list</span> <span style="color: #ff2afc;">'</span><span style="color: #df85ff;">cdlatex-command-alist</span> <span style="color: #ff2afc;">'</span><span style="color: #a7da1e;">(</span><span style="color: #7984D1;">"pmat"</span> <span style="color: #7984D1;">"Insert pmatrix env"</span>
+                                       <span style="color: #7984D1;">"\\begin{pmatrix} ? \\end{pmatrix}"</span>
+                                       lazytab-position-cursor-and-edit
+                                       nil nil t<span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">add-to-list</span> <span style="color: #ff2afc;">'</span><span style="color: #df85ff;">cdlatex-command-alist</span> <span style="color: #ff2afc;">'</span><span style="color: #a7da1e;">(</span><span style="color: #7984D1;">"tbl"</span> <span style="color: #7984D1;">"Insert table"</span>
+                                        <span style="color: #7984D1;">"\\begin{table}\n\\centering ? \\caption{}\n\\end{table}\n"</span>
+                                       lazytab-position-cursor-and-edit
+                                       nil t nil<span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+  <span style="color: #1ea8fc;">:config</span>
+  <span style="color: #546A90;">;; </span><span style="color: #546A90;">Tab handling in org tables</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">defun</span> <span style="color: #42c6ff;">lazytab-position-cursor-and-edit</span> <span style="color: #a7da1e;">()</span>
+    <span style="color: #546A90;">;; </span><span style="color: #546A90;">(if (search-backward "\?" (- (point) 100) t)</span>
+    <span style="color: #546A90;">;;     </span><span style="color: #546A90;">(delete-char 1))</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">cdlatex-position-cursor</span><span style="color: #a7da1e;">)</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #42c6ff;">lazytab-orgtbl-edit</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">defun</span> <span style="color: #42c6ff;">lazytab-orgtbl-edit</span> <span style="color: #a7da1e;">()</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">advice-add</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">orgtbl-ctrl-c-ctrl-c</span> <span style="color: #1ea8fc;">:after</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">lazytab-orgtbl-replace</span><span style="color: #a7da1e;">)</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #df85ff;">orgtbl-mode</span> <span style="color: #ffd400; font-weight: bold;">1</span><span style="color: #a7da1e;">)</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">open-line</span> <span style="color: #ffd400; font-weight: bold;">1</span><span style="color: #a7da1e;">)</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">insert</span> <span style="color: #7984D1;">"\n|"</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">defun</span> <span style="color: #42c6ff;">lazytab-orgtbl-replace</span> <span style="color: #a7da1e;">(</span>_<span style="color: #a7da1e;">)</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">interactive</span> <span style="color: #7984D1;">"P"</span><span style="color: #a7da1e;">)</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">unless</span> <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">org-at-table-p</span><span style="color: #df85ff;">)</span> <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">user-error</span> <span style="color: #7984D1;">"Not at a table"</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">let*</span> <span style="color: #df85ff;">(</span><span style="color: #1ea8fc;">(</span>table <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">org-table-to-lisp</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+           params
+           <span style="color: #1ea8fc;">(</span>replacement-table
+            <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">if</span> <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">texmathp</span><span style="color: #a7da1e;">)</span>
+                <span style="color: #a7da1e;">(</span><span style="color: #42c6ff;">lazytab-orgtbl-to-amsmath</span> table params<span style="color: #a7da1e;">)</span>
+              <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">orgtbl-to-latex</span> table params<span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span>
+      <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">kill-region</span> <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">org-table-begin</span><span style="color: #1ea8fc;">)</span> <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">org-table-end</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span>
+      <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">open-line</span> <span style="color: #ffd400; font-weight: bold;">1</span><span style="color: #df85ff;">)</span>
+      <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">push-mark</span><span style="color: #df85ff;">)</span>
+      <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">insert</span> replacement-table<span style="color: #df85ff;">)</span>
+      <span style="color: #df85ff;">(</span><span style="color: #42c6ff;">align-regexp</span> <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">region-beginning</span><span style="color: #1ea8fc;">)</span> <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">region-end</span><span style="color: #1ea8fc;">)</span> <span style="color: #7984D1;">"</span><span style="color: #ff2afc; font-weight: bold;">\\</span><span style="color: #ff2afc; font-weight: bold;">(</span><span style="color: #7984D1;">[:space:]*</span><span style="color: #ff2afc; font-weight: bold;">\\</span><span style="color: #ff2afc; font-weight: bold;">)</span><span style="color: #7984D1;">&amp; "</span><span style="color: #df85ff;">)</span>
+      <span style="color: #df85ff;">(</span><span style="color: #df85ff;">orgtbl-mode</span> <span style="color: #ffd400; font-weight: bold;">-1</span><span style="color: #df85ff;">)</span>
+      <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">advice-remove</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">orgtbl-ctrl-c-ctrl-c</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">lazytab-orgtbl-replace</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">defun</span> <span style="color: #42c6ff;">lazytab-orgtbl-to-amsmath</span> <span style="color: #a7da1e;">(</span>table params<span style="color: #a7da1e;">)</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">orgtbl-to-generic</span>
+     table
+     <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">org-combine-plists</span>
+      <span style="color: #ff2afc;">'</span><span style="color: #1ea8fc;">(</span><span style="color: #1ea8fc;">:splice</span> t
+                <span style="color: #1ea8fc;">:lstart</span> <span style="color: #7984D1;">""</span>
+                <span style="color: #1ea8fc;">:lend</span> <span style="color: #7984D1;">" \\\\"</span>
+                <span style="color: #1ea8fc;">:sep</span> <span style="color: #7984D1;">" &amp; "</span>
+                <span style="color: #1ea8fc;">:hline</span> nil
+                <span style="color: #1ea8fc;">:llend</span> <span style="color: #7984D1;">""</span><span style="color: #1ea8fc;">)</span>
+      params<span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">defun</span> <span style="color: #42c6ff;">lazytab-cdlatex-or-orgtbl-next-field</span> <span style="color: #a7da1e;">()</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">when</span> <span style="color: #df85ff;">(</span><span style="color: #ff2afc; font-weight: bold;">and</span> <span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">bound-and-true-p</span> <span style="color: #df85ff;">orgtbl-mode</span><span style="color: #1ea8fc;">)</span>
+               <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">org-table-p</span><span style="color: #1ea8fc;">)</span>
+               <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">looking-at</span> <span style="color: #7984D1;">"[[:space:]]*</span><span style="color: #ff2afc; font-weight: bold;">\\</span><span style="color: #ff2afc; font-weight: bold;">(?:</span><span style="color: #7984D1;">|</span><span style="color: #ff2afc; font-weight: bold;">\\</span><span style="color: #ff2afc; font-weight: bold;">|</span><span style="color: #7984D1;">$</span><span style="color: #ff2afc; font-weight: bold;">\\</span><span style="color: #ff2afc; font-weight: bold;">)</span><span style="color: #7984D1;">"</span><span style="color: #1ea8fc;">)</span>
+               <span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">let</span> <span style="color: #ff2afc;">(</span><span style="color: #a7da1e;">(</span>s <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">thing-at-point</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">sexp</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+                 <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">not</span> <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">and</span> s <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">assoc</span> s <span style="color: #df85ff;">cdlatex-command-alist-comb</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span>
+      <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">call-interactively</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">org-table-next-field</span><span style="color: #df85ff;">)</span>
+      t<span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span>
+
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">defun</span> <span style="color: #42c6ff;">lazytab-org-table-next-field-maybe</span> <span style="color: #a7da1e;">()</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">interactive</span><span style="color: #a7da1e;">)</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #ff2afc; font-weight: bold;">if</span> <span style="color: #df85ff;">(</span><span style="color: #ff2afc; font-weight: bold;">bound-and-true-p</span> <span style="color: #df85ff;">cdlatex-mode</span><span style="color: #df85ff;">)</span>
+        <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">cdlatex-tab</span><span style="color: #df85ff;">)</span>
+      <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">org-table-next-field</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org0174f9d" class="outline-2">
+<h2 id="org0174f9d"><span class="section-number-2">10.</span> Load Org Generated Elisp Code</h2>
+<div class="outline-text-2" id="text-10">
+<p>
+The target directory is a property of this heading.
+</p>
+</div>
+
+<div id="outline-container-orga2d96a7" class="outline-3">
+<h3 id="orga2d96a7"><span class="section-number-3">10.1.</span> AirDrop</h3>
+<div class="outline-text-3" id="text-10-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">load-file</span> <span style="color: #7984D1;">"/Users/ido/.config/doom/org-generated/airdrop.el"</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orga44d361" class="outline-4">
+<h4 id="orga44d361"><span class="section-number-4">10.1.1.</span> Minor Mode Definition</h4>
+<div class="outline-text-4" id="text-10-1-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">defvar</span> <span style="color: #df85ff;">airdrop-minor-mode-map</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">let</span> <span style="color: #a7da1e;">(</span><span style="color: #df85ff;">(</span>amap <span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">make-sparse-keymap</span><span style="color: #1ea8fc;">)</span><span style="color: #df85ff;">)</span><span style="color: #a7da1e;">)</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">define-key</span> amap <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"C-c a r"</span><span style="color: #df85ff;">)</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">airdrop-cli-prompt-run</span><span style="color: #a7da1e;">)</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">define-key</span> amap <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"C-c a m"</span><span style="color: #df85ff;">)</span><span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">dired-do-airdrop-marked-files</span><span style="color: #a7da1e;">)</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">define-key</span> amap <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"C-c a d"</span><span style="color: #df85ff;">)</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">airdrop-cli-share-directory-contents</span><span style="color: #a7da1e;">)</span>
+    <span style="color: #a7da1e;">(</span><span style="color: #df85ff; font-weight: bold;">define-key</span> amap <span style="color: #df85ff;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"C-c a p"</span><span style="color: #df85ff;">)</span> <span style="color: #ff2afc;">#'</span><span style="color: #ffd400;">airdrop-cli-png-from-clipboard</span><span style="color: #a7da1e;">)</span>
+    amap<span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+
+<span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">define-minor-mode</span> <span style="color: #df85ff;">airdrop-minor-mode</span>
+  <span style="color: #A875FF;">"A set of configurations and keybindings for</span>
+<span style="color: #A875FF;">   using AirDrop inside the terminal."</span>
+  <span style="color: #1ea8fc;">:lighter</span> <span style="color: #7984D1;">"AirDrop"</span>
+  <span style="color: #1ea8fc;">:keymap</span> <span style="color: #df85ff;">airdrop-minor-mode-map</span><span style="color: #1ea8fc;">)</span>
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org32709c5" class="outline-4">
+<h4 id="org32709c5"><span class="section-number-4">10.1.2.</span> Bind to target modes</h4>
+<div class="outline-text-4" id="text-10-1-2">
+</div>
+<ol class="org-ol">
+<li><a id="orga2852d4"></a>org-mode<br />
+<div class="outline-text-5" id="text-10-1-2-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> org-mode
+  <span style="color: #1ea8fc;">:hook</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">org-mode</span> . <span style="color: #df85ff;">airdrop-minor-mode</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org8eb2d5c"></a>pdf-view<br />
+<div class="outline-text-5" id="text-10-1-2-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> pdf-tools
+  <span style="color: #1ea8fc;">:hook</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">pdf-view-mode</span> . <span style="color: #df85ff;">airdrop-minor-mode</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org7691342"></a>dired<br />
+<div class="outline-text-5" id="text-10-1-2-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> dired
+  <span style="color: #1ea8fc;">:hook</span> <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">dired-mode</span> . <span style="color: #df85ff;">airdrop-minor-mode</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org1ddd036" class="outline-3">
+<h3 id="org1ddd036"><span class="section-number-3">10.2.</span> School</h3>
+<div class="outline-text-3" id="text-10-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #df85ff; font-weight: bold;">load-file</span> <span style="color: #7984D1;">"/Users/ido/.config/doom/org-generated/school.el"</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org7d4eb04" class="outline-2">
+<h2 id="org7d4eb04"><span class="section-number-2">11.</span> Magit</h2>
+<div class="outline-text-2" id="text-11">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">use-package!</span> magit
+  <span style="color: #1ea8fc;">:config</span>
+  <span style="color: #ff2afc;">(</span><span style="color: #ff2afc; font-weight: bold;">setq</span> <span style="color: #df85ff;">magit-clone-default-directory</span> <span style="color: #7984D1;">"/Users/ido/git/"</span><span style="color: #ff2afc;">)</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org2ebcf9e" class="outline-2">
+<h2 id="org2ebcf9e"><span class="section-number-2">12.</span> Calc</h2>
+<div class="outline-text-2" id="text-12">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #1ea8fc;">(</span><span style="color: #ff2afc; font-weight: bold;">evil-define-key</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">normal</span> calc-mode-map
+      <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"&lt;up&gt;"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">calc-ceiling</span>
+      <span style="color: #ff2afc;">(</span><span style="color: #df85ff; font-weight: bold;">kbd</span> <span style="color: #7984D1;">"&lt;down&gt;"</span><span style="color: #ff2afc;">)</span> <span style="color: #ff2afc;">'</span><span style="color: #ffd400;">calc-floor</span><span style="color: #1ea8fc;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Ido Merenstein</p>
+<p class="date">Created: 2023-09-25 Mon 14:44</p>
+</div>
+</body>
+</html>

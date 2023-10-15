@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: Anki Biology Experiment
+# key: ניסוי
+# --
+** ${1:ניסוי}
+:PROPERTIES:
+:ANKI_DECK: ביולוגיה 1
+:ANKI_NOTE_TYPE: Biology/Experiment
+:END:
+*** שם הניסוי
+$1
+*** הסבר
+$0
+*** פירוט
+
+*** מסקנות
+`(org-hide-drawer-all)`

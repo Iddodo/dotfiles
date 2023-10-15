@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: overbrace-multiline
+# key: ovbrs
+# group: math
+# --
+
+\overbrace{$0}^{\substack{}}

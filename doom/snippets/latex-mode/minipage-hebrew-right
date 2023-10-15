@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: minipage-hebrew-right
+# key: minir
+# --
+\begin{minipage}[r]{4cm}
+$0
+\end{minipage}

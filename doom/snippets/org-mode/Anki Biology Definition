@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: Anki Biology Definition
+# key: הגדרה
+# --
+** ${1:הגדרה}
+:PROPERTIES:
+:ANKI_DECK: ביולוגיה 1
+:ANKI_NOTE_TYPE: Biology/Definition
+:END:
+*** מושג
+$1
+*** הסבר
+$0`(org-hide-drawer-all)`

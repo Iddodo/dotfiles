@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: figure-input
+# key: figin
+# --
+  \begin{figure}[H]
+    \centering
+    \begin{english}
+      \input{$0}
+    \end{english}
+    \caption{}
+  \end{figure}

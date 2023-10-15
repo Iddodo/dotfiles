@@ -1,0 +1,615 @@
+#+title: My Doom Emacs Config
+#+PROPERTY: header-args :tangle config.el
+#+auto_tangle: t
+
+* Table of Contents :toc:
+- [[#global-settings][Global Settings]]
+- [[#evil-mode][Evil Mode]]
+  - [[#finer-undo][Finer Undo]]
+- [[#custom-additions][Custom additions]]
+  - [[#quickjump][Quickjump]]
+  - [[#examschool][Exam/School]]
+- [[#org][org]]
+  - [[#appearance][Appearance]]
+  - [[#org-auto-tangle][org-auto-tangle]]
+  - [[#org-babel][org-babel]]
+  - [[#org-download][org-download]]
+- [[#dired][Dired]]
+  - [[#keybindings][Keybindings]]
+  - [[#dired-touch-file][Dired touch file]]
+  - [[#dired-clipboard-file-paste][Dired clipboard file paste]]
+  - [[#zip][ZIP]]
+  - [[#file-icons][File icons]]
+  - [[#drag-and-drop-to-emacs][Drag and Drop to Emacs]]
+- [[#org-roam][Org Roam]]
+- [[#pdf][pdf]]
+- [[#latex-input-for-impatient-scholars][LaTeX Input for Impatient Scholars]]
+  - [[#doom-emacs-specific][Doom Emacs Specific]]
+  - [[#cdlatex][CDLaTeX]]
+  - [[#cdlatex-integration-with-yasnippet][CDLaTeX Integration with YaSnippet]]
+  - [[#always-on-left-to-right][Always On Left to Right]]
+  - [[#compile-to-pdf-using-xetex][Compile to PDF using XeTeX]]
+  - [[#pretty-symbols][Pretty Symbols]]
+  - [[#auto-expansion-with-yasnippet-karthinks][Auto-expansion with YaSnippet (Karthinks)]]
+  - [[#org-table-integration-and-lazytab][org-table integration and LazyTab]]
+- [[#load-org-generated-elisp-code][Load Org Generated Elisp Code]]
+  - [[#airdrop][AirDrop]]
+  - [[#school][School]]
+- [[#magit][Magit]]
+- [[#calc][Calc]]
+
+* Global Settings
+Relative line numbers.
+#+begin_src emacs-lisp :tangle yes
+(setq display-line-numbers-type 'relative)
+#+end_src
+
+Set the org-directory.
+#+begin_src emacs-lisp :tangle yes
+(setq org-directory "~/org/")
+#+end_src
+
+Set theme.
+#+begin_src emacs-lisp :tangle yes
+(setq doom-theme 'doom-1337)
+#+end_src
+
+* Evil Mode
+** Finer Undo
+A necessity!
+#+begin_src emacs-lisp :tangle yes
+(use-package! evil
+  :config
+  (setq evil-want-fine-undo t))
+#+end_src
+
+* Custom additions
+** Quickjump
+#+begin_src emacs-lisp :tangle yes
+(defun my/quickjump-add-alias (alias route)
+  (add-to-list 'my/quickjump-alist (cons alias route)))
+
+
+(defvar my/quickjump-alist   '((algo . "~/Notes/summer23-24/algorithms/")
+                               (public . "~/git/public-notes")
+                               (db . "~/Notes/summer23-24/databases/")
+                               (atam . "~/Notes/summer23-24/atam")
+                               (notes . "~/Notes/")
+                               (code . "~/Code")
+                               (learn . "~/learn")
+                               (git . "~/git")
+                               (dotfiles . "~/git/dotfiles")
+                               (whats . "~/Downloads/WhatsApp")
+                               ))
+
+
+(defun my/quickjump (&optional dired?)
+  (interactive)
+  (let* ((key (completing-read "Quickjump: " my/quickjump-alist nil t))
+        (path (alist-get key my/quickjump-alist nil nil 'string=)))
+    (unless path
+      (error "No such quickjump: %s" key))
+    (if dired?
+        (dired path)
+      (ido-find-file-in-dir path))))
+
+(defun my/quickjump-to (target)
+  (assoc my/quickjump-alist target))
+
+(defun my/quickjump-dired ()
+  (interactive)
+  (my/quickjump t))
+
+(map! :leader
+      (:prefix "j"
+       :desc "Quickjump" "j" #'my/quickjump-dired
+       :desc "Quickjump (ido-find-file)" "q" #'my/quickjump
+       :desc "Jump to Notes" "n" #(lambda () (assoc my/jumpquick-alist 'notes))))
+#+end_src
+
+** Exam/School
+*** Exam Portal Shortcut
+#+begin_src emacs-lisp :tangle yes
+(map! :leader (:prefix "o"
+                       :desc "exams" "x" (lambda() (interactive) (find-file "~/org/exams.org"))))
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(map! :leader (:prefix "o"
+                       :desc "Technion" "X" (lambda() (interactive) (find-file "~/org/courses.org"))))
+#+end_src
+
+* org
+** Appearance
+
+- Replace the default asteriks for bullets.
+- Make RTL work with org-mode.
+#+begin_src emacs-lisp
+(use-package! org
+  :hook ((org-mode . (lambda() (org-bullets-mode 1)))
+         (org-mode . (lambda ()
+                         (setq-default bidi-display-reordering t)))))
+#+end_src
+
+Make titles bigger.
+
+#+begin_src emacs-lisp
+(custom-set-faces
+  '(org-level-1 ((t (:inherit outline-1 :height 1.5))))
+  '(org-level-2 ((t (:inherit outline-2 :height 1.4))))
+  '(org-level-3 ((t (:inherit outline-3 :height 1.3))))
+  '(org-level-4 ((t (:inherit outline-4 :height 1.2))))
+  '(org-level-5 ((t (:inherit outline-5 :height 1.1))))
+)
+#+end_src
+
+** org-auto-tangle
+#+begin_src emacs-lisp :tangle yes
+(use-package! org-auto-tangle
+  :hook (org-mode . org-auto-tangle-mode))
+#+end_src
+
+** org-babel
+#+begin_src emacs-lisp :tangle yes
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (julia . t)
+   (python . t)
+   (jupyter . t)))
+#+end_src
+** org-download
+#+begin_src emacs-lisp :tangle yes
+(use-package! org-download
+  :init (require 'org-download))
+
+(map! :map org-mode-map
+      :leader
+      (:prefix "c"
+       :desc "org-download clipboard paste" "p" #'org-download-clipboard
+       :desc "org-download screenshot" "S" #'org-download-screenshot))
+
+      (after! org-download
+        (if (eq system-type 'darwin)
+            (setq org-download-screenshot-method "screencapture -i %s"))
+
+        (setq org-download-method 'directory)
+        (setq org-download-image-dir (concat (file-name-sans-extension (buffer-file-name)) "-img"))
+        (setq org-download-image-org-width 600)
+        (setq org-download-link-format "[[file:%s]]\n"
+              org-download-abbreviate-filename-function #'file-relative-name)
+        (setq org-download-link-format-function #'org-download-link-format-function-default))
+#+end_src
+* Dired
+** Keybindings
+
+Basic keybindings, most of these are already default.
+M-RET allows for basic file previewing by opening a window to the right.
+
+#+begin_src emacs-lisp
+(evil-define-key 'normal dired-mode-map
+  (kbd "M-RET") 'dired-display-file
+  (kbd "f") 'find-file
+  ;; Ranger style keybindings
+  (kbd "h") 'dired-up-directory
+  (kbd "l") 'dired-find-file
+  ;; Marking files
+  (kbd "m") 'dired-mark
+  (kbd "t") 'dired-toggle-marks
+  (kbd "u") 'dired-unmark
+  (kbd "C") 'dired-do-copy
+  (kbd "D") 'dired-do-delete
+  (kbd "J") 'dired-goto-file
+  (kbd "M") 'dired-do-chmod
+  (kbd "O") 'dired-do-chown
+  (kbd "P") 'dired-do-print
+  (kbd "R") 'dired-do-rename
+  (kbd "T") 'dired-create-empty-file
+  (kbd "Y") 'dired-copy-filename-as-kill
+  (kbd "Z") 'dired-do-compress
+  (kbd "+") 'dired-create-directory
+  (kbd "-") 'dired-up-directory
+  )
+#+end_src
+
+
+Also add leader shortcuts for the following:
+
+| Keybinding | Command    | Description                                   |
+|------------+------------+-----------------------------------------------|
+| SPC d j    | dired-jump | Dired jump to current directory               |
+| SPC d p    | peep-dired | Turn on peep-dired mode for previewing files. |
+
+While using peep-dired mode, the hjkl keys can be used to navigate between file previews.
+
+#+begin_src emacs-lisp
+
+
+(map! :leader
+      (:prefix ("d" . "dired")
+               :desc "Open dired" "d" #'dired
+               :desc "Dired jump to current" "j" #'dired-jump
+               :desc "Dired go to file" "g" #'dired-goto-file)
+      (:after dired
+              (:map dired-mode-map
+                    :desc "Peep-dired image-previews" "d p" #'peep-dired
+                    :desc "Dired view file" "d v" #'dired-view-file)))
+
+(evil-define-key 'normal peep-dired-mode-map (kbd "<SPC>") 'peep-dired-scroll-page-down
+                                             (kbd "C-<SPC>") 'peep-dired-scroll-page-up
+                                             (kbd "<backspace>") 'peep-dired-scroll-page-up
+                                             (kbd "j") 'peep-dired-next-file
+                                             (kbd "k") 'peep-dired-prev-file)
+(add-hook 'peep-dired-hook 'evil-normalize-keymaps)
+#+end_src
+
+** Dired touch file
+I have encountered a need for a quick keybinding to touch new files.
+This is currently bound to =T= as mentioned in [[id:86fbc237-f501-4710-81a2-2451c2c7e70a][Keybindings]].
+I am using the existing =dired-create-empty-file= to bind it.
+
+** Dired clipboard file paste
+TODO
+** ZIP
+Mostly stolen from here:
+https://stackoverflow.com/questions/1431351/how-do-i-uncompress-unzip-within-emacs
+
+*** Recognize ZIP file extension
+#+begin_src emacs-lisp
+(eval-after-load "dired-aux"
+   '(add-to-list 'dired-compress-file-suffixes
+                 '("\\.zip\\'" ".zip" "unzip")))
+#+end_src
+
+*** Bind =z= key to zip marked files
+#+begin_src emacs-lisp
+
+;; Non-evil
+(eval-after-load "dired"
+  '(define-key dired-mode-map "z" 'dired-zip-files))
+
+;; Evl
+(evil-define-key '(normal visual) dired-mode-map
+  (kbd "z") 'dired-zip-files)
+
+(defun dired-zip-files (zip-file)
+  "Create an archive containing the marked files."
+  (interactive "sEnter name of zip file: ")
+  ;; create the zip file
+  (let ((zip-file (if (string-match ".zip$" zip-file) zip-file (concat zip-file ".zip"))))
+    (shell-command
+     (concat "zip "
+             zip-file
+             " "
+             (concat-string-list
+              (mapcar
+               '(lambda (filename)
+                  (file-name-nondirectory filename))
+               (dired-get-marked-files))))))
+
+  (revert-buffer)
+
+  ;; remove the mark on all the files  "*" to " "
+  ;; (dired-change-marks 42 ?\040)
+  ;; mark zip file
+  ;; (dired-mark-files-regexp (filename-to-regexp zip-file))
+  )
+
+(defun concat-string-list (list)
+   "Return a string which is a concatenation of all elements of the list separated by spaces"
+    (mapconcat '(lambda (obj) (format "%s" obj)) list " "))
+#+end_src
+
+** File icons
+Show file icons.
+
+#+begin_src emacs-lisp
+;; Dired file icons
+(use-package! all-the-icons-dired
+  :hook (dired-mode . all-the-icons-dired-mode))
+#+end_src
+
+** Drag and Drop to Emacs
+#+begin_src emacs-lisp :tangle yes
+(use-package! dired
+  :hook (dired-mode . org-download-enable))
+#+end_src
+* Org Roam
+#+begin_src emacs-lisp :tangle yes
+(after! org
+  (setq org-roam-directory "~/org/roam/")
+  (setq org-roam-index-file "~/org/roam/index.org"))
+#+end_src
+
+* pdf
+#+begin_src emacs-lisp
+(use-package! pdf-tools
+  :mode ("\\.pdf\\'" . pdf-view-mode)
+  :config
+  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))))
+
+(use-package! org-noter
+  :config
+  (require 'org-noter-pdftools))
+
+ (use-package! org-pdftools
+   :hook (org-mode . org-pdftools-setup-link))
+#+end_src
+
+
+* LaTeX Input for Impatient Scholars
+** Doom Emacs Specific
+- Turn on the =:lang latex= option on the =init.el= file,
+  with flags =+cdlatex= and =+lsp=.
+
+- Set the =+latex-viewers= global variable to use pdf-tools.
+  #+begin_src emacs-lisp :tangle yes
+(setq +latex-viewers '(pdf-tools))
+  #+end_src
+
+** CDLaTeX
+#+begin_src emacs-lisp :tangle yes
+;; CDLatex settings
+(use-package! cdlatex
+  :ensure t
+  :hook (LaTeX-mode . turn-on-cdlatex)
+  :bind (:map cdlatex-mode-map
+              ("<tab>" . cdlatex-tab)))
+#+end_src
+** CDLaTeX Integration with YaSnippet
+#+begin_src emacs-lisp :tangle yes
+;; CDLatex integration with YaSnippet: Allow cdlatex tab to work inside Yas
+;; fields
+(use-package! cdlatex
+  :hook ((cdlatex-tab . yas-expand)
+         (cdlatex-tab . cdlatex-in-yas-field))
+  :config
+  (use-package! yasnippet
+    :bind (:map yas-keymap
+           ("<tab>" . yas-next-field-or-cdlatex)
+           ("TAB" . yas-next-field-or-cdlatex))
+    :config
+    (defun cdlatex-in-yas-field ()
+      ;; Check if we're at the end of the Yas field
+      (when-let* ((_ (overlayp yas--active-field-overlay))
+                  (end (overlay-end yas--active-field-overlay)))
+        (if (>= (point) end)
+            ;; Call yas-next-field if cdlatex can't expand here
+            (let ((s (thing-at-point 'sexp)))
+              (unless (and s (assoc (substring-no-properties s)
+                                    cdlatex-command-alist-comb))
+                (yas-next-field-or-maybe-expand)
+                t))
+          ;; otherwise expand and jump to the correct location
+          (let (cdlatex-tab-hook minp)
+            (setq minp
+                  (min (save-excursion (cdlatex-tab)
+                                       (point))
+                       (overlay-end yas--active-field-overlay)))
+            (goto-char minp) t))))
+
+    (defun yas-next-field-or-cdlatex nil
+      (interactive)
+      "Jump to the next Yas field correctly with cdlatex active."
+      (if
+          (or (bound-and-true-p cdlatex-mode)
+              (bound-and-true-p org-cdlatex-mode))
+          (cdlatex-tab)
+        (yas-next-field-or-maybe-expand)))))
+#+end_src
+
+** Always On Left to Right
+I am used to this because the cursor
+in a bidirectional setup is a huge pain in the...
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! latex
+  :hook (LaTeX-mode . (lambda ()
+                         (setq-default bidi-display-reordering nil)
+                         (setq-default bidi-paragraph-direction 'left-to-right))))
+#+end_src
+
+** Compile to PDF using XeTeX
+We speak Hebrew, after all.
+#+begin_src emacs-lisp :tangle yes
+(use-package! latex
+  :config
+  (setq-default TeX-PDF-mode t)
+  (setq-default TeX-engine 'xetex))
+#+end_src
+
+** Pretty Symbols
+#+begin_src emacs-lisp :tangle yes
+(use-package! latex
+  :config
+  (load "~/.config/doom/lisp/pretty-latex.el")
+  :hook (LaTeX-mode . prettify-symbols-mode))
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! latex
+  :hook (LaTeX-mode . prettify-symbols-latex-symbols))
+#+end_src
+
+** Auto-expansion with YaSnippet (Karthinks)
+Be careful with this one!
+
+#+begin_src emacs-lisp :tangle yes
+
+;; Function that tries to autoexpand YaSnippets
+;; The double quoting is NOT a typo!
+(defun my/yas-try-expanding-auto-snippets ()
+  (when (bound-and-true-p yas-minor-mode)
+      (let ((yas-buffer-local-condition ''(require-snippet-condition . auto)))
+        (yas-expand))))
+#+end_src
+
+Add this function ONLY to LaTeX-mode.
+
+#+begin_src emacs-lisp :tangle yes
+(after! latex
+  (add-hook 'post-self-insert-hook
+            #'my/yas-try-expanding-auto-snippets))
+#+end_src
+
+Suppress warnings for snippets that edit the buffer directly.
+#+begin_src emacs-lisp :tangle yes
+(with-eval-after-load 'warnings
+  (cl-pushnew '(yasnippet backquote-change) warning-suppress-types
+              :test 'equal))
+#+end_src
+
+
+** org-table integration and LazyTab
+#+begin_src emacs-lisp :tangle yes
+;; Array/tabular input with org-tables and cdlatex
+(use-package! org-table
+  :after cdlatex
+  :bind (:map orgtbl-mode-map
+              ("<tab>" . lazytab-org-table-next-field-maybe)
+              ("TAB" . lazytab-org-table-next-field-maybe))
+  :init
+  (add-hook 'cdlatex-tab-hook 'lazytab-cdlatex-or-orgtbl-next-field 90)
+  ;; Tabular environments using cdlatex
+  (add-to-list 'cdlatex-command-alist '("smat" "Insert smallmatrix env"
+                                       "\\left( \\begin{smallmatrix} ? \\end{smallmatrix} \\right)"
+                                       lazytab-position-cursor-and-edit
+                                       nil nil t))
+  (add-to-list 'cdlatex-command-alist '("bmat" "Insert bmatrix env"
+                                       "\\begin{bmatrix} ? \\end{bmatrix}"
+                                       lazytab-position-cursor-and-edit
+                                       nil nil t))
+  (add-to-list 'cdlatex-command-alist '("pmat" "Insert pmatrix env"
+                                       "\\begin{pmatrix} ? \\end{pmatrix}"
+                                       lazytab-position-cursor-and-edit
+                                       nil nil t))
+  (add-to-list 'cdlatex-command-alist '("tbl" "Insert table"
+                                        "\\begin{table}\n\\centering ? \\caption{}\n\\end{table}\n"
+                                       lazytab-position-cursor-and-edit
+                                       nil t nil))
+  :config
+  ;; Tab handling in org tables
+  (defun lazytab-position-cursor-and-edit ()
+    ;; (if (search-backward "\?" (- (point) 100) t)
+    ;;     (delete-char 1))
+    (cdlatex-position-cursor)
+    (lazytab-orgtbl-edit))
+
+  (defun lazytab-orgtbl-edit ()
+    (advice-add 'orgtbl-ctrl-c-ctrl-c :after #'lazytab-orgtbl-replace)
+    (orgtbl-mode 1)
+    (open-line 1)
+    (insert "\n|"))
+
+  (defun lazytab-orgtbl-replace (_)
+    (interactive "P")
+    (unless (org-at-table-p) (user-error "Not at a table"))
+    (let* ((table (org-table-to-lisp))
+           params
+           (replacement-table
+            (if (texmathp)
+                (lazytab-orgtbl-to-amsmath table params)
+              (orgtbl-to-latex table params))))
+      (kill-region (org-table-begin) (org-table-end))
+      (open-line 1)
+      (push-mark)
+      (insert replacement-table)
+      (align-regexp (region-beginning) (region-end) "\\([:space:]*\\)& ")
+      (orgtbl-mode -1)
+      (advice-remove 'orgtbl-ctrl-c-ctrl-c #'lazytab-orgtbl-replace)))
+
+  (defun lazytab-orgtbl-to-amsmath (table params)
+    (orgtbl-to-generic
+     table
+     (org-combine-plists
+      '(:splice t
+                :lstart ""
+                :lend " \\\\"
+                :sep " & "
+                :hline nil
+                :llend "")
+      params)))
+
+  (defun lazytab-cdlatex-or-orgtbl-next-field ()
+    (when (and (bound-and-true-p orgtbl-mode)
+               (org-table-p)
+               (looking-at "[[:space:]]*\\(?:|\\|$\\)")
+               (let ((s (thing-at-point 'sexp)))
+                 (not (and s (assoc s cdlatex-command-alist-comb)))))
+      (call-interactively #'org-table-next-field)
+      t))
+
+  (defun lazytab-org-table-next-field-maybe ()
+    (interactive)
+    (if (bound-and-true-p cdlatex-mode)
+        (cdlatex-tab)
+      (org-table-next-field))))
+#+end_src
+
+
+
+* Load Org Generated Elisp Code
+The target directory is a property of this heading.
+
+** AirDrop
+#+begin_src emacs-lisp
+(load-file "/Users/ido/.config/doom/org-generated/airdrop.el")
+#+end_src
+
+*** Minor Mode Definition
+#+begin_src emacs-lisp
+(defvar airdrop-minor-mode-map
+  (let ((amap (make-sparse-keymap)))
+    (define-key amap (kbd "C-c a r") #'airdrop-cli-prompt-run)
+    (define-key amap (kbd "C-c a m")#'dired-do-airdrop-marked-files)
+    (define-key amap (kbd "C-c a d") #'airdrop-cli-share-directory-contents)
+    (define-key amap (kbd "C-c a p") #'airdrop-cli-png-from-clipboard)
+    amap))
+
+(define-minor-mode airdrop-minor-mode
+  "A set of configurations and keybindings for
+   using AirDrop inside the terminal."
+  :lighter "AirDrop"
+  :keymap airdrop-minor-mode-map)
+
+#+end_src
+
+*** Bind to target modes
+**** org-mode
+#+begin_src emacs-lisp
+(use-package! org-mode
+  :hook (org-mode . airdrop-minor-mode))
+#+end_src
+
+**** pdf-view
+#+begin_src emacs-lisp
+(use-package! pdf-tools
+  :hook (pdf-view-mode . airdrop-minor-mode))
+#+end_src
+
+**** dired
+#+begin_src emacs-lisp
+(use-package! dired
+  :hook (dired-mode . airdrop-minor-mode))
+#+end_src
+
+** School
+#+begin_src emacs-lisp
+(load-file "/Users/ido/.config/doom/org-generated/school.el")
+#+end_src
+
+
+* Magit
+#+begin_src emacs-lisp
+(use-package! magit
+  :config
+  (setq magit-clone-default-directory "/Users/ido/git/"))
+#+end_src
+
+
+* Calc
+#+begin_src emacs-lisp
+(evil-define-key 'normal calc-mode-map
+      (kbd "<up>") 'calc-ceiling
+      (kbd "<down>") 'calc-floor)
+#+end_src

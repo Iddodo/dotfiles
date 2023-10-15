@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: tikz-node-below-right
+# key: nodebr
+# --
+\node[main] ($1) [below right of=$2] {\$$1\$};$0

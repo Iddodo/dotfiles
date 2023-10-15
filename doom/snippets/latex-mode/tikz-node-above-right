@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: tikz-node-above-right
+# key: nodear
+# --
+\node[main] ($1) [above right of=$2] {\$$1\$};$0

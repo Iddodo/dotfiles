@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: tikz-node-to-node-line
+# key: n--
+# --
+\draw ($1) -- ($2);$0
