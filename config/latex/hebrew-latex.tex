@@ -1,0 +1,294 @@
+% Local Variables:
+% TeX-command-extra-options: "----shell-escape"
+% End:
+
+% Allow shell escape for "minted" package
+% By default this option is not safe as a file-local variable
+% because a specially crafted document compiled with shell escape
+% enabled can be used for malicious purposes.
+
+
+% For \blacksquare symbol
+\usepackage{amssymb}
+
+\usepackage{xcolor}
+\usepackage{xpatch}
+
+% For long division
+\usepackage{polynom}
+
+\usepackage{framed}
+
+% Especially for long equal sign (xlongequal)
+\usepackage{extarrows}
+
+% For canceling out stuff
+\usepackage{cancel}
+
+% Use for figures
+\usepackage{graphicx}    %for figure environment.
+\usepackage[inkscapeexe=/Applications/Inkscape.app/Contents/MacOS/inkscape,inkscapearea=page]{svg}
+
+\usepackage{etoolbox}
+
+% Add links to Table of Contents
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+%\BeforeBeginEnvironment{figure}{\vskip-10ex}
+%\AfterEndEnvironment{figure}{\vskip-25ex}
+%\svgpath{{./figures/}} % <- using \svgpath to avoid warning
+
+% ALLOW CODE
+%\usepackage{minted}
+%\usemintedstyle{monokai}
+%\definecolor{minted-bg}{HTML}{282828} % from https://github.com/kevinsawicki/monokai
+%\setminted{breaklines}
+
+% PLOTS
+\usepackage{pgfplots}
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+
+% NECESSARY FOR HEBREW AND RTL
+\usepackage{polyglossia}
+\usepackage{amsthm}
+
+\setdefaultlanguage{hebrew}
+\setotherlanguage{english}
+
+\setmainfont[Mapping=tex-text]{David CLM}
+
+\usepackage{mathtools}
+
+
+% Fix Hebrew text inside math
+\makeatletter
+\def\textdef@#1#2#3{\hbox{{%
+                    \everymath{#1}%
+                    \let\f@size#2\selectfont
+                    \if@RTL\beginR\fi#3\if@RTL\endR\fi}}}
+
+% The following are definitions of names for theorem environments.
+% One needs to add definitions for additional environments e.g. Lemma, Claim, Proof etc.
+%
+%
+  \newtheoremstyle{ido-algorithm}% name of the style to be used
+    {1em}% Space above
+    {1em}% Space below
+    {\normalfont}% Body font
+    {}% measure of space to indent
+    {\bfseries}% name of head font
+    {:  }% punctuation between head and body
+    {0.5em}%Space after theorem head
+    {}% space after theorem head; " " = normal interword space
+
+\newtheoremstyle{ido-theorem}% name
+  {1em}% Space above
+  {1em}% Space below
+  {\normalfont}% Body font
+  {}% Indent amount
+  {\bfseries\color{red}}% Theorem head font
+  {}%Punctuation after theorem head
+  {0.5em}%Space after theorem head
+  {}% theorem head spec
+
+
+\newtheoremstyle{ido-proof}% name
+  {1em}% Space above
+  {1em}% Space below
+  {\normalfont}% Body font
+  {}% Indent amount
+  {\bfseries\color{salmon}}% Theorem head font
+  {}%Punctuation after theorem head
+  {0.5em}%Space after theorem head
+  {}% theorem head spec
+
+\newtheoremstyle{ido-definition}% name
+  {1em}% Space above (used to be \topsep)
+  {1em}% Space below
+  {\normalfont}% Body font
+  {}% Indent amount
+  {\bfseries\color{purple}}% Theorem head font
+  {}%Punctuation after theorem head
+  {0.5em}%Space after theorem head
+  {}
+
+
+\newtheoremstyle{ido-example}% name
+  {1em}% Space above (used to be \topsep)
+  {1em}% Space below
+  {\itshape\normalfont\color{black}}% Body font
+  {}% Indent amount
+  {\bfseries\color{black}}% Theorem head font
+  {}%Punctuation after theorem head
+  {0.5em}%Space after theorem head
+  {}
+
+\newtheoremstyle{ido-remark}% name
+  {1em}% Space above (used to be \topsep)
+  {1em}% Space below
+  {\itshape\normalfont}% Body font
+  {}% Indent amount
+  {\color{blue}}% Theorem head font
+  {}%Punctuation after theorem head
+  {0.5em}%Space after theorem head
+  {}
+
+\newtheoremstyle{ido-question}% name
+  {1em}% Space above (used to be \topsep)
+  {1em}% Space below
+  {\itshape\normalfont}% Body font
+  {}% Indent amount
+  {\color{purple}}% Theorem head font
+  {}%Punctuation after theorem head
+  {0.5em}%Space after theorem head
+  {}
+
+  % Color proof
+\renewcommand*{\proofname}{\textcolor{red}{Proof}}
+
+\theoremstyle{ido-theorem}
+\newtheorem{theorem}{\protect\theoremname}[chapter]
+\addto\captionsenglish{\renewcommand{\theoremname}{Theorem}}
+\addto\captionshebrew{\renewcommand{\theoremname}{משפט}}
+\providecommand{\theoremname}{משפט}
+
+
+\theoremstyle{ido-definition}
+\newtheorem{definition}{\protect\definitionname}[chapter]
+\addto\captionsenglish{\renewcommand{\definitionname}{Definition}}
+\addto\captionshebrew{\renewcommand{\definitionname}{הגדרה}}
+\providecommand{\definitionname}{הגדרה}
+
+
+\theoremstyle{ido-theorem}
+\newtheorem{claim}{\protect\claimname}[chapter]
+\newtheorem*{claim*}{\protect\claimname}
+\addto\captionsenglish{\renewcommand{\claimname}{Claim}}
+\addto\captionshebrew{\renewcommand{\claimname}{טענה}}
+\providecommand{\claimname}{טענה}
+
+\theoremstyle{ido-theorem}
+\newtheorem{lemma}{\protect\lemmaname}[chapter]
+\addto\captionsenglish{\renewcommand{\lemmaname}{Lemma}}
+\addto\captionshebrew{\renewcommand{\lemmaname}{למה}}
+\providecommand{\lemmaname}{למה}
+
+\theoremstyle{ido-remark}
+\newtheorem{remark}{\protect\remarkname}[chapter]
+\addto\captionsenglish{\renewcommand{\remarkname}{Definition}}
+\addto\captionshebrew{\renewcommand{\remarkname}{הערה}}
+\providecommand{\remarkname}{הערה}
+
+\theoremstyle{ido-question}
+\newtheorem{question}{\protect\questionname}[chapter]
+\addto\captionsenglish{\renewcommand{\questionname}{Question}}
+\addto\captionshebrew{\renewcommand{\questionname}{שאלה}}
+\providecommand{\questionname}{שאלה}
+
+
+\theoremstyle{ido-example}
+\newtheorem{example}{\protect\examplename}[chapter]
+\addto\captionsenglish{\renewcommand{\examplename}{Example}}
+\addto\captionshebrew{\renewcommand{\examplename}{דוגמה}}
+\providecommand{\examplename}{דוגמה}
+
+\theoremstyle{ido-proof}
+\newtheorem{corollary}{\protect\corollaryname}[chapter]
+\addto\captionsenglish{\renewcommand{\corollaryname}{Corollary}}
+\addto\captionshebrew{\renewcommand{\corollaryname}{מסקנה}}
+\providecommand{\corollaryname}{מסקנה}
+
+\theoremstyle{ido-algorithm}
+\newtheorem*{algorithm}{\protect\algorithmname}
+\addto\captionsenglish{\renewcommand{\algorithmname}{Algorithm}}
+\addto\captionshebrew{\renewcommand{\algorithmname}{אלגוריתם}}
+\providecommand{\algorithmname}{אלגוריתם}
+
+
+% Blacksquare in proofs
+\renewcommand\qedsymbol{$\blacksquare$}
+
+\linespread{1.3} %regulate line spacing
+
+% Long division for polynoms
+\def\pld@CF@loop#1+{%
+    \ifx\relax#1\else
+        \begingroup
+          \pld@AccuSetX11%
+          \def\pld@frac{{}{}}\let\pld@symbols\@empty\let\pld@vars\@empty
+          \pld@false
+          #1%
+          \let\pld@temp\@empty
+          \pld@AccuIfOne{}{\pld@AccuGet\pld@temp
+                            \edef\pld@temp{\noexpand\pld@R\pld@temp}}%
+           \pld@if \pld@Extend\pld@temp{\expandafter\pld@F\pld@frac}\fi
+           \expandafter\pld@CF@loop@\pld@symbols\relax\@empty
+           \expandafter\pld@CF@loop@\pld@vars\relax\@empty
+           \ifx\@empty\pld@temp
+               \def\pld@temp{\pld@R11}%
+           \fi
+          \global\let\@gtempa\pld@temp
+        \endgroup
+        \ifx\@empty\@gtempa\else
+            \pld@ExtendPoly\pld@tempoly\@gtempa
+        \fi
+        \expandafter\pld@CF@loop
+    \fi}
+\def\pld@CMAddToTempoly{%
+    \pld@AccuGet\pld@temp\edef\pld@temp{\noexpand\pld@R\pld@temp}%
+    \pld@CondenseMonomials\pld@false\pld@symbols
+    \ifx\pld@symbols\@empty \else
+        \pld@ExtendPoly\pld@temp\pld@symbols
+    \fi
+    \ifx\pld@temp\@empty \else
+        \pld@if
+            \expandafter\pld@IfSum\expandafter{\pld@temp}%
+                {\expandafter\def\expandafter\pld@temp\expandafter
+                    {\expandafter\pld@F\expandafter{\pld@temp}{}}}%
+                {}%
+        \fi
+        \pld@ExtendPoly\pld@tempoly\pld@temp
+        \pld@Extend\pld@tempoly{\pld@monom}%
+      \fi}
+
+
+% Add vertical lines to matrices
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+
+
+% Colors
+\definecolor{darkolivegreen}{rgb}{0.33, 0.42, 0.18}
+\definecolor{darkpastelgreen}{rgb}{0.01, 0.75, 0.24}
+\definecolor{airforceblue}{rgb}{0.36, 0.54, 0.66}
+\definecolor{cadmiumred}{rgb}{0.89, 0.0, 0.13}
+\definecolor{fuchsia}{rgb}{1.0, 0.0, 1.0}
+
+% Set Theory
+\newcommand{\cupdot}{\mathbin{\mathaccent\cdot\cup}}
+
+% Linear Algebra
+\newcommand{\trace}{\text{trace}}
+\newcommand{\Span}{\text{span}}
+\newcommand{\divides}{\vert}
+\newcommand{\diag}{\text{diag}}
+
+\newcommand{\en}{\textenglish}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newcommand{\notimplies}{\;\not\!\!\!\implies}
+
+\newcommand{\notimpliedby}{\;\not\!\!\!\impliedby}
+\makeatother

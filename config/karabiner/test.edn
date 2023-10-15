@@ -1,0 +1,17 @@
+;; edn spec https://github.com/edn-format/edn
+{
+ ;; Devices
+ :devices {}
+
+ ;; Application identifiers
+:applications {:preview ["^com\\.apple\\.Preview$"]}
+
+ ;; Input sources
+ :input-sources {:us {:input_mode_id ""
+                      :input_sourced_id "com.apple.keylayout.US"
+                      :language "en"}}
+
+
+ ;; Preview.app Vi-mode
+ {:main [{:des "Vi-Mode for Preview.app"
+          :rules [[]]}]}

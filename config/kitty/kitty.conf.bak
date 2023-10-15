@@ -1,0 +1,8 @@
+# BEGIN_KITTY_THEME
+# Adventure Time
+include current-theme.conf
+# END_KITTY_THEME
+
+map ctrl+k combine : clear_terminal active : send_text normal \x0c
+
+background_opacity 0.95

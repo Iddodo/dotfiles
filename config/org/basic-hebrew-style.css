@@ -1,0 +1,9 @@
+body {
+  direction: rtl;
+  font-family: Arial;
+}
+
+
+.org-src-container {
+  direction: ltr;
+}
