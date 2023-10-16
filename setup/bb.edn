@@ -43,7 +43,7 @@
 
 
          (defn brew-cask-verbose [pkgs]
-           (doseq [pkg (:core-casks *brew*)]
+           (doseq [pkg pkgs]
              (println (str "brew: Installing Cask \"" pkg "\"..."))
              (when-let [error (:err (setup.brew/install-cask [pkg]))]
                (when-not (clojure.string/blank? error)
