@@ -1,6 +1,6 @@
 (ns setup.brew
   (:require
-   [babashka.process :refer [shell]]))
+   [babashka.process :refer [sh]]))
 
 (def *brew*
   {:taps ["borkdude/brew"
@@ -26,7 +26,6 @@
    :core-brews [
                 ; Software and package management tools
                 "git"
-                "docker"
                 "node"
                 "pyenv"
                 "nvm"
@@ -60,9 +59,11 @@
                  "koekeishiya/formulae/skhd"]
 
    :core-casks ["kitty"
+                "alfred"
                 "firefox"
+                "docker"
                 "slack"
-                "zoom"
+                "intellij-idea"
                 "karabiner-elements"]
 
    :zsh-brews ["zsh-autocomplete"
@@ -128,7 +129,7 @@
                 "font-victor-mono-nerd-font"]})
 
 (defn install [args]
-  (apply shell (concat ["brew install"] args)))
+  (apply sh ["brew install"] args))
 
 (defn install-cask [args]
-  (apply shell (concat ["brew install" "--cask"] args)))
+  (apply sh ["brew install" "--cask"] args))

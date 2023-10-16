@@ -1,86 +1,129 @@
 {:paths ["src"]
-
  :tasks
  {:requires ([babashka.fs :as fs]
              [babashka.process :refer [shell]]
-             [setup.brew :as brew :refer [*brew*]])
+             [setup.brew :as brew :refer [*brew*]]
+             [setup.task :as task]
+             [setup.task :as task])
 
-  :init (do (println "Initializing dotfiles setup script...")
+  :init (do
+         "Initializing dotfiles setup script..."
+         (def *dotfiles-path*
+           (fs/expand-home "~/git/dotfiles"))
 
-            (def *dotfiles-path*
-              (fs/expand-home "~/git/dotfiles"))
+         (defn prefix-dotfiles [rel-path]
+           (fs/path *dotfiles-path* rel-path))
 
-            (defn prefix-dotfiles [rel-path]
-              (fs/path *dotfiles-path* rel-path))
+         (def *symlinks*
+           {:config {:target (prefix-dotfiles "config")
+                     :path (fs/expand-home "~/.config")
+                     :files ["powerlevel10k"
+                             "karabiner"
+                             "tmux"
+                             "kitty"
+                             "latex"
+                             "org"
+                             "nvim"
+                             "ranger"
+                             "skhd"
+                             "yabai"]}
 
-            (def *symlinks*
-              {:config {:target (prefix-dotfiles "config")
-                        :path (fs/expand-home "~/.config")
-                        :files ["powerlevel10k"
-                                "karabiner"
-                                "tmux"
-                                "kitty"
-                                "latex"
-                                "org"
-                                "nvim"
-                                "ranger"
-                                "skhd"
-                                "yabai"]}
+            :home {:target (prefix-dotfiles "home")
+                   :path (fs/expand-home "~/")
+                   :files [".ideavimrc"
+                           ".macos"
+                           ".zshrc"]}})
 
-               :home {:target (prefix-dotfiles "home")
-                      :path (fs/expand-home "~/")
-                      :files [".ideavimrc"
-                              ".macos"
-                              ".zshrc"]}}))
-
-
-  symlink (do (println "Creating symlinks...")
-               (doseq [[key location] *symlinks*]
-                 (doseq [file (:files location)]
-                   (let [sym-target (fs/path (:target location) file)
-                         sym-path (fs/path (:path location) file)]
-
-                     (when-not (fs/exists? sym-target)
-                       (println "Exiting due to failed symlink.")
-                       (println (str "Cannot find \"" sym-target "\"."))
-                       (System/exit 1))
-
-                     (if (fs/exists? sym-path)
-                       (println (str "File already exists: \"" sym-path "\""))
-                       (do (println (str "Creating symlink: \"" sym-path "\""))
-                           (fs/create-sym-link sym-path sym-target)))))))
+         (defn brew-install-verbose [pkgs]
+           (doseq [pkg pkgs]
+             (println (str "brew: Installing \"" pkg "\"..."))
+             (when-let [error (:err (setup.brew/install [pkg]))]
+               (println (str "ERROR: while installing \"" pkg "\":"))
+               (println error))))
 
 
-  brew-core (do (println "Installing core Homebrew packages...")
-                (doseq [t (:taps *brew*)]
-                  (shell "brew tap" t))
+         (defn brew-cask-verbose [pkgs]
+           (doseq [pkg (:core-casks *brew*)]
+             (println (str "brew: Installing Cask \"" pkg "\"..."))
+             (when-let [error (:err (setup.brew/install-cask [pkg]))]
+               (when-not (clojure.string/blank? error)
+                 (println (str "ERROR: while installing \"" pkg "\":"))
+                 (println error))))))
 
-                (brew/install (:core-brews *brew*))
-                (brew/install-cask (:core-casks *brew*)))
 
-  doom-emacs (let [doom-bin (fs/expand-home "~/.config/emacs/bin/doom")]
-               (println "Installing Emacs...")
+  symlink (task/do-top-ruler
+           "Creating symlinks..."
 
-               ;; Install Emacs via brew with appropriate properties
-               (shell "brew install emacs-plus@28"
-                      "--with-no-titlebar"
-                      "--with-no-frame-refocus"
-                      "--with-native-comp")
-               (println "Installing Doom Emacs...")
+           (doseq [[key location] *symlinks*]
+             (doseq [file (:files location)]
+               (let [sym-target (fs/path (:target location) file)
+                     sym-path (fs/path (:path location) file)]
 
-               ;; Download Doom Emacs
-               (shell "git clone"
-                      "--depth" "1"
-                      "https://github.com/doomemacs/doomemacs"
-                      "~/.config/emacs")
+                 (when-not (fs/exists? sym-target)
+                   (println "Exiting due to failed symlink.")
+                   (println (str "Cannot find \"" sym-target "\"."))
+                   (System/exit 1))
 
-               ;; Run Doom Emacs executable
-               (when-not (exists? doom-bin)
-                 (println (str "Doom Emacs installation unsuccessful, "
-                               "cannot found \"" doom-bin "\"."))
-                 (System/exit 1)))
+                 (if (fs/exists? sym-path)
+                   (println (str "File already exists: \"" sym-path "\""))
+                   (do (println (str "Creating symlink: \"" sym-path "\""))
+                       (fs/create-sym-link sym-path sym-target)))))))
 
-  setup {:depends [symlink
-                   brew-core
-                   doom-emacs
-                   zsh]}}}
+
+  brew-install-core (task/do
+                      "Installing core Homebrew packages..."
+                      (brew-install-verbose (:core-brews *brew*)))
+
+  brew-cask-core (task/do
+                      "Installing core Homebrew casks..."
+                      (brew-cask-verbose (:core-casks *brew*)))
+
+  brew-core {:depends [brew-install-core brew-cask-core]}
+
+  zsh (task/do
+       "Setting up zsh (currently just grabs brew packages)..."
+
+       (brew-install-verbose (:zsh-brews *brew*)))
+
+
+  emacs (task/do
+              "Installing Emacs..."
+
+              ;; Install Emacs via brew with appropriate properties
+              (shell "brew install emacs-plus@28"
+                     "--with-no-titlebar"
+                     "--with-no-frame-refocus"
+                     "--with-native-comp")
+              (println "Installing Doom Emacs...")
+
+              ;; Download Doom Emacs
+              (shell "git clone"
+                     "--depth" "1"
+                     "https://github.com/doomemacs/doomemacs"
+                     "~/.config/emacs")
+
+              ;; Run Doom Emacs executable
+              (let [doom-bin (fs/expand-home "~/.config/emacs/bin/doom")]
+                (when-not (exists? doom-bin)
+                  (println (str "Doom Emacs installation unsuccessful, "
+                                "cannot found \"" doom-bin "\"."))
+                  (System/exit 1))))
+
+  doom-emacs (task/do
+              "Installing Doom Emacs..."
+
+              ;; Download Doom Emacs
+              (shell "git clone"
+                     "--depth" "1"
+                     "https://github.com/doomemacs/doomemacs"
+                     "~/.config/emacs")
+
+              ;; Run Doom Emacs executable
+              (let [doom-bin (fs/expand-home "~/.config/emacs/bin/doom")]
+                (when-not (exists? doom-bin)
+                  (println (str "Doom Emacs installation unsuccessful, "
+                                "cannot found \"" doom-bin "\"."))
+                  (System/exit 1))))
+
+  mix {:depends [symlink brew-core zsh]}
+  setup {:depends [symlink brew-core zsh doom-emacs]}}}
