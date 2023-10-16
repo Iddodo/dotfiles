@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>com.io.chickenfacts</string>
+	<key>connections</key>
+	<dict>
+		<key>3622A8D6-F483-4308-9EC6-3D5E457928F0</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>588384A2-A41A-4A6D-862F-85EBCC5A1F62</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>4B18AF30-E47A-4888-915F-7E280EC60357</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>C0A5671A-A70B-49CB-BEDB-D02D69FE4006</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>122E33BE-8BC9-41B1-8EC3-175B65FB16B3</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>D5D6122A-2BDC-45C2-9069-8F337904E264</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>588384A2-A41A-4A6D-862F-85EBCC5A1F62</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>4B18AF30-E47A-4888-915F-7E280EC60357</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>61CD985F-1FC9-4ACE-BDAA-05DE4B36D526</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>588384A2-A41A-4A6D-862F-85EBCC5A1F62</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>6E698D0C-8FC7-45F4-998D-5C8B11CCA09F</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>3622A8D6-F483-4308-9EC6-3D5E457928F0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>C2675B01-970C-4DB3-848C-07E6E0512ADD</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>049B492B-28F0-4126-9329-02951000BF90</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>D5D6122A-2BDC-45C2-9069-8F337904E264</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>29AE1B88-581F-4D88-A170-D929B6753816</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>2E59F78C-C2BF-48AB-9BC2-90F0870B6DEB</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>C2675B01-970C-4DB3-848C-07E6E0512ADD</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Aaron Saray</string>
+	<key>description</key>
+	<string>Random chicken fact</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Chicken Facts</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alignment</key>
+				<integer>0</integer>
+				<key>backgroundcolor</key>
+				<string></string>
+				<key>fadespeed</key>
+				<integer>0</integer>
+				<key>fillmode</key>
+				<integer>0</integer>
+				<key>font</key>
+				<string></string>
+				<key>largetypetext</key>
+				<string>Error retrieving chicken fact. :(</string>
+				<key>textcolor</key>
+				<string>#FF3100FF</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.largetype</string>
+			<key>uid</key>
+			<string>C0A5671A-A70B-49CB-BEDB-D02D69FE4006</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>100</integer>
+				<key>script</key>
+				<string>&lt;?php
+
+/**
+ * Always write an error to standard error, then give null output
+ * @param $message
+ * @return null
+ */
+function error($message)
+{
+    fwrite(STDERR, $message);
+    return null;
+}
+
+$factsUrl = 'https://chickenfacts.io/api/v1/facts.json';
+$facts = file_get_contents($factsUrl);
+if (empty($facts)) {
+    return error('Unable to retrieve facts: ' . $factsUrl);
+}
+
+$factsObj = json_decode($facts);
+$max = $factsObj-&gt;count;
+$id = rand(1, $max);
+
+$factUrl = "https://chickenfacts.io/api/v1/facts/{$id}.json";
+$fact = file_get_contents($factUrl);
+if (empty($fact)) {
+    return error('Unable to retrieve a fact: ' . $fact);
+}
+
+$factObj = json_decode($fact);
+
+print $factObj-&gt;fact;</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>1</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>588384A2-A41A-4A6D-862F-85EBCC5A1F62</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>chix</string>
+				<key>subtext</key>
+				<string>Display a random fact</string>
+				<key>text</key>
+				<string>Chicken Fact</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>61CD985F-1FC9-4ACE-BDAA-05DE4B36D526</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{query}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string></string>
+						<key>outputlabel</key>
+						<string>error</string>
+						<key>uid</key>
+						<string>122E33BE-8BC9-41B1-8EC3-175B65FB16B3</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>success</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>4B18AF30-E47A-4888-915F-7E280EC60357</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>chix</string>
+				<key>subtext</key>
+				<string>Copy to clipboard</string>
+				<key>text</key>
+				<string>Chicken Fact</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>6E698D0C-8FC7-45F4-998D-5C8B11CCA09F</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alignment</key>
+				<integer>0</integer>
+				<key>backgroundcolor</key>
+				<string></string>
+				<key>fadespeed</key>
+				<integer>50</integer>
+				<key>fillmode</key>
+				<integer>0</integer>
+				<key>font</key>
+				<string></string>
+				<key>largetypetext</key>
+				<string>{query}</string>
+				<key>textcolor</key>
+				<string></string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.largetype</string>
+			<key>uid</key>
+			<string>29AE1B88-581F-4D88-A170-D929B6753816</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string>{query}</string>
+				<key>variables</key>
+				<dict>
+					<key>type</key>
+					<string>clipboard</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>3622A8D6-F483-4308-9EC6-3D5E457928F0</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:type}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>1</integer>
+						<key>matchstring</key>
+						<string>clipboard</string>
+						<key>outputlabel</key>
+						<string>display</string>
+						<key>uid</key>
+						<string>2E59F78C-C2BF-48AB-9BC2-90F0870B6DEB</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>clipboard</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>D5D6122A-2BDC-45C2-9069-8F337904E264</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>Now, share with your friends!</string>
+				<key>title</key>
+				<string>Fact copied to clipboard</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>049B492B-28F0-4126-9329-02951000BF90</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}
+--
+For more, visit https://chickenfacts.io</string>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>C2675B01-970C-4DB3-848C-07E6E0512ADD</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>This workflow allows you to view or share chicken facts from chickenfacts.io.
+
+You can either view the fact in large type or copy it to your clipboard.  (An internet connection is required.)
+
+To get started, type the keyword 'chix'</string>
+	<key>uidata</key>
+	<dict>
+		<key>049B492B-28F0-4126-9329-02951000BF90</key>
+		<dict>
+			<key>colorindex</key>
+			<integer>5</integer>
+			<key>xpos</key>
+			<integer>815</integer>
+			<key>ypos</key>
+			<integer>365</integer>
+		</dict>
+		<key>29AE1B88-581F-4D88-A170-D929B6753816</key>
+		<dict>
+			<key>colorindex</key>
+			<integer>5</integer>
+			<key>note</key>
+			<string>Show fact</string>
+			<key>xpos</key>
+			<integer>655</integer>
+			<key>ypos</key>
+			<integer>215</integer>
+		</dict>
+		<key>3622A8D6-F483-4308-9EC6-3D5E457928F0</key>
+		<dict>
+			<key>xpos</key>
+			<integer>195</integer>
+			<key>ypos</key>
+			<integer>230</integer>
+		</dict>
+		<key>4B18AF30-E47A-4888-915F-7E280EC60357</key>
+		<dict>
+			<key>xpos</key>
+			<integer>430</integer>
+			<key>ypos</key>
+			<integer>60</integer>
+		</dict>
+		<key>588384A2-A41A-4A6D-862F-85EBCC5A1F62</key>
+		<dict>
+			<key>note</key>
+			<string>Retrieve facts</string>
+			<key>xpos</key>
+			<integer>275</integer>
+			<key>ypos</key>
+			<integer>40</integer>
+		</dict>
+		<key>61CD985F-1FC9-4ACE-BDAA-05DE4B36D526</key>
+		<dict>
+			<key>note</key>
+			<string>The display version</string>
+			<key>xpos</key>
+			<integer>35</integer>
+			<key>ypos</key>
+			<integer>40</integer>
+		</dict>
+		<key>6E698D0C-8FC7-45F4-998D-5C8B11CCA09F</key>
+		<dict>
+			<key>note</key>
+			<string>The clipboard version</string>
+			<key>xpos</key>
+			<integer>35</integer>
+			<key>ypos</key>
+			<integer>200</integer>
+		</dict>
+		<key>C0A5671A-A70B-49CB-BEDB-D02D69FE4006</key>
+		<dict>
+			<key>colorindex</key>
+			<integer>1</integer>
+			<key>note</key>
+			<string>Display error</string>
+			<key>xpos</key>
+			<integer>655</integer>
+			<key>ypos</key>
+			<integer>25</integer>
+		</dict>
+		<key>C2675B01-970C-4DB3-848C-07E6E0512ADD</key>
+		<dict>
+			<key>colorindex</key>
+			<integer>5</integer>
+			<key>note</key>
+			<string>Copied to clipboard with attribution.</string>
+			<key>xpos</key>
+			<integer>655</integer>
+			<key>ypos</key>
+			<integer>365</integer>
+		</dict>
+		<key>D5D6122A-2BDC-45C2-9069-8F337904E264</key>
+		<dict>
+			<key>colorindex</key>
+			<integer>4</integer>
+			<key>xpos</key>
+			<integer>530</integer>
+			<key>ypos</key>
+			<integer>310</integer>
+		</dict>
+	</dict>
+	<key>variablesdontexport</key>
+	<array/>
+	<key>version</key>
+	<string>1.0.0</string>
+	<key>webaddress</key>
+	<string>https://chickenfacts.io</string>
+</dict>
+</plist>

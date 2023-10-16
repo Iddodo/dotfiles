@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<workflow>
+  <name>Chicken Facts</name>
+  <version>1.0.0</version>
+  <bundle>com.io.chickenfacts</bundle>
+  <updated>1560301501</updated>
+  <file>chicken_facts.alfredworkflow</file>
+</workflow>
