@@ -6,8 +6,7 @@
              [setup.task :as task]
              [setup.task :as task])
 
-  :init (do
-         "Initializing dotfiles setup script..."
+  :init (do (println "Initializing dotfiles setup script...")
          (def *dotfiles-path*
            (fs/expand-home "~/git/dotfiles"))
 
@@ -83,48 +82,35 @@
 
   zsh (task/do
        "Setting up zsh (currently just grabs brew packages)..."
-
        (brew-install-verbose (:zsh-brews *brew*)))
 
 
   emacs (task/do
-              "Installing Emacs..."
+          "Installing Emacs..."
 
-              ;; Install Emacs via brew with appropriate properties
-              (shell "brew install emacs-plus@28"
-                     "--with-no-titlebar"
-                     "--with-no-frame-refocus"
-                     "--with-native-comp")
-              (println "Installing Doom Emacs...")
+          ;; Install Emacs via brew with appropriate properties
+          (shell "brew install emacs-plus@28"
+                 "--with-no-titlebar"
+                 "--with-no-frame-refocus"
+                 "--with-native-comp")
+          (println "Installing Doom Emacs..."))
 
-              ;; Download Doom Emacs
-              (shell "git clone"
-                     "--depth" "1"
-                     "https://github.com/doomemacs/doomemacs"
-                     "~/.config/emacs")
-
-              ;; Run Doom Emacs executable
-              (let [doom-bin (fs/expand-home "~/.config/emacs/bin/doom")]
-                (when-not (exists? doom-bin)
-                  (println (str "Doom Emacs installation unsuccessful, "
-                                "cannot found \"" doom-bin "\"."))
-                  (System/exit 1))))
 
   doom-emacs (task/do
-              "Installing Doom Emacs..."
+               "Installing Doom Emacs..."
 
-              ;; Download Doom Emacs
-              (shell "git clone"
-                     "--depth" "1"
-                     "https://github.com/doomemacs/doomemacs"
-                     "~/.config/emacs")
+               ;; Download Doom Emacs
+               (shell "git clone"
+                      "--depth" "1"
+                      "https://github.com/doomemacs/doomemacs"
+                      "~/.config/emacs")
 
-              ;; Run Doom Emacs executable
-              (let [doom-bin (fs/expand-home "~/.config/emacs/bin/doom")]
-                (when-not (exists? doom-bin)
-                  (println (str "Doom Emacs installation unsuccessful, "
-                                "cannot found \"" doom-bin "\"."))
-                  (System/exit 1))))
+               ;; Run Doom Emacs executable
+               (let [doom-bin (fs/expand-home "~/.config/emacs/bin/doom")]
+                 (when-not (exists? doom-bin)
+                   (println (str "Doom Emacs installation unsuccessful, "
+                                 "cannot find \"" doom-bin "\"."))
+                   (System/exit 1))))
 
   mix {:depends [symlink brew-core zsh]}
   setup {:depends [symlink brew-core zsh doom-emacs]}}}
